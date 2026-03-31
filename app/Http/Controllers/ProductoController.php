@@ -37,6 +37,7 @@ class ProductoController extends Controller
         // 1. Validar los datos recibidos
         $request->validate([
             'tipo_obra' => 'required|string|max:255',
+            'descripcion' => 'required|string',
             'planes'    => 'required|string',
             'precio'    => 'required|numeric|min:0',
         ]);

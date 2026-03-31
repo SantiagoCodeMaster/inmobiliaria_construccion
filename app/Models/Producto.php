@@ -35,6 +35,7 @@ class Producto extends Model
     protected $fillable = [
         'tipo_obra',
         'planes',
+        'descripcion',
         'precio',
     ];
 

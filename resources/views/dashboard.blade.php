@@ -134,6 +134,19 @@
             padding: 1.2rem 1rem;
             border-bottom: 1px solid var(--border-color);
             font-size: 0.95rem;
+            vertical-align: top;
+        }
+
+        /* Utilidad para truncar textos largos en la tabla */
+        .text-truncate-multiline {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 300px;
+            color: #666;
+            font-size: 0.85rem;
         }
 
         /* BOTONES */
@@ -178,6 +191,8 @@
 
         /* FORMULARIO INTERNO */
         .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        
         .form-label {
             font-family: 'Syne', sans-serif;
             font-size: 0.9rem;
@@ -186,6 +201,7 @@
             margin-bottom: 0.7rem;
             text-transform: capitalize;
         }
+        
         .form-input {
             padding: 0.85rem 1.2rem;
             border: 1px solid var(--border-color);
@@ -197,11 +213,18 @@
             width: 100%;
             box-sizing: border-box;
         }
+        
         .form-input:focus {
             outline: none;
             border-color: var(--accent);
             background: white;
             box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
         }
 
         .form-grid {
@@ -240,11 +263,16 @@
                             <label class="form-label">Precio Base (COP) <span style="color:#ef4444">*</span></label>
                             <input type="number" id="precio" class="form-input" placeholder="Ej: 15000000" required>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Planes / Descripción <span style="color:#ef4444">*</span></label>
-                        <input type="text" id="planes" class="form-input" placeholder="Ej: Plan Básico con acabados estándar" required>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Plan <span style="color:#ef4444">*</span></label>
+                            <input type="text" id="planes" class="form-input" placeholder="Ej: Plan Premium" required>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Descripción del Producto <span style="color:#ef4444">*</span></label>
+                            <textarea id="descripcion" class="form-input" placeholder="Escribe aquí toda la descripción detallada de lo que incluye este plan..." required></textarea>
+                        </div>
                     </div>
 
                     <div style="text-align: right; margin-top: 1rem;">
@@ -263,13 +291,14 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tipo de Obra</th>
-                                <th>Descripción / Plan</th>
+                                <th>Plan</th>
+                                <th>Descripción</th>
                                 <th>Precio</th>
                                 <th style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="productos-tbody">
-                            <tr><td colspan="5" style="text-align: center; padding: 2rem;">Cargando...</td></tr>
+                            <tr><td colspan="6" style="text-align: center; padding: 2rem;">Cargando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -305,10 +334,7 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN MAESTRA PARA BREEZE / SANCTUM
         const fetchConfig = {
-            // Esto le dice a JS que agarre la cookie de sesión de tu login de Breeze 
-            // y la mande al backend de forma segura en cada petición API.
             credentials: 'same-origin', 
             headers: {
                 'Content-Type': 'application/json',
@@ -341,7 +367,6 @@
         // ==========================================
         async function loadProductos() {
             try {
-                // Fíjate cómo paso el fetchConfig con las credenciales activadas
                 const res = await fetch('/api/productos/crear', { method: 'GET', ...fetchConfig });
                 
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -352,35 +377,41 @@
 
                 const productos = json.data || json;
                 if(!productos.length) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay productos.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay productos.</td></tr>';
                     return;
                 }
 
                 productos.forEach(prod => {
+                    const descripcion = prod.descripcion ? prod.descripcion : '<em style="color:#aaa;">Sin descripción</em>';
+                    
+                    // IMPORTANTE: Cambio de prod.id a prod.id_producto en esta iteración
                     tbody.innerHTML += `
                         <tr>
-                            <td><strong>#${prod.id}</strong></td>
+                            <td><strong>#${prod.id_producto}</strong></td>
                             <td><span style="color: var(--success); font-weight: bold;">${prod.tipo_obra}</span></td>
-                            <td>${prod.planes}</td>
+                            <td><strong>${prod.planes}</strong></td>
+                            <td><div class="text-truncate-multiline">${descripcion}</div></td>
                             <td><strong>${formatCOP(prod.precio)}</strong></td>
                             <td style="text-align: right; white-space: nowrap;">
-                                <button class="btn-select-plan" onclick="editProducto(${prod.id})">Editar</button>
-                                <button class="btn-select-plan btn-danger" onclick="deleteProducto(${prod.id})" style="margin-left: 0.5rem;">Eliminar</button>
+                                <button class="btn-select-plan" onclick="editProducto(${prod.id_producto})">Editar</button>
+                                <button class="btn-select-plan btn-danger" onclick="deleteProducto(${prod.id_producto})" style="margin-left: 0.5rem;">Eliminar</button>
                             </td>
                         </tr>
                     `;
                 });
             } catch (error) { 
                 console.error("Error GET Productos:", error); 
-                document.getElementById('productos-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center; color: red;">Error 401: No autorizado (Revisa tu sesión)</td></tr>';
+                document.getElementById('productos-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center; color: red;">Error 401: No autorizado (Revisa tu sesión)</td></tr>';
             }
         }
 
         async function saveProducto() {
             const id = document.getElementById('producto_id').value;
+            
             const payload = {
                 tipo_obra: document.getElementById('tipo_obra').value,
                 planes: document.getElementById('planes').value,
+                descripcion: document.getElementById('descripcion').value,
                 precio: document.getElementById('precio').value
             };
 
@@ -401,7 +432,7 @@
                 if(res.ok) {
                     resetForm();
                     loadProductos();
-                    alert(id ? 'Actualizado con éxito' : 'Creado con éxito');
+                    alert(id ? 'Producto actualizado con éxito' : 'Producto creado con éxito');
                 } else {
                     const err = await res.json();
                     alert('Error en validación: ' + JSON.stringify(err));
@@ -419,12 +450,14 @@
                 const json = await res.json();
                 const prod = json.data || json;
 
-                document.getElementById('producto_id').value = prod.id;
+                // IMPORTANTE: Cambio de prod.id a prod.id_producto al asignar los valores
+                document.getElementById('producto_id').value = prod.id_producto;
                 document.getElementById('tipo_obra').value = prod.tipo_obra;
                 document.getElementById('planes').value = prod.planes;
+                document.getElementById('descripcion').value = prod.descripcion || '';
                 document.getElementById('precio').value = prod.precio;
                 
-                document.getElementById('form-title').textContent = `✏️ Editando Producto #${prod.id}`;
+                document.getElementById('form-title').textContent = `✏️ Editando Producto #${prod.id_producto}`;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (error) { console.error("Error GET Show:", error); }
         }

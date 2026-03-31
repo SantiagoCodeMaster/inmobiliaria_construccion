@@ -61,6 +61,7 @@ class CotizacionService
                 'id_producto'          => $producto->id_producto,
                 'tipo_obra'            => $producto->tipo_obra,
                 'nombre_plan'          => $producto->planes,
+                'descripcion'          => $producto->descripcion, 
                 
                 // Valores numéricos enteros puros
                 'precio_base_sugerido' => (int) round($precioBase),
