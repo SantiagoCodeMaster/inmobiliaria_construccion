@@ -619,6 +619,7 @@
                         card.className = 'plan-card';
                         
                         // Inyectamos la variable descripcionPlan en el HTML
+                        // AQUÍ MODIFIQUÉ EL BOTÓN PARA QUE USE EL ID DE LA COTIZACIÓN Y PASE 'this' (EL BOTÓN EN SÍ)
                         card.innerHTML = `
                             <div class="plan-header">
                                 <h3 class="plan-name">${nombrePlan}</h3>
@@ -635,7 +636,7 @@
                                 <li>Precio base calc: ${plan.precio_base_formateado || formatCOP(plan.precio_base_sugerido)}</li>
                                 <li>Gestión de obra completa</li>
                             </ul>
-                            <button type="button" class="btn-select-plan" onclick="seleccionarPlan('${idPlan}', '${nombrePlan}', ${precioPlan}, '${datosCliente.email || ''}')">
+                            <button type="button" class="btn-select-plan" onclick="seleccionarPlan(${datosCliente.id}, '${nombrePlan}', ${precioPlan}, this)">
                                 Elegir este plan
                             </button>
                         `;
@@ -648,8 +649,56 @@
                 setTimeout(() => { resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
             }
 
-            window.seleccionarPlan = function(planId, planNombre, precio, email) {
-                alert(`Has seleccionado el plan "${planNombre}".\nEn breve nos comunicaremos a ${email}.`);
+            // AQUÍ MODIFIQUÉ LA FUNCIÓN PARA QUE HAGA LA PETICIÓN POST A TU API
+            window.seleccionarPlan = async function(cotizacionId, planNombre, precio, btnElement) {
+                // Validación por si acaso no llegó el ID
+                if(!cotizacionId) {
+                    alert('Error: No se encontró el ID de la cotización.');
+                    return;
+                }
+
+                // Guardamos el texto original y cambiamos el estado del botón
+                const textoOriginal = btnElement.innerText;
+                btnElement.innerText = "Procesando...";
+                btnElement.disabled = true;
+
+                try {
+                    // Hacemos la petición a la nueva ruta en tu controlador
+                    const response = await fetch(`/api/cotizacion/${cotizacionId}/seleccionar`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            nombre_plan: planNombre,
+                            precio: precio
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    // Si todo sale bien (status 200)
+                    if (response.ok) {
+                        alert(`¡Gracias! Hemos registrado tu interés en el plan "${planNombre}". En breve nos comunicaremos para gestionar tu proyecto.`);
+                        
+                        // Cambiamos el botón para que se vea que ya fue seleccionado
+                        btnElement.innerText = "¡Seleccionado!";
+                        btnElement.style.backgroundColor = "var(--success)";
+                        btnElement.style.borderColor = "var(--success)";
+                        btnElement.style.color = "white";
+                    } else {
+                        // Si el controlador nos devuelve un error
+                        alert('Hubo un error al procesar tu selección: ' + (result.error || 'Intenta nuevamente.'));
+                        btnElement.innerText = textoOriginal;
+                        btnElement.disabled = false;
+                    }
+                } catch (error) {
+                    // Si el servidor se cae o no hay internet
+                    alert('Error de conexión. Por favor verifica tu internet e intenta de nuevo.');
+                    btnElement.innerText = textoOriginal;
+                    btnElement.disabled = false;
+                }
             };
         });
     </script>

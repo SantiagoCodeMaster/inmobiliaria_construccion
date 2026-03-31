@@ -31,6 +31,8 @@ Route::post('/cotizacion/store',
     [\App\Http\Controllers\CotizacionController::class, 'store']
 )->name('cotizacion.store');
 
+Route::post('/cotizacion/{id}/seleccionar', [\App\Http\Controllers\CotizacionController::class, 'seleccionarPlan'])->name('cotizacion.seleccionarPlan');
+
 
 // 🔐 RUTAS PROTEGIDAS
 Route::middleware('auth:sanctum')->group(function () {
