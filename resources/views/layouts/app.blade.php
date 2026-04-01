@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Escuadra y diseño</title>
-        <link rel="icon" type="image/x-icon" href="{{ asset('Screenshot_1.ico') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('construccion.ico') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

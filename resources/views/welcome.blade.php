@@ -397,7 +397,7 @@
     <header>
         <div class="header-container">
             <a href="/" class="brand-container">
-                <img src="{{ asset('Screenshot_1.ico') }}" alt="Logo Escuadr Arq" class="brand-img">
+                <img src="{{ asset('construccion.ico') }}" alt="Logo Escuadr Arq" class="brand-img">
                 
                 <div class="brand-text-wrapper">
                     <span class="brand-title">Constructora Escuadr Arq</span>
