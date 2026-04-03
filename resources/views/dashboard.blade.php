@@ -260,8 +260,8 @@
                             <input type="text" id="tipo_obra" class="form-input" placeholder="Ej: Obra gris" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Precio Base (COP) <span style="color:#ef4444">*</span></label>
-                            <input type="number" id="precio" class="form-input" placeholder="Ej: 15000000" required>
+                            <label class="form-label">Valor Unitario ($/m²) <span style="color:#ef4444">*</span></label>
+                            <input type="number" id="valor_unitario" class="form-input" placeholder="Ej: 664000" required>
                         </div>
                         
                         <div class="form-group">
@@ -293,7 +293,7 @@
                                 <th>Tipo de Obra</th>
                                 <th>Plan</th>
                                 <th>Descripción</th>
-                                <th>Precio</th>
+                                <th>Val. Unitario ($/m²)</th>
                                 <th style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
@@ -391,7 +391,7 @@
                             <td><span style="color: var(--success); font-weight: bold;">${prod.tipo_obra}</span></td>
                             <td><strong>${prod.planes}</strong></td>
                             <td><div class="text-truncate-multiline">${descripcion}</div></td>
-                            <td><strong>${formatCOP(prod.precio)}</strong></td>
+                            <td><strong>${formatCOP(prod.valor_unitario)}/m²</strong></td>
                             <td style="text-align: right; white-space: nowrap;">
                                 <button class="btn-select-plan" onclick="editProducto(${prod.id_producto})">Editar</button>
                                 <button class="btn-select-plan btn-danger" onclick="deleteProducto(${prod.id_producto})" style="margin-left: 0.5rem;">Eliminar</button>
@@ -409,10 +409,10 @@
             const id = document.getElementById('producto_id').value;
             
             const payload = {
-                tipo_obra: document.getElementById('tipo_obra').value,
-                planes: document.getElementById('planes').value,
-                descripcion: document.getElementById('descripcion').value,
-                precio: document.getElementById('precio').value
+                tipo_obra:      document.getElementById('tipo_obra').value,
+                planes:         document.getElementById('planes').value,
+                descripcion:    document.getElementById('descripcion').value,
+                valor_unitario: document.getElementById('valor_unitario').value
             };
 
             const method = id ? 'PUT' : 'POST';
@@ -455,7 +455,7 @@
                 document.getElementById('tipo_obra').value = prod.tipo_obra;
                 document.getElementById('planes').value = prod.planes;
                 document.getElementById('descripcion').value = prod.descripcion || '';
-                document.getElementById('precio').value = prod.precio;
+                document.getElementById('valor_unitario').value = prod.valor_unitario;
                 
                 document.getElementById('form-title').textContent = `✏️ Editando Producto #${prod.id_producto}`;
                 window.scrollTo({ top: 0, behavior: 'smooth' });

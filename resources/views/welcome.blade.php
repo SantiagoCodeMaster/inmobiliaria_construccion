@@ -606,10 +606,12 @@
                         let nombrePlan = plan.nombre_plan || `Plan ${index + 1}`;
                         let precioPlan = plan.total_a_pagar || 0;
                         let idPlan = plan.id_producto || index;
-                        
+                        let valorUnitario = plan.valor_unitario_formateado || (formatCOP(plan.valor_unitario) + '/m²');
+                        let areaAplicada = plan.area_aplicada || 1;
+
                         // Validar si existe la descripción que viene desde la BD, sino ponemos un default
-                        let descripcionPlan = plan.descripcion 
-                            ? plan.descripcion 
+                        let descripcionPlan = plan.descripcion
+                            ? plan.descripcion
                             : `Plan estándar de gestión y desarrollo diseñado para tu proyecto de ${plan.tipo_obra || 'construcción'}.`;
 
                         if (nombrePlan.toLowerCase().includes('premium')) { badgeClass = 'premium'; } 
@@ -633,7 +635,8 @@
                             <div class="plan-description-box">${descripcionPlan}</div>
                             
                             <ul class="plan-features">
-                                <li>Precio base calc: ${plan.precio_base_formateado || formatCOP(plan.precio_base_sugerido)}</li>
+                                <li>Valor unitario: ${valorUnitario}</li>
+                                <li>Área del proyecto: ${areaAplicada} m²</li>
                                 <li>Gestión de obra completa</li>
                             </ul>
                             <button type="button" class="btn-select-plan" onclick="seleccionarPlan(${datosCliente.id}, '${nombrePlan}', ${precioPlan}, this)">

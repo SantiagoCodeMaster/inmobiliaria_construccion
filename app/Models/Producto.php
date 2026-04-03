@@ -36,7 +36,7 @@ class Producto extends Model
         'tipo_obra',
         'planes',
         'descripcion',
-        'precio',
+        'valor_unitario',
     ];
 
     /**
@@ -45,6 +45,6 @@ class Producto extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'precio' => 'decimal:2',
+        'valor_unitario' => 'decimal:2',
     ];
 }

@@ -36,10 +36,10 @@ class ProductoController extends Controller
 
         // 1. Validar los datos recibidos
         $request->validate([
-            'tipo_obra' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'planes'    => 'required|string',
-            'precio'    => 'required|numeric|min:0',
+            'tipo_obra'      => 'required|string|max:255',
+            'descripcion'    => 'required|string',
+            'planes'         => 'required|string',
+            'valor_unitario' => 'required|numeric|min:0',
         ]);
 
         // 2. Crear el producto
@@ -83,9 +83,9 @@ class ProductoController extends Controller
 
         // Validar los datos (permitimos que sean opcionales con 'sometimes')
         $request->validate([
-            'tipo_obra' => 'sometimes|required|string|max:255',
-            'planes'    => 'sometimes|required|string',
-            'precio'    => 'sometimes|required|numeric|min:0',
+            'tipo_obra'      => 'sometimes|required|string|max:255',
+            'planes'         => 'sometimes|required|string',
+            'valor_unitario' => 'sometimes|required|numeric|min:0',
         ]);
 
         // Actualizar el registro

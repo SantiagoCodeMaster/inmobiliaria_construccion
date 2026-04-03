@@ -46,11 +46,11 @@ class CotizacionController extends Controller
             // 2. Crear la cotización en la base de datos con los datos del usuario
             $cotizacion = Cotizacion::create($validatedData);
 
-            // 3. Obtener los 3 planes calculados usando el servicio
+            // 3. Obtener los planes calculados usando el servicio
+            // Fórmula: Precio Total = m² × valor_unitario de cada plan
             $planesDisponibles = $cotizador->calcularPlanesDisponibles(
                 $request->input('tipo_obra'),
-                $request->input('area_privada'),
-                $request->input('fecha_entrega')
+                $request->input('area_privada')
             );
 
             // 4. Si el servicio devolvió un error (porque mandaron "Residencial" u otro texto inválido)
