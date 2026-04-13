@@ -15,8 +15,7 @@ class CotizacionController extends Controller
     use AuthorizesRequests;
 
     /**
-     * Mostrar todas las cotizaciones.
-     * SOLO el administrador puede hacer esto.
+     * Mostrar todas las cotizaciones (solo admin).
      */
     public function index()
     {
@@ -26,105 +25,114 @@ class CotizacionController extends Controller
     }
 
     /**
-     * Crear una cotización inicial y devolver los planes.
+     * Crear una cotización y devolver las tres propuestas calculadas.
+     *
+     * Preguntas del formulario de usuario:
+     *   - nombre, apellido, email, telefono     → datos personales
+     *   - area_privada                           → m² del apartamento
+     *   - num_puertas                            → cantidad de puertas de madera
+     *   - num_closets                            → cantidad de closets de habitación
+     *   - num_banos                              → cantidad de baños
+     *   - tiene_mueble_alto_cocina               → ¿tiene mueble alto en cocina? (boolean)
+     *   - tiene_barra_auxiliar                   → ¿tiene barra auxiliar en cocina? (boolean)
+     *   - nombre_proyecto, fecha_entrega         → datos del proyecto
      */
     public function store(Request $request, CotizacionService $cotizador)
     {
-        // 1. Validar los datos de entrada
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'telefono' => 'required|string|max:20',
-            'tipo_obra' => 'nullable|string',
-            'area_privada' => 'nullable|numeric',
-            'nombre_proyecto' => 'nullable|string|max:255',
-            'fecha_entrega' => 'nullable|date',
+        $validated = $request->validate([
+            'nombre'                   => 'required|string|max:255',
+            'apellido'                 => 'required|string|max:255',
+            'email'                    => 'required|email|max:255',
+            'telefono'                 => 'required|string|max:20',
+            'area_privada'             => 'required|numeric|min:1',
+            'num_puertas'              => 'required|integer|min:0',
+            'num_closets'              => 'required|integer|min:0',
+            'num_banos'                => 'required|integer|min:1',
+            'tiene_mueble_alto_cocina' => 'required|boolean',
+            'tiene_barra_auxiliar'     => 'required|boolean',
+            'nombre_proyecto'          => 'nullable|string|max:255',
+            'fecha_entrega'            => 'nullable|date',
         ]);
 
+        // tipo_obra siempre es obra gris
+        $validated['tipo_obra'] = 'obra gris';
+
         try {
-            // 2. Crear la cotización en la base de datos con los datos del usuario
-            $cotizacion = Cotizacion::create($validatedData);
+            $cotizacion = Cotizacion::create($validated);
 
-            // 3. Obtener los planes calculados usando el servicio
-            // Fórmula: Precio Total = m² × valor_unitario de cada plan
-            $planesDisponibles = $cotizador->calcularPlanesDisponibles(
-                $request->input('tipo_obra'),
-                $request->input('area_privada')
-            );
+            $propuestas = $cotizador->calcularPropuestas($validated);
 
-            // 4. Si el servicio devolvió un error (porque mandaron "Residencial" u otro texto inválido)
-            if (isset($planesDisponibles['error'])) {
-                return response()->json([
-                    'mensaje' => 'Cotización guardada, pero no se pudieron calcular los planes.',
-                    'datos_cliente' => $cotizacion,
-                    'detalle_error' => $planesDisponibles['error']
-                ], 206); // 206 Partial Content
-            }
-
-            // 5. Retornar la respuesta exitosa con el cliente y sus opciones de pago
             return response()->json([
-                'mensaje' => 'Cotización creada con éxito. Elige un plan.',
-                'datos_cliente' => $cotizacion,
-                'planes_disponibles' => $planesDisponibles
+                'mensaje'    => 'Cotización creada. Selecciona una propuesta.',
+                'cotizacion' => $cotizacion,
+                'propuestas' => $propuestas,
             ], 201);
 
         } catch (\Exception $e) {
+            Log::error('Error creando cotización: ' . $e->getMessage());
             return response()->json([
-                'error' => 'No se pudo guardar la cotización en la base de datos',
-                'detalle' => $e->getMessage()
+                'error'   => 'No se pudo guardar la cotización.',
+                'detalle' => $e->getMessage(),
             ], 500);
         }
     }
 
+    /**
+     * El cliente selecciona una propuesta → notificar al admin por WhatsApp.
+     */
     public function seleccionarPlan(Request $request, $id)
     {
-        // 1. Validar lo que envía el frontend
         $request->validate([
-            'nombre_plan' => 'required|string',
-            'precio' => 'required|numeric'
+            'tipo_propuesta' => 'required|in:elemental,estandar,experto',
+            'vr_total'       => 'required|numeric',
+            'precio_m2'      => 'nullable|numeric',
         ]);
 
         try {
-            // 2. Buscar la cotización en la BD (creada previamente en el método store)
             $cotizacion = Cotizacion::findOrFail($id);
-            
-            // Opcional: Actualizar la cotización con el plan que eligió el cliente
-            // $cotizacion->plan_elegido = $request->input('nombre_plan');
-            // $cotizacion->save();
 
-            // 3. Construir el mensaje para el administrador
+            $nombrePropuesta = ucfirst($request->input('tipo_propuesta'));
+            $vrTotal         = number_format($request->input('vr_total'), 0, ',', '.');
+            $precioM2        = $request->input('precio_m2')
+                ? number_format($request->input('precio_m2'), 0, ',', '.')
+                : 'N/A';
+
             $mensaje = "🔔 *Nueva Postulación de Proyecto*\n\n"
-                     . "👤 *Cliente:* {$cotizacion->nombre} {$cotizacion->apellido}\n"
-                     . "📞 *Teléfono:* {$cotizacion->telefono}\n"
-                     . "✉️ *Email:* {$cotizacion->email}\n"
-                     . "🏗️ *Proyecto:* " . ($cotizacion->nombre_proyecto ?? 'N/A') . "\n"
-                     . "📋 *Plan Elegido:* {$request->input('nombre_plan')}\n"
-                     . "💰 *Valor Aprox:* $" . number_format($request->input('precio'), 0, ',', '.');
+                . "👤 *Cliente:* {$cotizacion->nombre} {$cotizacion->apellido}\n"
+                . "📞 *Teléfono:* {$cotizacion->telefono}\n"
+                . "✉️ *Email:* {$cotizacion->email}\n"
+                . "🏗️ *Proyecto:* " . ($cotizacion->nombre_proyecto ?? 'N/A') . "\n"
+                . "📐 *Área:* {$cotizacion->area_privada} m²\n"
+                . "🚪 *Puertas:* {$cotizacion->num_puertas} | "
+                . "🛋️ *Closets:* {$cotizacion->num_closets} | "
+                . "🚿 *Baños:* {$cotizacion->num_banos}\n"
+                . "📋 *Propuesta Elegida:* {$nombrePropuesta}\n"
+                . "💰 *Valor Total:* \${$vrTotal}\n"
+                . "📊 *Precio/m²:* \${$precioM2}";
 
-            // 4. Enviar el mensaje usando la API de Meta
-            $token = env('WHATSAPP_TOKEN');
-            $phoneId = env('WHATSAPP_PHONE_ID');
+            $token      = env('WHATSAPP_TOKEN');
+            $phoneId    = env('WHATSAPP_PHONE_ID');
             $adminPhone = env('WHATSAPP_ADMIN_PHONE');
 
-            $response = Http::withToken($token)->post("https://graph.facebook.com/v17.0/{$phoneId}/messages", [
-                'messaging_product' => 'whatsapp',
-                'to' => $adminPhone,
-                'type' => 'text',
-                'text' => [
-                    'body' => $mensaje
+            $response = Http::withToken($token)->post(
+                "https://graph.facebook.com/v17.0/{$phoneId}/messages",
+                [
+                    'messaging_product' => 'whatsapp',
+                    'to'                => $adminPhone,
+                    'type'              => 'text',
+                    'text'              => ['body' => $mensaje],
                 ]
-            ]);
+            );
 
             if ($response->successful()) {
                 return response()->json(['mensaje' => 'Administrador notificado con éxito.']);
-            } else {
-                Log::error('Error de WhatsApp API: ' . $response->body());
-                return response()->json(['error' => 'No se pudo enviar el WhatsApp al administrador.'], 500);
             }
 
+            Log::error('Error WhatsApp API: ' . $response->body());
+            return response()->json(['error' => 'No se pudo enviar el WhatsApp al administrador.'], 500);
+
         } catch (\Exception $e) {
-            Log::error('Excepción seleccionando plan: ' . $e->getMessage());
+            Log::error('Excepción seleccionando propuesta: ' . $e->getMessage());
             return response()->json(['error' => 'Error interno procesando la selección.'], 500);
         }
     }

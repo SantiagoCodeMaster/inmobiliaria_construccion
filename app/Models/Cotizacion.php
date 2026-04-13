@@ -28,6 +28,11 @@ class Cotizacion extends Model
         'telefono',
         'tipo_obra',
         'area_privada',
+        'num_puertas',
+        'num_closets',
+        'num_banos',
+        'tiene_mueble_alto_cocina',
+        'tiene_barra_auxiliar',
         'nombre_proyecto',
         'fecha_entrega',
     ];
@@ -38,10 +43,15 @@ class Cotizacion extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'area_privada' => 'decimal:2',
-        'fecha_entrega' => 'date',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'area_privada'             => 'decimal:2',
+        'num_puertas'              => 'integer',
+        'num_closets'              => 'integer',
+        'num_banos'                => 'integer',
+        'tiene_mueble_alto_cocina' => 'boolean',
+        'tiene_barra_auxiliar'     => 'boolean',
+        'fecha_entrega'            => 'date',
+        'created_at'               => 'datetime',
+        'updated_at'               => 'datetime',
     ];
 
     /**
