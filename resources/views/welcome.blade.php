@@ -55,7 +55,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* Header Premium & Nuevo Branding */
+        /* Header */
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -75,7 +75,6 @@
             margin: 0 auto;
         }
 
-        /* Estilos específicos para Constructora Escuadr Arq S.A.S. */
         .brand-container {
             display: flex;
             align-items: center;
@@ -83,7 +82,6 @@
             text-decoration: none;
         }
 
-        /* NUEVA CLASE PARA EL LOGO IMAGEN */
         .brand-img {
             height: 40px;
             width: auto;
@@ -91,305 +89,137 @@
             object-fit: contain;
         }
 
-        .brand-text-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        .brand-text-wrapper { display: flex; flex-direction: column; justify-content: center; }
+        .brand-title { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--primary); line-height: 1.1; }
+        .brand-subtitle { font-family: 'Outfit', sans-serif; font-size: 0.65rem; font-weight: 700; color: var(--accent-dark); letter-spacing: 2px; text-transform: uppercase; }
 
-        .brand-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--primary);
-            line-height: 1.1;
-        }
+        .nav-desktop { display: none; gap: 3rem; font-size: 0.9rem; font-weight: 500; }
+        .nav-desktop a { color: var(--primary); text-decoration: none; position: relative; }
+        .nav-desktop a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s ease; }
+        .nav-desktop a:hover::after { width: 100%; }
 
-        .brand-subtitle {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--accent-dark);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .nav-desktop {
-            display: none;
-            gap: 3rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-desktop a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-desktop a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-desktop a:hover::after {
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .nav-desktop {
-                display: flex;
-            }
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+        @media (min-width: 768px) { .nav-desktop { display: flex; } }
 
         .btn-secondary {
-            padding: 0.65rem 1.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: transparent;
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 0.65rem 1.5rem; border: 1px solid var(--border-color); border-radius: 8px;
+            color: var(--primary); font-size: 0.85rem; font-weight: 600; text-decoration: none;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
         }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(212, 175, 55, 0.05); }
 
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(212, 175, 55, 0.05);
-        }
+        /* Hero */
+        .hero { max-width: 1400px; margin: 0 auto; padding: 4rem 2rem; text-align: center; position: relative; overflow: hidden; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800; }
+        .hero-subtitle { font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto 3rem; font-weight: 300; }
+        .accent-text { background: linear-gradient(135deg, var(--accent) 0%, #f4d9a3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Hero Section */
-        .hero {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            font-weight: 300;
-            line-height: 1.8;
-        }
-
-        .accent-text {
-            background: linear-gradient(135deg, var(--accent) 0%, #f4d9a3 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Form Container */
+        /* Formulario */
         .form-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-            animation: slideUp 0.8s ease-out;
+            max-width: 1000px; margin: 0 auto; background: white; border-radius: 16px;
+            border: 1px solid var(--border-color); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06); animation: slideUp 0.8s ease-out;
         }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 3rem 2rem;
-            position: relative;
-        }
-
+        .form-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 3rem 2rem; }
         .form-header h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-        .form-header p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); font-weight: 300; }
+        .form-header p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); }
 
         .form-content { padding: 3rem 2rem; }
-        .form-section { margin-bottom: 2.5rem; }
+        .form-section { margin-bottom: 2.5rem; background: var(--bg-subtle); padding: 2rem; border-radius: 12px; border: 1px solid #f0f0f0; }
         .form-section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase;
         }
-        .form-section-title::before {
-            content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
-        }
+        .form-section-title::before { content: ''; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
 
-        .form-row { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+        .form-row { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         @media (min-width: 768px) { .form-row { grid-template-columns: 1fr 1fr; } }
+        .form-row.three-cols { grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .form-row.three-cols { grid-template-columns: 1fr 1fr 1fr; } }
 
         .form-group { display: flex; flex-direction: column; }
-        .form-label {
-            font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 600;
-            margin-bottom: 0.7rem; color: var(--primary); text-transform: capitalize;
-        }
+        .form-label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.7rem; color: var(--primary); }
         .form-label .required { color: var(--error); margin-left: 0.3rem; }
         .form-input, .form-select {
-            padding: 0.85rem 1.2rem; border: 1px solid var(--border-color); border-radius: 8px;
-            font-family: 'Outfit', sans-serif; font-size: 0.95rem; background: var(--bg-subtle);
-            transition: all 0.3s ease;
+            padding: 0.85rem 1.2rem; border: 1px solid var(--border-color); border-radius: 8px; font-family: 'Outfit', sans-serif; background: white; transition: all 0.3s ease;
         }
-        .form-input:focus, .form-select:focus {
-            outline: none; border-color: var(--accent); background: white;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+        
         .form-error { color: var(--error); font-size: 0.8rem; margin-top: 0.4rem; display: none; }
         .form-error.show { display: block; }
 
-        /* Buttons */
+        /* Estilo para los Toggles (Switches) */
+        .toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.2rem; background: white; border: 1px solid var(--border-color); border-radius: 8px; }
+        .toggle-label { font-size: 0.9rem; font-weight: 500; }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
         .btn-primary {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif;
-            font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.4s ease;
-            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.4s ease; text-transform: uppercase;
         }
         .btn-primary:hover:not(.loading) { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); }
         .btn-primary.loading { opacity: 0.8; cursor: not-allowed; }
 
-        /* Resultados y Tarjetas de Planes */
-        .results-container {
-            max-width: 1200px; margin: 3rem auto 0; padding: 0 2rem;
-            opacity: 0; transform: translateY(40px); transition: all 0.8s ease; pointer-events: none;
-        }
-        .results-container.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        /* Resultados */
+        .results-container { max-width: 1200px; margin: 3rem auto 0; padding: 0 2rem; opacity: 0; transform: translateY(40px); transition: all 0.8s ease; pointer-events: none; display: none; }
+        .results-container.visible { opacity: 1; transform: translateY(0); pointer-events: auto; display: block; }
 
-        .results-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white; padding: 2.5rem; border-radius: 16px 16px 0 0;
-        }
-        .results-header h2 { font-size: 1.6rem; margin-bottom: 0.3rem; }
-        .results-header p { font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); }
-
-        .plans-grid {
-            display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 3rem 2rem;
-            background: white; border-radius: 0 0 16px 16px; border: 1px solid var(--border-color); border-top: none;
-        }
-        @media (min-width: 768px) { .plans-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); } }
+        .plans-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem;}
+        @media (min-width: 1024px) { .plans-grid { grid-template-columns: repeat(3, 1fr); } }
 
         .plan-card {
-            border: 2px solid var(--border-color); border-radius: 12px; padding: 2rem;
-            background: var(--bg-subtle); transition: all 0.4s ease; display: flex; flex-direction: column;
-            position: relative; overflow: hidden;
+            border: 2px solid var(--border-color); border-radius: 12px; padding: 2rem; background: white;
+            transition: all 0.4s ease; display: flex; flex-direction: column; position: relative; overflow: hidden;
         }
-        .plan-card:hover {
-            border-color: var(--accent); background: white;
-            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.1); transform: translateY(-8px);
-        }
-
-        .plan-header { margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; }
-        .plan-name { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--primary); text-transform: capitalize; }
-        
-        .plan-badge { font-size: 0.7rem; font-weight: 700; padding: 0.4rem 0.8rem; border-radius: 20px; text-transform: uppercase; }
-        .plan-badge.basic { background: #e5e5e5; color: #666; }
-        .plan-badge.standard { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-        .plan-badge.premium { background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(244, 217, 163, 0.2)); color: var(--accent-dark); }
-
-        .plan-price { font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; }
-        .plan-price-period { font-size: 0.85rem; color: #999; margin-bottom: 1.5rem; }
-
-        /* NUEVO: Caja para la descripción larga */
-        .plan-description-box {
-            background: rgba(212, 175, 55, 0.05);
-            border-left: 3px solid var(--accent);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 8px 8px 0;
-            font-size: 0.85rem;
-            color: #444;
-            line-height: 1.5;
-            white-space: pre-line; /* Respeta los saltos de línea del textarea */
-            max-height: 160px; /* Limita la altura */
-            overflow-y: auto; /* Agrega scroll si es muy largo */
-            flex-grow: 1;
+        .plan-card.experto { border-color: var(--accent); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); }
+        .plan-card.experto::before {
+            content: 'Más Completo'; position: absolute; top: 12px; right: -30px; background: var(--accent);
+            color: white; font-size: 0.7rem; font-weight: 700; padding: 4px 30px; transform: rotate(45deg); text-transform: uppercase;
         }
         
-        /* Estilizar el scrollbar de la descripción */
-        .plan-description-box::-webkit-scrollbar { width: 5px; }
-        .plan-description-box::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-        .plan-description-box::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
+        .plan-header { margin-bottom: 1rem; }
+        .plan-name { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-transform: uppercase; }
+        .plan-price { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-top: 0.5rem; letter-spacing: -1px; }
+        .plan-price-m2 { font-size: 1rem; color: var(--accent-dark); font-weight: 600; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
 
-        .plan-features { list-style: none; margin-bottom: 2rem; }
-        .plan-features li { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.9rem; color: #666; }
-        .plan-features li::before { content: '✓'; color: var(--success); font-weight: 700; font-size: 1.1rem; }
+        .plan-features { list-style: none; margin-bottom: 1.5rem; flex-grow: 1;}
+        .plan-features li { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; font-size: 0.9rem; color: #555; font-weight: 500;}
+        .plan-features li i { color: var(--success); font-style: normal; font-weight: bold; }
+
+        /* Acordeón de detalles */
+        .plan-details-wrapper { margin-bottom: 1.5rem; }
+        details.plan-accordion {
+            background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem 1rem;
+        }
+        details.plan-accordion summary {
+            font-size: 0.85rem; font-weight: 700; color: var(--primary); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+        }
+        details.plan-accordion summary::-webkit-details-marker { display: none; }
+        details.plan-accordion summary::after { content: '+'; font-size: 1.2rem; color: var(--accent); }
+        details.plan-accordion[open] summary::after { content: '-'; }
+        
+        .details-list { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; max-height: 250px; overflow-y: auto; font-size: 0.8rem; }
+        .details-list::-webkit-scrollbar { width: 4px; }
+        .details-list::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+        .detail-item { display: flex; justify-content: space-between; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px dashed #e5e5e5; }
+        .detail-item-name { color: #444; max-width: 70%; line-height: 1.3;}
+        .detail-item-price { font-weight: 600; color: var(--primary); }
 
         .btn-select-plan {
-            padding: 0.9rem 1.5rem; background: transparent; border: 2px solid var(--accent);
-            color: var(--accent); border-radius: 8px; font-family: 'Syne', sans-serif;
-            font-weight: 700; cursor: pointer; transition: all 0.3s ease;
-            text-transform: uppercase; font-size: 0.85rem; margin-top: auto;
+            padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px;
+            font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; width: 100%;
         }
-        .btn-select-plan:hover { background: var(--accent); color: white; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2); }
+        .btn-select-plan:hover { background: var(--accent); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+        .plan-card.experto .btn-select-plan { background: var(--accent); }
+        .plan-card.experto .btn-select-plan:hover { background: var(--primary); }
 
-        .error-message {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
-            border-left: 4px solid #ef4444; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; color: #7f1d1d;
-        }
-
-        footer { background: var(--primary); color: white; margin-top: 6rem; padding: 3rem 2rem; border-top: 1px solid var(--border-color); }
-        .footer-content { max-width: 1400px; margin: 0 auto; text-align: center; font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); }
-
-        @media (max-width: 768px) {
-            .hero { padding: 3rem 1.5rem; }
-            .form-content, .plans-grid { padding: 2rem 1.5rem; }
-            .brand-title { font-size: 1rem; }
-        }
+        footer { background: var(--primary); color: white; margin-top: 6rem; padding: 3rem 2rem; text-align: center; font-size: 0.9rem; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -398,7 +228,6 @@
         <div class="header-container">
             <a href="/" class="brand-container">
                 <img src="{{ asset('construccion.ico') }}" alt="Logo Escuadr Arq" class="brand-img">
-                
                 <div class="brand-text-wrapper">
                     <span class="brand-title">Constructora Escuadr Arq</span>
                     <span class="brand-subtitle">S.A.S.</span>
@@ -409,112 +238,119 @@
                 <a href="#servicios">Servicios</a>
                 <a href="#contacto">Contacto</a>
             </nav>
-            <div class="header-actions">
-                @auth
-                    <a href="{{ url('/dashboard') }}" class="btn-secondary">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}" class="btn-secondary">Acceso</a>
-                @endauth
-            </div>
         </div>
     </header>
 
     <section class="hero" id="inicio">
-        <h1>Cotiza tu <span class="accent-text">proyecto arquitectónico</span></h1>
-        <p class="hero-subtitle">Obtén propuestas personalizadas en tiempo real. Completa el formulario y descubre los planes diseñados especialmente para tu obra por Constructora Escuadr Arq.</p>
+        <h1>Diseña tus espacios,<br><span class="accent-text">nosotros lo construimos</span></h1>
+        <p class="hero-subtitle">Cotiza al instante la remodelación y acabados de tu apartamento en obra gris. Precisión, transparencia y diseño ajustado a tu medida.</p>
     </section>
 
     <main>
         <div class="form-container">
             <div class="form-header">
-                <h2>Solicita tu cotización</h2>
-                <p>Cuéntanos sobre tu proyecto y recibe propuestas profesionales al instante</p>
+                <h2>Configurador de Proyecto</h2>
+                <p>Ingresa los datos exactos de tu inmueble para un presupuesto preciso</p>
             </div>
 
             <form id="cotizacionForm" class="form-content">
                 @csrf
                 <div class="form-section">
-                    <h3 class="form-section-title">Información Personal</h3>
+                    <h3 class="form-section-title">1. Datos Personales</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="nombre" class="form-label">Nombre<span class="required">*</span></label>
-                            <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Tu nombre completo" required>
+                            <label class="form-label">Nombre <span class="required">*</span></label>
+                            <input type="text" name="nombre" class="form-input" required>
                             <div class="form-error" data-field="nombre"></div>
                         </div>
                         <div class="form-group">
-                            <label for="apellido" class="form-label">Apellido<span class="required">*</span></label>
-                            <input type="text" id="apellido" name="apellido" class="form-input" placeholder="Tu apellido" required>
+                            <label class="form-label">Apellido <span class="required">*</span></label>
+                            <input type="text" name="apellido" class="form-input" required>
                             <div class="form-error" data-field="apellido"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="email" class="form-label">Correo electrónico<span class="required">*</span></label>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="tu@email.com" required>
+                            <label class="form-label">Correo electrónico <span class="required">*</span></label>
+                            <input type="email" name="email" class="form-input" required>
                             <div class="form-error" data-field="email"></div>
                         </div>
                         <div class="form-group">
-                            <label for="telefono" class="form-label">Teléfono<span class="required">*</span></label>
-                            <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="+57 300 123 4567" required>
+                            <label class="form-label">Teléfono / WhatsApp <span class="required">*</span></label>
+                            <input type="tel" name="telefono" class="form-input" required>
                             <div class="form-error" data-field="telefono"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-section">
-                    <h3 class="form-section-title">Detalles del Proyecto</h3>
+                    <h3 class="form-section-title">2. Información del Inmueble (Obra Gris)</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="nombre_proyecto" class="form-label">Nombre del proyecto</label>
-                            <input type="text" id="nombre_proyecto" name="nombre_proyecto" class="form-input" placeholder="Ej: Casa Campestre Los Andes">
-                            <div class="form-error" data-field="nombre_proyecto"></div>
+                            <label class="form-label">Nombre del proyecto/conjunto</label>
+                            <input type="text" name="nombre_proyecto" class="form-input" placeholder="Ej: Torres del Parque">
                         </div>
                         <div class="form-group">
-                            <label for="tipo_obra" class="form-label">Tipo de obra</label>
-                            <select id="tipo_obra" name="tipo_obra" class="form-select">
-                                <option value="">Selecciona una opción</option>
-                                <option value="obra gris">Obra gris</option>
-                                <option value="vivienda usada">Vivienda usada</option>
-                            </select>
-                            <div class="form-error" data-field="tipo_obra"></div>
+                            <label class="form-label">Fecha de entrega de la constructora</label>
+                            <input type="date" name="fecha_entrega" class="form-input">
                         </div>
                     </div>
-                    <div class="form-row">
+                    
+                    <div class="form-row three-cols">
                         <div class="form-group">
-                            <label for="area_privada" class="form-label">Área privada (m²)</label>
-                            <input type="number" id="area_privada" name="area_privada" class="form-input" placeholder="Ej: 250" step="0.01">
+                            <label class="form-label">Área Privada (m²) <span class="required">*</span></label>
+                            <input type="number" name="area_privada" class="form-input" placeholder="Ej: 25" step="0.01" required>
                             <div class="form-error" data-field="area_privada"></div>
                         </div>
                         <div class="form-group">
-                            <label for="fecha_entrega" class="form-label">Fecha de entrega deseada</label>
-                            <input type="date" id="fecha_entrega" name="fecha_entrega" class="form-input">
-                            <div class="form-error" data-field="fecha_entrega"></div>
+                            <label class="form-label">Cant. de Habitaciones <span class="required">*</span></label>
+                            <input type="number" name="num_habitaciones" class="form-input" value="1" min="1" required>
+                            <div class="form-error" data-field="num_habitaciones"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Cant. de Baños <span class="required">*</span></label>
+                            <input type="number" name="num_banos" class="form-input" value="1" min="1" required>
+                            <div class="form-error" data-field="num_banos"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <div class="toggle-container">
+                            <span class="toggle-label">Mueble Alto Cocina</span>
+                            <label class="switch">
+                                <input type="checkbox" id="tiene_mueble_alto_cocina" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <span class="toggle-label">Barra Auxiliar</span>
+                            <label class="switch">
+                                <input type="checkbox" id="tiene_barra_auxiliar" checked>
+                                <span class="slider"></span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
-                <div style="display: flex; justify-content: center; padding-top: 1rem;">
+                <div style="text-align: center;">
                     <button type="submit" class="btn-primary">
-                        <span><span class="button-text">Solicitar Cotización</span></span>
+                        <span class="button-text">Calcular Presupuesto</span>
                     </button>
                 </div>
             </form>
         </div>
 
         <div id="resultados-container" class="results-container">
-            <div class="results-header">
-                <h2>✨ Planes disponibles para tu proyecto</h2>
-                <p>Selecciona el plan que mejor se ajuste a tus necesidades</p>
-            </div>
+            <h2 style="text-align: center; font-size: 2rem; font-family: 'Syne'; margin-bottom: 0.5rem;">Propuestas Generadas</h2>
+            <p style="text-align: center; color: #666;">Basado en las características de tu apartamento</p>
+            
             <div id="planes-list" class="plans-grid">
                 </div>
         </div>
     </main>
 
     <footer>
-        <div class="footer-content">
-            <p>&copy; {{ date('Y') }} Constructora Escuadr Arq S.A.S. Todos los derechos reservados. | Soluciones arquitectónicas de nivel profesional</p>
-        </div>
+        <p>&copy; {{ date('Y') }} Constructora Escuadr Arq S.A.S. - Expertos en acabados arquitectónicos.</p>
     </footer>
 
     <script>
@@ -524,43 +360,31 @@
             const planesList = document.getElementById('planes-list');
             const submitBtn = form.querySelector('button[type="submit"]');
 
-            function formatCOP(value) {
-                return new Intl.NumberFormat('es-CO', {
-                    style: 'currency', currency: 'COP', minimumFractionDigits: 0
-                }).format(value);
-            }
-
             function limpiarErrores() {
-                const errorDivs = document.querySelectorAll('.form-error');
-                errorDivs.forEach(div => { div.textContent = ''; div.classList.remove('show'); });
+                document.querySelectorAll('.form-error').forEach(d => { d.textContent = ''; d.classList.remove('show'); });
             }
 
             function mostrarErrores(errors) {
-                limpiarErrores();
                 Object.keys(errors).forEach(field => {
-                    const errorDiv = document.querySelector(`[data-field="${field}"]`);
-                    if (errorDiv) { errorDiv.textContent = errors[field][0]; errorDiv.classList.add('show'); }
+                    const div = document.querySelector(`[data-field="${field}"]`);
+                    if (div) { div.textContent = errors[field][0]; div.classList.add('show'); }
                 });
-            }
-
-            function setLoading(isLoading) {
-                if (isLoading) {
-                    submitBtn.classList.add('loading'); submitBtn.disabled = true;
-                    submitBtn.querySelector('.button-text').innerHTML = 'Procesando...';
-                } else {
-                    submitBtn.classList.remove('loading'); submitBtn.disabled = false;
-                    submitBtn.querySelector('.button-text').innerHTML = 'Solicitar Cotización';
-                }
             }
 
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 limpiarErrores();
                 resultsContainer.classList.remove('visible');
-                setLoading(true);
+                
+                submitBtn.classList.add('loading'); 
+                submitBtn.querySelector('.button-text').innerText = 'Calculando...';
 
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
+                
+                // Mapeo de booleanos
+                data.tiene_mueble_alto_cocina = document.getElementById('tiene_mueble_alto_cocina').checked ? 1 : 0;
+                data.tiene_barra_auxiliar = document.getElementById('tiene_barra_auxiliar').checked ? 1 : 0;
 
                 try {
                     const response = await fetch('/api/cotizacion/store', {
@@ -575,98 +399,102 @@
                     const result = await response.json();
 
                     if (response.ok || response.status === 201) {
-                        mostrarPlanes(result.planes_disponibles, result.datos_cliente);
-                    } else if (response.status === 206) {
-                        planesList.innerHTML = `<div class="error-message"><strong>⚠️ Atención:</strong> ${result.detalle_error}</div>`;
-                        resultsContainer.classList.add('visible');
-                        setLoading(false);
-                    } else if (response.status === 422 && result.errors) {
-                        mostrarErrores(result.errors);
-                        setLoading(false);
+                        mostrarPropuestas(result.propuestas, result.cotizacion.id);
+                    } else if (response.status === 422) {
+                        mostrarErrores(result.errors || result);
                     } else {
-                        planesList.innerHTML = `<div class="error-message"><strong>Error:</strong> ${result.error || 'Ocurrió un error'}</div>`;
-                        resultsContainer.classList.add('visible');
-                        setLoading(false);
+                        alert('Error: ' + (result.error || 'No se pudo generar la cotización'));
                     }
                 } catch (error) {
-                    planesList.innerHTML = `<div class="error-message"><strong>Error de conexión:</strong> Intenta más tarde.</div>`;
-                    resultsContainer.classList.add('visible');
-                    setLoading(false);
+                    alert('Error de conexión.');
+                } finally {
+                    submitBtn.classList.remove('loading');
+                    submitBtn.querySelector('.button-text').innerText = 'Calcular Presupuesto';
                 }
             });
 
-            function mostrarPlanes(planes, datosCliente) {
+            function formatCurrency(num) {
+                return '$' + new Intl.NumberFormat('es-CO').format(num);
+            }
+
+            function mostrarPropuestas(propuestasObj, cotizacionId) {
                 planesList.innerHTML = '';
+                // Convertir el objeto {elemental: {}, estandar: {}, experto: {}} a un array
+                const propuestas = Object.values(propuestasObj);
 
-                if (!planes || planes.length === 0) {
-                    planesList.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">No se pudieron generar planes en este momento.</p>';
-                } else {
-                    planes.forEach((plan, index) => {
-                        let badgeClass = 'standard';
-                        let nombrePlan = plan.nombre_plan || `Plan ${index + 1}`;
-                        let precioPlan = plan.total_a_pagar || 0;
-                        let idPlan = plan.id_producto || index;
-                        let valorUnitario = plan.valor_unitario_formateado || (formatCOP(plan.valor_unitario) + '/m²');
-                        let areaAplicada = plan.area_aplicada || 1;
+                propuestas.forEach((plan) => {
+                    // Generar el HTML de los detalles de la obra
+                    let detallesHTML = '';
+                    if(plan.detalle && plan.detalle.length > 0) {
+                        plan.detalle.forEach(item => {
+                            detallesHTML += `
+                                <div class="detail-item">
+                                    <span class="detail-item-name"><strong>${item.categoria}:</strong> ${item.descripcion} (${item.cantidad} ${item.unidad})</span>
+                                    <span class="detail-item-price">${formatCurrency(item.vr_total)}</span>
+                                </div>
+                            `;
+                        });
+                    }
 
-                        // Validar si existe la descripción que viene desde la BD, sino ponemos un default
-                        let descripcionPlan = plan.descripcion
-                            ? plan.descripcion
-                            : `Plan estándar de gestión y desarrollo diseñado para tu proyecto de ${plan.tipo_obra || 'construcción'}.`;
+                    // Definir beneficios rápidos según el tipo
+                    let features = `<li><i>✓</i> Incluye Administración, Imprevistos y Utilidad</li>`;
+                    if(plan.tipo === 'elemental') {
+                        features += `<li><i>✓</i> Obra Blanca Básica (Muros, Pisos, Techos)</li><li><i>✓</i> Aseo final de obra</li>`;
+                    } else if (plan.tipo === 'estandar') {
+                        features += `<li><i>✓</i> Todo lo Elemental</li><li><i>✓</i> Carpintería de Madera</li><li><i>✓</i> Electrodomésticos y Vidrios</li>`;
+                    } else {
+                        features += `<li><i>✓</i> Todo lo Estándar</li><li><i>✓</i> Mesones en Quarztone</li><li><i>✓</i> Griferías y Aparatos Lujo</li><li><i>✓</i> Iluminación Especial</li>`;
+                    }
 
-                        if (nombrePlan.toLowerCase().includes('premium')) { badgeClass = 'premium'; } 
-                        else if (nombrePlan.toLowerCase().includes('básico') || nombrePlan.toLowerCase().includes('basico')) { badgeClass = 'basic'; }
-
-                        const card = document.createElement('div');
-                        card.className = 'plan-card';
+                    const card = document.createElement('div');
+                    card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
+                    
+                    card.innerHTML = `
+                        <div class="plan-header">
+                            <h3 class="plan-name">Propuesta ${plan.tipo}</h3>
+                        </div>
+                        <div class="plan-price">${plan.vr_total_formateado}</div>
+                        <div class="plan-price-m2">Valor Ref: ${plan.precio_m2_formateado}</div>
                         
-                        // Inyectamos la variable descripcionPlan en el HTML
-                        // AQUÍ MODIFIQUÉ EL BOTÓN PARA QUE USE EL ID DE LA COTIZACIÓN Y PASE 'this' (EL BOTÓN EN SÍ)
-                        card.innerHTML = `
-                            <div class="plan-header">
-                                <h3 class="plan-name">${nombrePlan}</h3>
-                                <span class="plan-badge ${badgeClass}">
-                                    ${index === 1 ? 'Recomendado' : 'Disponible'}
-                                </span>
-                            </div>
-                            <div class="plan-price">${formatCOP(precioPlan)}</div>
-                            <p class="plan-price-period">Valor total del proyecto</p>
-                            
-                            <div class="plan-description-box">${descripcionPlan}</div>
-                            
-                            <ul class="plan-features">
-                                <li>Valor unitario: ${valorUnitario}</li>
-                                <li>Área del proyecto: ${areaAplicada} m²</li>
-                                <li>Gestión de obra completa</li>
-                            </ul>
-                            <button type="button" class="btn-select-plan" onclick="seleccionarPlan(${datosCliente.id}, '${nombrePlan}', ${precioPlan}, this)">
-                                Elegir este plan
-                            </button>
-                        `;
-                        planesList.appendChild(card);
-                    });
-                }
+                        <ul class="plan-features">
+                            ${features}
+                        </ul>
+
+                        <div class="plan-details-wrapper">
+                            <details class="plan-accordion">
+                                <summary>Ver desglose de la obra</summary>
+                                <div class="details-list">
+                                    ${detallesHTML}
+                                    <div class="detail-item" style="border:none; margin-top:10px;">
+                                        <span class="detail-item-name"><strong>A.I.U (19%)</strong></span>
+                                        <span class="detail-item-price">${formatCurrency(plan.administracion_12pct + plan.imprevistos_3pct + plan.utilidad_4pct)}</span>
+                                    </div>
+                                    <div class="detail-item" style="border:none; margin-top:5px; padding-bottom:0;">
+                                        <span class="detail-item-name"><strong>IVA sobre Utilidad (19%)</strong></span>
+                                        <span class="detail-item-price">${formatCurrency(plan.iva_sobre_u_19pct)}</span>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <button type="button" class="btn-select-plan" 
+                            onclick="seleccionarPlan(${cotizacionId}, '${plan.tipo}', ${plan.vr_total}, ${plan.precio_oferta_m2}, this)">
+                            Me interesa esta opción
+                        </button>
+                    `;
+                    planesList.appendChild(card);
+                });
 
                 resultsContainer.classList.add('visible');
-                setLoading(false);
                 setTimeout(() => { resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
             }
 
-            // AQUÍ MODIFIQUÉ LA FUNCIÓN PARA QUE HAGA LA PETICIÓN POST A TU API
-            window.seleccionarPlan = async function(cotizacionId, planNombre, precio, btnElement) {
-                // Validación por si acaso no llegó el ID
-                if(!cotizacionId) {
-                    alert('Error: No se encontró el ID de la cotización.');
-                    return;
-                }
-
-                // Guardamos el texto original y cambiamos el estado del botón
-                const textoOriginal = btnElement.innerText;
+            window.seleccionarPlan = async function(cotizacionId, tipoPropuesta, vrTotal, precioM2, btnElement) {
+                const originalText = btnElement.innerText;
                 btnElement.innerText = "Procesando...";
                 btnElement.disabled = true;
 
                 try {
-                    // Hacemos la petición a la nueva ruta en tu controlador
                     const response = await fetch(`/api/cotizacion/${cotizacionId}/seleccionar`, {
                         method: 'POST',
                         headers: {
@@ -674,32 +502,25 @@
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
                         body: JSON.stringify({
-                            nombre_plan: planNombre,
-                            precio: precio
+                            tipo_propuesta: tipoPropuesta,
+                            vr_total: vrTotal,
+                            precio_m2: precioM2
                         })
                     });
 
-                    const result = await response.json();
-
-                    // Si todo sale bien (status 200)
                     if (response.ok) {
-                        alert(`¡Gracias! Hemos registrado tu interés en el plan "${planNombre}". En breve nos comunicaremos para gestionar tu proyecto.`);
-                        
-                        // Cambiamos el botón para que se vea que ya fue seleccionado
-                        btnElement.innerText = "¡Seleccionado!";
-                        btnElement.style.backgroundColor = "var(--success)";
-                        btnElement.style.borderColor = "var(--success)";
-                        btnElement.style.color = "white";
+                        alert(`¡Excelente elección! Hemos notificado a nuestro equipo sobre tu interés en la propuesta ${tipoPropuesta.toUpperCase()}. Te contactaremos pronto vía WhatsApp.`);
+                        btnElement.innerText = "¡Propuesta Enviada!";
+                        btnElement.style.background = "var(--success)";
                     } else {
-                        // Si el controlador nos devuelve un error
-                        alert('Hubo un error al procesar tu selección: ' + (result.error || 'Intenta nuevamente.'));
-                        btnElement.innerText = textoOriginal;
+                        const err = await response.json();
+                        alert('Error al seleccionar: ' + (err.error || 'Intenta de nuevo'));
+                        btnElement.innerText = originalText;
                         btnElement.disabled = false;
                     }
                 } catch (error) {
-                    // Si el servidor se cae o no hay internet
-                    alert('Error de conexión. Por favor verifica tu internet e intenta de nuevo.');
-                    btnElement.innerText = textoOriginal;
+                    alert('Error de conexión.');
+                    btnElement.innerText = originalText;
                     btnElement.disabled = false;
                 }
             };

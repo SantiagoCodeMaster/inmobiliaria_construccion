@@ -26,16 +26,6 @@ class CotizacionController extends Controller
 
     /**
      * Crear una cotización y devolver las tres propuestas calculadas.
-     *
-     * Preguntas del formulario de usuario:
-     *   - nombre, apellido, email, telefono     → datos personales
-     *   - area_privada                           → m² del apartamento
-     *   - num_puertas                            → cantidad de puertas de madera
-     *   - num_closets                            → cantidad de closets de habitación
-     *   - num_banos                              → cantidad de baños
-     *   - tiene_mueble_alto_cocina               → ¿tiene mueble alto en cocina? (boolean)
-     *   - tiene_barra_auxiliar                   → ¿tiene barra auxiliar en cocina? (boolean)
-     *   - nombre_proyecto, fecha_entrega         → datos del proyecto
      */
     public function store(Request $request, CotizacionService $cotizador)
     {
@@ -45,8 +35,7 @@ class CotizacionController extends Controller
             'email'                    => 'required|email|max:255',
             'telefono'                 => 'required|string|max:20',
             'area_privada'             => 'required|numeric|min:1',
-            'num_puertas'              => 'required|integer|min:0',
-            'num_closets'              => 'required|integer|min:0',
+            'num_habitaciones'         => 'required|integer|min:1', 
             'num_banos'                => 'required|integer|min:1',
             'tiene_mueble_alto_cocina' => 'required|boolean',
             'tiene_barra_auxiliar'     => 'required|boolean',
@@ -97,15 +86,18 @@ class CotizacionController extends Controller
                 ? number_format($request->input('precio_m2'), 0, ',', '.')
                 : 'N/A';
 
+            // Cálculo visual de puertas sumando baños y habitaciones
+            $puertasCalculadas = $cotizacion->num_banos + $cotizacion->num_habitaciones;
+
             $mensaje = "🔔 *Nueva Postulación de Proyecto*\n\n"
                 . "👤 *Cliente:* {$cotizacion->nombre} {$cotizacion->apellido}\n"
                 . "📞 *Teléfono:* {$cotizacion->telefono}\n"
                 . "✉️ *Email:* {$cotizacion->email}\n"
                 . "🏗️ *Proyecto:* " . ($cotizacion->nombre_proyecto ?? 'N/A') . "\n"
                 . "📐 *Área:* {$cotizacion->area_privada} m²\n"
-                . "🚪 *Puertas:* {$cotizacion->num_puertas} | "
-                . "🛋️ *Closets:* {$cotizacion->num_closets} | "
+                . "🛏️ *Habitaciones:* {$cotizacion->num_habitaciones} | "
                 . "🚿 *Baños:* {$cotizacion->num_banos}\n"
+                . "🚪 *(Puertas calculadas:* {$puertasCalculadas})\n"
                 . "📋 *Propuesta Elegida:* {$nombrePropuesta}\n"
                 . "💰 *Valor Total:* \${$vrTotal}\n"
                 . "📊 *Precio/m²:* \${$precioM2}";
