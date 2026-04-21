@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Constructora Escuadr Arq S.A.S. - Transformamos apartamentos en obra gris en hogares de ensueño. Cotización instantánea, sin sorpresas.">
+    <meta name="description" content="Constructora Escuadr Arq S.A.S. - Transformamos apartamentos en obra gris en hogares de ensueño. Promoción, gerencia, ventas y construcción.">
     <title>Constructora Escuadr Arq S.A.S. | Acabados de Lujo en Bogotá</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('Screenshot_1.ico') }}">
@@ -857,78 +857,6 @@
             }
         }
 
-        /* ============ TESTIMONIALS ============ */
-        .testimonials {
-            padding: 7rem 0;
-            background: var(--bg-white);
-        }
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-        .testimonial-card {
-            background: var(--bg-subtle);
-            padding: 2.5rem;
-            border-radius: 24px;
-            position: relative;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        .quote-mark {
-            font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 1rem;
-            opacity: 0.4;
-        }
-        .testimonial-text {
-            font-size: 1.05rem;
-            color: var(--primary);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-color);
-        }
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne';
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-        .author-info h5 {
-            font-size: 1rem;
-            font-family: 'Syne';
-            margin-bottom: 0.15rem;
-        }
-        .author-info span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-        .stars {
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            letter-spacing: 3px;
-        }
-
         /* ============ COTIZADOR ============ */
         .cotizador-section { 
             padding: 7rem 0; 
@@ -1516,6 +1444,7 @@
             font-size: 0.9rem;
             line-height: 1.7;
             max-width: 320px;
+            margin-bottom: 0.5rem;
         }
         .footer-col h4 {
             font-size: 0.9rem;
@@ -1620,10 +1549,10 @@
                 </div>
             </a>
             <nav class="nav-links">
-                <a href="#ventajas">¿Por qué nosotros?</a>
+                <a href="{{ route('nuestra.experiencia') }}">Nuestra Experiencia</a>
+                <a href="#ventajas">Nuestra Esencia</a>
                 <a href="#proceso">Proceso</a>
                 <a href="#galeria">Proyectos</a>
-                <a href="#testimonios">Testimonios</a>
                 <a href="#cotizador" class="btn-nav-cta"><span>Cotizar ahora</span></a>
             </nav>
         </div>
@@ -1656,23 +1585,23 @@
 
                     <div class="hero-trust fade-in-up delay-400">
                         <div class="trust-item">
-                            <span class="number accent-text">+150</span>
+                            <span class="number accent-text">+27</span>
                             <span class="label">Proyectos entregados</span>
                         </div>
                         <div class="trust-item">
-                            <span class="number accent-text">10+</span>
+                            <span class="number accent-text">5+</span>
                             <span class="label">Años de trayectoria</span>
                         </div>
                         <div class="trust-item">
                             <span class="number accent-text">100%</span>
-                            <span class="label">Clientes satisfechos</span>
+                            <span class="label">Transparencia</span>
                         </div>
                     </div>
                 </div>
                 
-                  <div class="hero-visual">
-                <img src="{{ asset('casa1.ico') }}" alt="Proyecto destacado Escuadr Arq">
-            </div>
+                <div class="hero-visual">
+                    <img src="{{ asset('casa1.ico') }}" alt="Proyecto destacado Escuadr Arq">
+                </div>
             </div>
         </div>
     </section>
@@ -1681,11 +1610,11 @@
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-number">150+</div>
-                    <div class="stat-label">Apartamentos Entregados</div>
+                    <div class="stat-number">27+</div>
+                    <div class="stat-label">Proyectos Entregados</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">10</div>
+                    <div class="stat-number">5+</div>
                     <div class="stat-label">Años de Experiencia</div>
                 </div>
                 <div class="stat-item">
@@ -1694,7 +1623,7 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">100%</div>
-                    <div class="stat-label">Transparencia A.I.U</div>
+                    <div class="stat-label">Transparencia Total</div>
                 </div>
             </div>
         </div>
@@ -1702,10 +1631,12 @@
 
     <section id="ventajas" class="features">
         <div class="container">
-            <div class="section-header">
-                <span class="section-label">Por qué Escuadr Arq</span>
-                <h2>El futuro de las <span class="accent-text">remodelaciones</span></h2>
-                <p>Revolucionamos la forma en que cotizas y construyes los acabados de tu propiedad en Bogotá y alrededores.</p>
+            <div class="section-header" style="max-width: 900px;">
+                <span class="section-label">Nuestra Esencia</span>
+                <h2>Construimos tu <span class="accent-text">futuro</span></h2>
+                <p style="margin-bottom: 1rem; color: var(--primary);"><strong>Visión:</strong> Reconocimiento en toda Bogotá como solución a empresas que requieren la Promoción, gerencia, ventas, y construcción de proyectos inmobiliarios.</p>
+                <p style="margin-bottom: 2rem; color: var(--primary);"><strong>Misión:</strong> Resolver necesidades en temas inmobiliarios y de construcción en Arquitectura e Ingeniería.</p>
+                <p style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--accent-dark); font-style: italic;">"Ser la mejor empresa, es asegurarse de tener los mejores clientes"</p>
             </div>
             
             <div class="features-grid">
@@ -1731,7 +1662,7 @@
                         <span class="feature-icon">🛡️</span>
                     </div>
                     <h3>Cero Imprevistos</h3>
-                    <p>Nuestras propuestas incluyen Administración, Imprevistos y Utilidades (A.I.U). Lo que ves es lo que inviertes, sin sorpresas.</p>
+                    <p>Nuestras propuestas son claras y directas. Lo que ves es lo que inviertes, sin costos ocultos de ningún tipo.</p>
                 </div>
             </div>
         </div>
@@ -1775,7 +1706,7 @@
             <div class="section-header">
                 <span class="section-label">Portafolio</span>
                 <h2>Nuestros <span class="accent-text">Acabados</span></h2>
-                <p>Espacios reales transformados por Escuadr Arq en Bogotá y alrededores.</p>
+                <p>Espacios reales transformados por Escuadr Arq en Bogotá.</p>
             </div>
 
             <div class="bento-grid">
@@ -1785,7 +1716,7 @@
                         <div class="bento-caption">
                             <span class="tag">Línea Experto</span>
                             <h4>Cocina Integral en Quarztone</h4>
-                            <p>Apartamento 85m² — Chicó Norte</p>
+                            <p>Apartamento 85m²</p>
                         </div>
                     </div>
                 </div>
@@ -1795,7 +1726,7 @@
                         <div class="bento-caption">
                             <span class="tag">Línea Estándar</span>
                             <h4>Sala Contemporánea</h4>
-                            <p>Apartamento 65m² — Usaquén</p>
+                            <p>Apartamento 65m²</p>
                         </div>
                     </div>
                 </div>
@@ -1805,7 +1736,7 @@
                         <div class="bento-caption">
                             <span class="tag">Línea Experto</span>
                             <h4>Baño Premium</h4>
-                            <p>Proyecto Chapinero</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -1815,56 +1746,7 @@
                         <div class="bento-caption">
                             <span class="tag">Línea Estándar</span>
                             <h4>Habitación Principal</h4>
-                            <p>Apartamento 55m² — Salitre</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="testimonios" class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Lo que dicen</span>
-                <h2>Historias de <span class="accent-text">clientes felices</span></h2>
-                <p>Más de 150 familias han transformado sus apartamentos con nosotros.</p>
-            </div>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="quote-mark">"</div>
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">Escuadr Arq cumplió TODO lo prometido. La cotización fue transparente desde el inicio y la entrega puntual. Mi apartamento quedó mejor de lo que imaginé.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MC</div>
-                        <div class="author-info">
-                            <h5>María Camila Rodríguez</h5>
-                            <span>Apartamento 72m² · Chicó</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="quote-mark">"</div>
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">Lo que más me gustó fue no tener sorpresas al final. El A.I.U incluido desde el principio me dio tranquilidad total. El equipo es profesional y detallista.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JP</div>
-                        <div class="author-info">
-                            <h5>Juan Pablo Martínez</h5>
-                            <span>Apartamento 85m² · Usaquén</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="quote-mark">"</div>
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">La línea Experto con Quarztone superó mis expectativas. El acompañamiento en diseño fue excepcional. 100% recomendados para obra gris.</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AG</div>
-                        <div class="author-info">
-                            <h5>Andrea Gómez</h5>
-                            <span>Apartamento 65m² · Salitre</span>
+                            <p>Apartamento 55m²</p>
                         </div>
                     </div>
                 </div>
@@ -1950,7 +1832,7 @@
 
                         <div class="step-content" data-step="3">
                             <h3 class="step-title">¡Ya casi! 🎉</h3>
-                            <p class="step-subtitle">Déjanos tus datos para mostrarte los presupuestos personalizados.</p>
+                            <p class="step-subtitle">Déjanos tus datos para mostrarte los presupuestos personalizados (Esta información no se enviará al WhatsApp).</p>
 
                             <div class="grid-2">
                                 <div class="form-group">
@@ -2013,19 +1895,13 @@
                 <details class="faq-item">
                     <summary>¿Qué incluye la obra gris que remodelo con ustedes?</summary>
                     <div class="faq-answer">
-                        Nos encargamos de todos los acabados que transforman tu obra gris en un apartamento listo para habitar: pisos, enchapes, carpintería, pintura, cocina, baños, iluminación, griferías y más. Según la línea que elijas, incluimos materiales desde estándar hasta premium.
+                        Nos encargamos de todos los acabados que transforman tu obra gris en un apartamento listo para habitar: pisos, enchapes, carpintería, pintura, cocina, baños, iluminación, griferías y más. Según la línea que elijas, incluimos materiales desde elemental hasta experto.
                     </div>
                 </details>
                 <details class="faq-item">
                     <summary>¿Cuánto tiempo toma el proceso completo?</summary>
                     <div class="faq-answer">
                         La duración depende del tamaño y la línea seleccionada. En promedio, un apartamento de 55-65 m² toma entre 45 y 75 días calendario una vez firmado el contrato. Te entregamos un cronograma detallado al firmar.
-                    </div>
-                </details>
-                <details class="faq-item">
-                    <summary>¿Qué es el A.I.U y por qué lo incluyen?</summary>
-                    <div class="faq-answer">
-                        A.I.U significa Administración, Imprevistos y Utilidades. Es un rubro estándar en construcción que muchas empresas cobran aparte. Nosotros lo incluimos desde la cotización inicial para que no tengas sorpresas al final de la obra.
                     </div>
                 </details>
                 <details class="faq-item">
@@ -2043,7 +1919,7 @@
                 <details class="faq-item">
                     <summary>¿Trabajan en todo Bogotá y alrededores?</summary>
                     <div class="faq-answer">
-                        Sí, cubrimos toda Bogotá y municipios cercanos como Chía, Cajicá, La Calera, Mosquera, Madrid y Funza. Para otras zonas, consúltanos por WhatsApp.
+                        Nuestro equipo se enfoca y especializa en proyectos dentro de Bogotá. Sin embargo, si su solicitud se encuentra en municipios aledaños como Chía, Cajicá, La Calera, Mosquera, Madrid o Funza, estamos en total disposición de llegar a un acuerdo para atenderlo. Es importante tener en cuenta que, en estos casos, se adicionarán los costos de desplazamiento, lo cual generará un ajuste sobre el precio estimado inicialmente en la cotización del programa
                     </div>
                 </details>
             </div>
@@ -2066,7 +1942,9 @@
             <div class="footer-brand">
                 <h3>Escuadr Arq</h3>
                 <span class="tag">CONSTRUCTORA S.A.S.</span>
-                <p>Transformamos apartamentos en obra gris en hogares de ensueño. Acabados de calidad, precios transparentes y entrega puntual en Bogotá y alrededores.</p>
+                <p>Nit: 901.794.009-0 | Régimen Común</p>
+                <p>Arl: Sura | Caja de Compensación: Cafam</p>
+                <p style="margin-top: 10px; font-style: italic; color: var(--accent);">"Ser la mejor empresa, es asegurarse de tener los mejores clientes"</p>
             </div>
             <div class="footer-col">
                 <h4>Empresa</h4>
@@ -2074,7 +1952,6 @@
                     <li><a href="#ventajas">Por qué nosotros</a></li>
                     <li><a href="#proceso">Nuestro proceso</a></li>
                     <li><a href="#galeria">Portafolio</a></li>
-                    <li><a href="#testimonios">Testimonios</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -2089,8 +1966,8 @@
             <div class="footer-col">
                 <h4>Contacto</h4>
                 <ul>
-                    <li><a href="tel:+573197168949">+57 319 716 8949</a></li>
-                    <li><a href="mailto:info@escuadrarq.com">info@escuadrarq.com</a></li>
+                    <li><a href="tel:+573224307053">+57 322 4307053</a></li>
+                    <li><a href="mailto:coordinador.proyectos85@gmail.com">coordinador.proyectos85@gmail.com</a></li>
                     <li><a href="#">Bogotá, Colombia</a></li>
                 </ul>
             </div>
@@ -2104,14 +1981,14 @@
                 <a href="#" aria-label="Facebook">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
                 </a>
-                <a href="https://wa.me/573197168949?text=Hola,%20quiero%20cotizar%20mi%20apartamento" aria-label="WhatsApp" target="_blank">
+                <a href="https://wa.me/573224307053?text=Hola,%20quiero%20cotizar%20mi%20apartamento" aria-label="WhatsApp" target="_blank">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 </a>
             </div>
         </div>
     </footer>
 
-    <a href="https://wa.me/573197168949?text=Hola,%20quiero%20cotizar%20mi%20apartamento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
+    <a href="https://wa.me/573224307053?text=Hola,%20quiero%20cotizar%20mi%20apartamento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
@@ -2250,7 +2127,7 @@
 
                     if (response.ok || response.status === 201) {
                         wizardBox.style.display = 'none';
-                        mostrarPropuestas(result.propuestas, result.cotizacion.id);
+                        mostrarPropuestas(result.propuestas);
                     } else if (response.status === 422) {
                         mostrarErrores(result.errors || result);
                     } else {
@@ -2265,7 +2142,7 @@
                 }
             });
 
-            function mostrarPropuestas(propuestasObj, cotizacionId) {
+            function mostrarPropuestas(propuestasObj) {
                 planesList.innerHTML = '';
                 const propuestas = Object.values(propuestasObj);
 
@@ -2283,7 +2160,7 @@
                         });
                     }
 
-                    let features = `<li><span class="check-icon">✓</span> Diseño, Administración y A.I.U incluido</li>`;
+                    let features = `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
                     if(plan.tipo === 'elemental') {
                         features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
                     } else if (plan.tipo === 'estandar') {
@@ -2295,6 +2172,7 @@
                     const card = document.createElement('div');
                     card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
                     
+                    // AQUÍ ESTÁ EL CAMBIO IMPORTANTE: Pasamos los dos precios a la función seleccionarPlan
                     card.innerHTML = `
                         <h3 class="plan-name">Línea ${plan.tipo}</h3>
                         <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
@@ -2309,7 +2187,7 @@
                         </details>
 
                         <button type="button" class="btn-select-plan" 
-                            onclick="seleccionarPlan(${cotizacionId}, '${plan.tipo}', ${plan.vr_total}, ${plan.precio_oferta_m2}, this)">
+                            onclick="seleccionarPlan('${plan.tipo}', '${plan.vr_total_formateado}', '${plan.precio_m2_formateado}', this)">
                             Me interesa esta línea →
                         </button>
                     `;
@@ -2322,40 +2200,42 @@
                 }, 100);
             }
 
-            window.seleccionarPlan = async function(cotizacionId, tipoPropuesta, vrTotal, precioM2, btnElement) {
+            // FUNCIÓN ACTUALIZADA PARA RECIBIR LOS PRECIOS Y ARMAR EL MENSAJE COMPLETO
+            window.seleccionarPlan = function(tipoPropuesta, vrTotal, vrM2, btnElement) {
+                const formData = new FormData(document.getElementById('cotizacionForm'));
+
+                // Obtenemos SOLO los datos del proyecto (ignora nombre, apellido, email)
+                const proyecto = formData.get('nombre_proyecto') || 'No especificado';
+                const area = formData.get('area_privada') || '0';
+                const fecha = formData.get('fecha_entrega') || 'No especificada';
+                const habs = formData.get('num_habitaciones') || '1';
+                const banos = formData.get('num_banos') || '1';
+
+                // Armamos el mensaje predefinido con los valores financieros
+                const mensaje = `Hola, estoy cotizando mi inmueble.\n\nElegí la Línea: *${tipoPropuesta.toUpperCase()}*\n\n*Datos de mi proyecto:*\n- Proyecto/Conjunto: ${proyecto}\n- Área: ${area} m²\n- Habitaciones: ${habs}\n- Baños: ${banos}\n- Fecha de entrega: ${fecha}\n\n*Presupuesto Estimado:*\n- Inversión Total: ${vrTotal}\n- Valor por m²: ${vrM2}\n\nMe gustaría continuar con el proceso.`;
+
+                // Codificamos el mensaje para que sea válido en la URL
+                const encodedMessage = encodeURIComponent(mensaje);
+                const whatsappUrl = `https://wa.me/573224307053?text=${encodedMessage}`;
+
+                // Efecto visual rápido en el botón
                 const originalText = btnElement.innerText;
-                btnElement.innerText = "Procesando...";
-                btnElement.disabled = true;
+                btnElement.innerText = "Abriendo WhatsApp...";
+                btnElement.style.background = "var(--success)";
+                btnElement.style.color = "white";
 
-                try {
-                    const response = await fetch(`/api/cotizacion/${cotizacionId}/seleccionar`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            tipo_propuesta: tipoPropuesta,
-                            vr_total: vrTotal,
-                            precio_m2: precioM2
-                        })
-                    });
+                // Abrimos la pestaña
+                window.open(whatsappUrl, '_blank');
 
-                    if (response.ok) {
-                        alert(`¡Perfecto! Hemos registrado tu interés en la línea ${tipoPropuesta.toUpperCase()}. En breve te contactaremos vía WhatsApp para coordinar los detalles de tu apartamento.`);
-                        btnElement.innerText = "✓ ¡Solicitud Enviada!";
-                        btnElement.style.background = "var(--success)";
-                        btnElement.style.color = "white";
-                    } else {
-                        alert('Error al seleccionar la propuesta. Intenta de nuevo.');
-                        btnElement.innerText = originalText;
-                        btnElement.disabled = false;
-                    }
-                } catch (error) {
-                    alert('Error de red. Verifica tu conexión.');
+                // Restaurar el botón después de 3 segundos
+                setTimeout(() => {
                     btnElement.innerText = originalText;
-                    btnElement.disabled = false;
-                }
+                    if(tipoPropuesta !== 'experto') {
+                        btnElement.style.background = "var(--primary)";
+                    } else {
+                        btnElement.style.background = "linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)";
+                    }
+                }, 3000);
             };
             
             updateWizard();
@@ -2375,7 +2255,7 @@
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.feature-card, .testimonial-card, .process-step, .bento-item').forEach(el => {
+            document.querySelectorAll('.feature-card, .process-step, .bento-item').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(30px)';
                 el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';

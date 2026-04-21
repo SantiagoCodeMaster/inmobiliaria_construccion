@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/prueba', function () {
+Route::get('/experiencia', function () {
     return view('prueba');
-})->name('prueba');
+})->name('nuestra.experiencia');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
