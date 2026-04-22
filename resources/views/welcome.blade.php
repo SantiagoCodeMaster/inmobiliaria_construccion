@@ -99,6 +99,10 @@
             0% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(10px); opacity: 0; }
         }
+        @keyframes float-cloud {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.02); }
+        }
 
         .fade-in-up {
             opacity: 0;
@@ -411,24 +415,92 @@
             height: 650px; 
             width: 100%; 
             border-radius: 30px; 
+            overflow: visible; /* Cambiado a visible para permitir que la nube sobresalga si es necesario */
+        }
+        .hero-visual .img-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
             overflow: hidden;
             box-shadow: var(--shadow-lg);
         }
-        .hero-visual img { 
+        .hero-visual .img-container img { 
             width: 100%; 
             height: 100%; 
             object-fit: cover;
             transition: transform 0.6s ease;
         }
-        .hero-visual:hover img { transform: scale(1.05); }
+        .hero-visual:hover .img-container img { transform: scale(1.05); }
         
-        .hero-visual::before {
+        .hero-visual .img-container::before {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.3), transparent 50%);
             z-index: 1;
             pointer-events: none;
+        }
+
+        /* Nube llamativa (Bono de bienvenida) */
+        .cloud-bonus {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1.2rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 15px 35px rgba(201, 169, 97, 0.25), inset 0 0 0 1px rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            animation: float-cloud 5s ease-in-out infinite;
+            z-index: 20;
+            border: 2px solid var(--accent-light);
+        }
+        @media (max-width: 1024px) {
+            .cloud-bonus {
+                top: -15px;
+                right: 10px;
+                padding: 1rem 1.5rem;
+                gap: 0.8rem;
+            }
+        }
+        @media (max-width: 640px) {
+            .cloud-bonus {
+                top: 10px;
+                right: 10px;
+                padding: 0.8rem 1.2rem;
+                border-radius: 30px;
+            }
+        }
+        .cloud-bonus .icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(201, 169, 97, 0.3));
+        }
+        .cloud-bonus .text {
+            display: flex;
+            flex-direction: column;
+        }
+        .cloud-bonus .text strong {
+            color: var(--primary);
+            font-family: 'Syne', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        .cloud-bonus .text span {
+            color: var(--accent-dark);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         
         .floating-badge {
@@ -487,7 +559,7 @@
             animation-delay: 1s;
         }
         @media (max-width: 640px) {
-            .floating-badge-2 { right: 10px; top: 10px; padding: 0.75rem 1rem; }
+            .floating-badge-2 { right: 10px; top: 10px; padding: 0.75rem 1rem; display: none; /* Oculta para no solapar con la nube en móviles pequeños */ }
         }
         .floating-badge-2 .stars {
             color: var(--accent);
@@ -1600,7 +1672,25 @@
                 </div>
                 
                 <div class="hero-visual">
-                    <img src="{{ asset('casa1.ico') }}" alt="Proyecto destacado Escuadr Arq">
+                    <div class="cloud-bonus">
+                        <div class="icon">✨</div>
+                        <div class="text">
+                            <strong>Recibe tu bono</strong>
+                            <span>de bienvenida al cotizar</span>
+                        </div>
+                    </div>
+
+                    <div class="img-container">
+                        <img src="{{ asset('casa1.ico') }}" alt="Proyecto destacado Escuadr Arq">
+                    </div>
+                    
+                    <div class="floating-badge">
+                        <div class="badge-icon">✓</div>
+                        <div class="badge-text">
+                            <h4>Garantía Escuadr Arq</h4>
+                            <p>100% Calidad Asegurada</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2172,12 +2262,11 @@
                     const card = document.createElement('div');
                     card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
                     
-                    // AQUÍ ESTÁ EL CAMBIO IMPORTANTE: Pasamos los dos precios a la función seleccionarPlan
                     card.innerHTML = `
                         <h3 class="plan-name">Línea ${plan.tipo}</h3>
                         <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
                         <div class="plan-price">${plan.vr_total_formateado}</div>
-                        <div class="plan-price-m2">Inversión aprox por m²: <strong>${plan.precio_m2_formateado}</strong></div>
+                        <div class="plan-price-m2">Descubre tu bono de bienvenida  : <strong></strong></div>
                         
                         <ul class="plan-features">${features}</ul>
 
@@ -2200,34 +2289,27 @@
                 }, 100);
             }
 
-            // FUNCIÓN ACTUALIZADA PARA RECIBIR LOS PRECIOS Y ARMAR EL MENSAJE COMPLETO
             window.seleccionarPlan = function(tipoPropuesta, vrTotal, vrM2, btnElement) {
                 const formData = new FormData(document.getElementById('cotizacionForm'));
 
-                // Obtenemos SOLO los datos del proyecto (ignora nombre, apellido, email)
                 const proyecto = formData.get('nombre_proyecto') || 'No especificado';
                 const area = formData.get('area_privada') || '0';
                 const fecha = formData.get('fecha_entrega') || 'No especificada';
                 const habs = formData.get('num_habitaciones') || '1';
                 const banos = formData.get('num_banos') || '1';
 
-                // Armamos el mensaje predefinido con los valores financieros
                 const mensaje = `Hola, estoy cotizando mi inmueble.\n\nElegí la Línea: *${tipoPropuesta.toUpperCase()}*\n\n*Datos de mi proyecto:*\n- Proyecto/Conjunto: ${proyecto}\n- Área: ${area} m²\n- Habitaciones: ${habs}\n- Baños: ${banos}\n- Fecha de entrega: ${fecha}\n\n*Presupuesto Estimado:*\n- Inversión Total: ${vrTotal}\n- Valor por m²: ${vrM2}\n\nMe gustaría continuar con el proceso.`;
 
-                // Codificamos el mensaje para que sea válido en la URL
                 const encodedMessage = encodeURIComponent(mensaje);
                 const whatsappUrl = `https://wa.me/573224307053?text=${encodedMessage}`;
 
-                // Efecto visual rápido en el botón
                 const originalText = btnElement.innerText;
                 btnElement.innerText = "Abriendo WhatsApp...";
                 btnElement.style.background = "var(--success)";
                 btnElement.style.color = "white";
 
-                // Abrimos la pestaña
                 window.open(whatsappUrl, '_blank');
 
-                // Restaurar el botón después de 3 segundos
                 setTimeout(() => {
                     btnElement.innerText = originalText;
                     if(tipoPropuesta !== 'experto') {
@@ -2240,7 +2322,6 @@
             
             updateWizard();
 
-            // Animación de entrada al hacer scroll
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
