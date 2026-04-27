@@ -425,12 +425,6 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            /* Descomentar cuando insertes las imágenes
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            padding: 15px; */
         }
 
         /* ============ PORTAFOLIO PROYECTOS ============ */
@@ -492,38 +486,177 @@
             font-size: 1.15rem;
             line-height: 1.6;
         }
+        
+        /* ============ ESTILOS MEJORADOS PARA GALERÍA ============ */
         .project-images {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 1.5rem;
         }
-        .img-placeholder {
-            aspect-ratio: 4/3;
-            background: var(--bg-subtle);
+        
+        .project-img-card {
+            width: 100%;
+            background: #f8f8f8;
             border-radius: 20px;
-            border: 2px dashed var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .project-img-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+        }
+        
+        .img-wrapper {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
         }
-        .img-placeholder:hover {
-            border-color: var(--accent);
-            background: rgba(201, 169, 97, 0.05);
-            color: var(--accent-dark);
-        }
-        .img-placeholder img {
-            position: absolute;
-            inset: 0;
+        
+        .img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 1; /* Esto ocultará el texto cuando la imagen esté presente */
+            transition: transform 0.5s ease;
+        }
+        
+        .project-img-card:hover .img-wrapper img {
+            transform: scale(1.05);
+        }
+        
+        /* Estilo especial para imágenes que necesitan contain (como las verticales) */
+        .img-wrapper.contain-mode img {
+            object-fit: contain;
+            background: #0a0a0a;
+        }
+        
+        .img-caption {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: white;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* ============ CARRUSEL ANTES/DESPUÉS ============ */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+        }
+        
+        .carousel-slide {
+            flex: 0 0 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+            position: relative;
+        }
+        
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        
+        .carousel-btn:hover {
+            background: var(--accent);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-btn.prev { left: 12px; }
+        .carousel-btn.next { right: 12px; }
+        
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .carousel-dot.active {
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+        
+        .badge-before-after {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        
+        @media (max-width: 768px) {
+            .project-images {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .project-block {
+                padding: 1.5rem;
+            }
+            .img-wrapper {
+                height: 250px;
+            }
         }
 
         /* ============ CTA FINAL ============ */
@@ -758,25 +891,25 @@
             
             <div class="clients-grid">
                 <div class="client-logo-placeholder fade-in-up">
-                     <img src="{{ asset('AVINGCO.png') }}" alt="Logo AVINGCO S.A.S." style="max-width: 100%; height: auto;">
+                     <img src="{{ asset('AVINGCO.png') }}" alt="Logo AVINGCO S.A.S.">
                 </div>
                 <div class="client-logo-placeholder fade-in-up delay-100">
-                   <img src="{{ asset('Riaño.png') }}" alt="Logo RIAÑO" style="max-width: 100%; height: auto;">
+                   <img src="{{ asset('Riaño.png') }}" alt="Logo RIAÑO">
                 </div>
                 <div class="client-logo-placeholder fade-in-up delay-200">
-                  <img src="{{ asset('terranvm.png') }}" alt="Logo TERRANVM" style="max-width: 100%; height: auto;">
+                  <img src="{{ asset('terranvm.png') }}" alt="Logo TERRANVM">
                 </div>
                 <div class="client-logo-placeholder fade-in-up delay-300">
-                 <img src="{{ asset('makro.png') }}" alt="Logo MAKRO" style="max-width: 100%; height: auto;">
+                 <img src="{{ asset('makro.png') }}" alt="Logo MAKRO">
                 </div>
                 <div class="client-logo-placeholder fade-in-up">
-                    <img src="{{ asset('arpro.png') }}" alt="Logo ARPRO" style="max-width: 100%; height: auto;">
+                    <img src="{{ asset('arpro.png') }}" alt="Logo ARPRO">
                 </div>
                 <div class="client-logo-placeholder fade-in-up delay-100">
-                   <img src="{{ asset('rd.png') }}" alt="Logo RD Studio" style="max-width: 100%; height: auto;">
+                   <img src="{{ asset('rd.png') }}" alt="Logo RD Studio">
                 </div>
                 <div class="client-logo-placeholder fade-in-up delay-200">
-                   <img src="{{ asset('condival.png') }}" alt="Logo CONDIVAL" style="max-width: 100%; height: auto;">
+                   <img src="{{ asset('condival.png') }}" alt="Logo CONDIVAL">
                 </div>
             </div>
         </div>
@@ -792,25 +925,30 @@
 
             <div class="projects-wrapper">
                 
+                <!-- Proyecto 1: Edificio Emanuel -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Año 2021 - 2022</span>
                         <h3>Edificio Emanuel</h3>
-                        <p>Ubicación: Av. Américas con Av. Boyacá. <br> Alcance: Obra Nueva, Demolición, Cimentación, Estructura, Mampostería y Cubierta.</p>
+                        <p>Ubicación: Av. Américas con Av. Boyacá. <br> Alcance: Obra diseño y construcción de vivienda multifamiliar</p>
                     </div>
                     <div class="project-images">
-                        <div class="img-placeholder">
-                            <img src="{{ asset('edificio_manuel1.png') }}" alt="Foto 1 - Edificio Emanuel" style="max-width: 100%; height: auto;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper"><img src="{{ asset('edificio_manuel1.png') }}" alt="Edificio Emanuel 1"></div>
+                            <div class="img-caption">Fachada Principal</div>
                         </div>
-                        <div class="img-placeholder">
-                          <img src="{{ asset('edificio_manuel2.png') }}" alt="Foto 2 - Edificio Emanuel" style="max-width: 100%; height: auto;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper"><img src="{{ asset('edificio_manuel2.png') }}" alt="Edificio Emanuel 2"></div>
+                            <div class="img-caption">Zonas Comunes</div>
                         </div>
-                        <div class="img-placeholder">
-                             <img src="{{ asset('edificio_manuel3.png') }}" alt="Foto 3 - Edificio Emanuel" style="max-width: 100%; height: auto;">
-                        </div> 
+                        <div class="project-img-card">
+                            <div class="img-wrapper"><img src="{{ asset('edificio_manuel3.png') }}" alt="Edificio Emanuel 3"></div>
+                            <div class="img-caption">Detalle Constructivo</div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Proyecto 2: Remodelación Tayrona -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Año 2020</span>
@@ -818,24 +956,22 @@
                         <p>Ubicación: Barrio Nicolás de Federman. <br> Alcance: Remodelación integral apartamento de 130 m².</p>
                     </div>
                     <div class="project-images">
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden;">
-                          <img src="{{ asset('tayrona-1.png') }}" 
-                            alt="Foto Tayrona" 
-                            style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper"><img src="{{ asset('tayrona-1.png') }}" alt="Tayrona 1"></div>
+                            <div class="img-caption">Sala - Antes</div>
                         </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                           <img src="{{ asset('tayrona-2.png') }}" 
-                             alt="Foto 2 - Tayrona" 
-                             style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('tayrona-2.png') }}" alt="Tayrona 2"></div>
+                            <div class="img-caption">Cocina - Después</div>
                         </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                           <img src="{{ asset('tayrona-3.png') }}" 
-                             alt="Foto 3 - Tayrona" 
-                             style="width: 100%; height: 100%; object-fit: contain;">
-                       </div>
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('tayrona-3.png') }}" alt="Tayrona 3"></div>
+                            <div class="img-caption">Baño Principal</div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Proyecto 3: Remates de Estructura Makro -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Año 2023</span>
@@ -843,24 +979,22 @@
                         <p>Alcance: Trabajo estructural e industrial a nivel corporativo.</p>
                     </div>
                     <div class="project-images">
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                           <img src="{{ asset('makro1.png') }}" 
-                             alt="Foto 1 - Makro" 
-                             style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('makro1.png') }}" alt="Makro 1"></div>
+                            <div class="img-caption">Estructura Metálica</div>
                         </div>
-                            <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                                 <img src="{{ asset('makro2.png') }}" 
-                                  alt="Foto 2 - Makro" 
-                                  style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('makro2.png') }}" alt="Makro 2"></div>
+                            <div class="img-caption">Montaje</div>
                         </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('makro3.png') }}" 
-                                 alt="Foto 3 - Makro" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('makro3.png') }}" alt="Makro 3"></div>
+                            <div class="img-caption">Obra Terminada</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Proyecto 4: Remodelación Casas 2 Pisos -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Año 2023</span>
@@ -868,50 +1002,45 @@
                         <p>Ubicación: Av. 1ra de Mayo. <br> Alcance: Remodelación completa, área total intervenida de 300 m².</p>
                     </div>
                     <div class="project-images">
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                         <img src="{{ asset('mayo1.png') }}" 
-                          alt="Foto 1 - Casas 1ra Mayo" 
-                          style="width: 100%; height: 100%; object-fit: contain;">
-                   </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('mayo2.png') }}" 
-                                 alt="Foto 2 - Casas 1ra Mayo" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('mayo1.png') }}" alt="Mayo 1"></div>
+                            <div class="img-caption">Fachada - Antes</div>
                         </div>
-                            </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('mayo3.png') }}" 
-                                 alt="Foto 3 - Casas 1ra Mayo" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('mayo2.png') }}" alt="Mayo 2"></div>
+                            <div class="img-caption">Interior - Después</div>
+                        </div>
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('mayo3.png') }}" alt="Mayo 3"></div>
+                            <div class="img-caption">Zona Social</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Proyecto 5: Remodelación Baviera II -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Año 2023</span>
                         <h3>Remodelación Baviera II</h3>
-                        <p>Ubicación: Colina Campestre. <br> Alcance: Remodelación de apartamento de 68 m².</p>
+                        <p>Ubicación: Colina Campestre. <br> Alcance: Remodelación de apartamento de 35 m².</p>
                     </div>
                     <div class="project-images">
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                           <img src="{{ asset('baviera1.png') }}" 
-                           alt="Foto 1 - Baviera II" 
-                       style="width: 100%; height: 100%; object-fit: contain;">
-                    </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('baviera2.png') }}" 
-                                 alt="Foto 2 - Baviera II" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('baviera1.png') }}" alt="Baviera 1"></div>
+                            <div class="img-caption">Sala comedor</div>
                         </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('baviera3.png') }}" 
-                                 alt="Foto 3 - Baviera II" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('baviera2.png') }}" alt="Baviera 2"></div>
+                            <div class="img-caption">Cocina integrada</div>
+                        </div>
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('baviera3.png') }}" alt="Baviera 3"></div>
+                            <div class="img-caption">Baño moderno</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Proyecto 6: Acabados Natura Living & Veramonte Living -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Año 2024</span>
@@ -919,60 +1048,64 @@
                         <p>Ubicación: Colina Campestre. <br> Alcance: Diseño y ejecución de acabados en proyectos VIS/VIP de 35 m².</p>
                     </div>
                     <div class="project-images">
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                           <img src="{{ asset('colina1.png') }}" 
-                             alt="Foto 1 - Natura/Veramonte" 
-                             style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('colina1.png') }}" alt="Colina 1"></div>
+                            <div class="img-caption">Acabados de lujo</div>
                         </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('colina2.png') }}" 
-                                 alt="Foto 2 - Natura/Veramonte" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('colina2.png') }}" alt="Colina 2"></div>
+                            <div class="img-caption">Detalle cocina</div>
                         </div>
-                        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-                            <img src="{{ asset('colina3.png') }}" 
-                                 alt="Foto 3 - Natura/Veramonte" 
-                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        <div class="project-img-card">
+                            <div class="img-wrapper contain-mode"><img src="{{ asset('colina3.png') }}" alt="Colina 3"></div>
+                            <div class="img-caption">Zona húmeda</div>
                         </div>
-                            </div>
                     </div>
                 </div>
 
+                <!-- Proyecto 7: Proyectos Corporativos y Edificios - CON CARRUSEL ANTES/DESPUÉS -->
                 <div class="project-block fade-in-up">
                     <div class="project-info">
                         <span class="tag">Años 2025 - 2026</span>
                         <h3>Proyectos Corporativos y Edificios</h3>
                         <p>Alcance: Remodelación Edificio Calvo Sur (5 Pisos, 500m²) y Local Comercial San Fernando (30m²).</p>
                     </div>
-                    <div class="project-block fade-in-up">
-    <div class="project-info">
-        <span class="tag">Años 2025 - 2026</span>
-        <h3>Proyectos Corporativos y Edificios</h3>
-        <p>Alcance: Remodelación Edificio Calvo Sur (5 Pisos, 500m²) y Local Comercial San Fernando (30m²).</p>
-    </div>
-
-    <div class="project-images">
-        
-        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-            <img src="{{ asset('Corp1.png') }}" 
-                 alt="Foto 1 - Corp / Comercial" 
-                 style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
-
-        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-            <img src="{{ asset('copr2.png') }}" 
-                 alt="Foto 2 - Corp / Comercial" 
-                 style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
-
-        <div class="img-placeholder" style="width: 100%; height: 300px; overflow: hidden; background: #000;">
-            <img src="{{ asset('copr3.png') }}" 
-                 alt="Foto 3 - Corp / Comercial" 
-                 style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
-
-    </div>
-</div>
+                    <div class="project-images">
+                        <!-- Imagen 1: Estándar -->
+                        <div class="project-img-card">
+                            <div class="img-wrapper"><img src="{{ asset('Corp1.png') }}" alt="Corp 1"></div>
+                            <div class="img-caption">Vista general corporativa</div>
+                        </div>
+                        
+                        <!-- Imagen 2: CARRUSEL ANTES/DESPUÉS (soluciona el problema de la imagen larga) -->
+                        <div class="project-img-card">
+                            <div id="carousel-corp" class="carousel-container" style="height: 300px; position: relative;">
+                                <div class="carousel-track" style="display: flex; width: 100%; height: 100%;">
+                                    <div class="carousel-slide">
+                                        <img src="{{ asset('copr2.png') }}" alt="Antes - Remodelación">
+                                        <div class="badge-before-after">📸 ANTES</div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <img src="{{ asset('calvo5.png') }}" alt="Después - Remodelación" onerror="this.src='{{ asset('copr2.png') }}'">
+                                        <div class="badge-before-after">✨ DESPUÉS</div>
+                                    </div>
+                                </div>
+                                <button class="carousel-btn prev" onclick="changeSlide('carousel-corp', -1)">←</button>
+                                <button class="carousel-btn next" onclick="changeSlide('carousel-corp', 1)">→</button>
+                                <div class="carousel-dots">
+                                    <span class="carousel-dot active" onclick="goToSlide('carousel-corp', 0)"></span>
+                                    <span class="carousel-dot" onclick="goToSlide('carousel-corp', 1)"></span>
+                                </div>
+                            </div>
+                            <div class="img-caption">🔄 Antes / Después (usa las flechas)</div>
+                        </div>
+                        
+                        <!-- Imagen 3: Estándar -->
+                        <div class="project-img-card">
+                            <div class="img-wrapper"><img src="{{ asset('copr3.png') }}" alt="Corp 3"></div>
+                            <div class="img-caption">Detalle final corporativo</div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -1051,8 +1184,79 @@
             }
         });
 
+        // Funciones para el carrusel ANTES/DESPUÉS
+        window.carouselStates = {};
+
+        function initCarousel(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container || window.carouselStates[containerId]) return;
+            
+            const track = container.querySelector('.carousel-track');
+            const slides = track ? track.children : [];
+            const dots = container.querySelectorAll('.carousel-dot');
+            
+            window.carouselStates[containerId] = {
+                currentIndex: 0,
+                totalSlides: slides.length,
+                track: track,
+                dots: dots
+            };
+            
+            updateCarousel(containerId);
+        }
+        
+        function updateCarousel(containerId) {
+            const state = window.carouselStates[containerId];
+            if (!state || !state.track) return;
+            
+            state.track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
+            
+            if (state.dots) {
+                state.dots.forEach((dot, i) => {
+                    if (i === state.currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+        }
+        
+        window.changeSlide = function(containerId, direction) {
+            const state = window.carouselStates[containerId];
+            if (!state) {
+                initCarousel(containerId);
+                setTimeout(() => changeSlide(containerId, direction), 50);
+                return;
+            }
+            
+            let newIndex = state.currentIndex + direction;
+            if (newIndex < 0) newIndex = state.totalSlides - 1;
+            if (newIndex >= state.totalSlides) newIndex = 0;
+            
+            state.currentIndex = newIndex;
+            updateCarousel(containerId);
+        }
+        
+        window.goToSlide = function(containerId, index) {
+            const state = window.carouselStates[containerId];
+            if (!state) {
+                initCarousel(containerId);
+                setTimeout(() => goToSlide(containerId, index), 50);
+                return;
+            }
+            
+            if (index >= 0 && index < state.totalSlides) {
+                state.currentIndex = index;
+                updateCarousel(containerId);
+            }
+        }
+        
+        // Inicializar carruseles al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
-            // Intersection Observer para las animaciones al hacer scroll
+            initCarousel('carousel-corp');
+            
+            // Intersection Observer para las animaciones
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1068,8 +1272,6 @@
             }, observerOptions);
 
             document.querySelectorAll('.fade-in-up').forEach(el => {
-                // Elementos que ya tienen la clase fade-in-up en el HTML inicial para animarse con CSS no necesitan esto, 
-                // pero lo aplicamos a elementos que hacemos scroll.
                 if(!el.closest('.hero')) {
                     el.style.opacity = '0';
                     el.style.transform = 'translateY(30px)';

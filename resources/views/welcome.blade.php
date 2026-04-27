@@ -352,6 +352,7 @@
             text-decoration: none; 
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             letter-spacing: 0.5px;
         }
@@ -415,7 +416,7 @@
             height: 650px; 
             width: 100%; 
             border-radius: 30px; 
-            overflow: visible; /* Cambiado a visible para permitir que la nube sobresalga si es necesario */
+            overflow: visible;
         }
         .hero-visual .img-container {
             position: relative;
@@ -442,7 +443,7 @@
             pointer-events: none;
         }
 
-        /* Nube llamativa (Bono de bienvenida) */
+        /* Nube llamativa */
         .cloud-bonus {
             position: absolute;
             top: -20px;
@@ -459,22 +460,6 @@
             animation: float-cloud 5s ease-in-out infinite;
             z-index: 20;
             border: 2px solid var(--accent-light);
-        }
-        @media (max-width: 1024px) {
-            .cloud-bonus {
-                top: -15px;
-                right: 10px;
-                padding: 1rem 1.5rem;
-                gap: 0.8rem;
-            }
-        }
-        @media (max-width: 640px) {
-            .cloud-bonus {
-                top: 10px;
-                right: 10px;
-                padding: 0.8rem 1.2rem;
-                border-radius: 30px;
-            }
         }
         .cloud-bonus .icon {
             font-size: 2rem;
@@ -518,9 +503,6 @@
             z-index: 10;
             border: 1px solid var(--border-color);
         }
-        @media (max-width: 640px) {
-            .floating-badge { left: 10px; bottom: 10px; padding: 1rem; }
-        }
         .badge-icon { 
             width: 50px; 
             height: 50px; 
@@ -557,9 +539,6 @@
             z-index: 10;
             animation: float 6s ease-in-out infinite;
             animation-delay: 1s;
-        }
-        @media (max-width: 640px) {
-            .floating-badge-2 { right: 10px; top: 10px; padding: 0.75rem 1rem; display: none; /* Oculta para no solapar con la nube en móviles pequeños */ }
         }
         .floating-badge-2 .stars {
             color: var(--accent);
@@ -669,12 +648,8 @@
             font-weight: 700;
             margin-bottom: 1rem;
         }
-        .section-label::before {
-            content: '— ';
-        }
-        .section-label::after {
-            content: ' —';
-        }
+        .section-label::before { content: '— '; }
+        .section-label::after { content: ' —'; }
         
         .section-header { 
             text-align: center; 
@@ -723,9 +698,7 @@
             box-shadow: var(--shadow-lg);
             border-color: rgba(201, 169, 97, 0.3);
         }
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
+        .feature-card:hover::before { transform: scaleX(1); }
         .feature-icon-wrap {
             width: 70px;
             height: 70px;
@@ -746,9 +719,7 @@
             font-size: 2rem;
             transition: transform 0.4s ease;
         }
-        .feature-card:hover .feature-icon {
-            filter: brightness(0) invert(1);
-        }
+        .feature-card:hover .feature-icon { filter: brightness(0) invert(1); }
         .feature-card h3 { 
             font-size: 1.35rem; 
             margin-bottom: 0.75rem; 
@@ -781,9 +752,7 @@
             position: relative;
         }
         @media(min-width: 768px) {
-            .process-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            .process-grid { grid-template-columns: repeat(4, 1fr); }
         }
         .process-step {
             text-align: center;
@@ -827,14 +796,8 @@
             border-radius: 50%;
             opacity: 0.3;
         }
-        .process-step h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        .process-step p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .process-step h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .process-step p { color: var(--text-muted); font-size: 0.9rem; }
 
         /* ============ GALLERY ============ */
         .gallery { 
@@ -871,9 +834,7 @@
             display: block;
             transition: transform 0.6s ease;
         }
-        .bento-item:hover .gallery-img {
-            transform: scale(1.08);
-        }
+        .bento-item:hover .gallery-img { transform: scale(1.08); }
         
         .bento-overlay {
             position: absolute;
@@ -886,17 +847,13 @@
             padding: 2rem;
             z-index: 2;
         }
-        .bento-item:hover .bento-overlay {
-            opacity: 1;
-        }
+        .bento-item:hover .bento-overlay { opacity: 1; }
         .bento-caption {
             color: white;
             transform: translateY(20px);
             transition: transform 0.4s ease;
         }
-        .bento-item:hover .bento-caption {
-            transform: translateY(0);
-        }
+        .bento-item:hover .bento-caption { transform: translateY(0); }
         .bento-caption .tag {
             display: inline-block;
             background: var(--accent);
@@ -909,25 +866,8 @@
             text-transform: uppercase;
             margin-bottom: 0.75rem;
         }
-        .bento-caption h4 {
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
-        }
-        .bento-caption p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-        }
-        
-        @media(max-width: 768px) { 
-            .bento-grid { 
-                display: flex; 
-                flex-direction: column; 
-            } 
-            .bento-item { 
-                height: 280px; 
-                min-height: 280px;
-            }
-        }
+        .bento-caption h4 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .bento-caption p { font-size: 0.85rem; opacity: 0.9; }
 
         /* ============ COTIZADOR ============ */
         .cotizador-section { 
@@ -1015,12 +955,8 @@
             font-weight: 600;
             display: none;
         }
-        @media(min-width: 640px) {
-            .step-dot .label { display: block; }
-        }
-        .step-dot.active .label {
-            color: var(--primary);
-        }
+        @media(min-width: 640px) { .step-dot .label { display: block; } }
+        .step-dot.active .label { color: var(--primary); }
 
         .progress-container { 
             width: calc(100% - 4rem); 
@@ -1080,9 +1016,7 @@
             background: white;
             box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
         }
-        .form-input::placeholder {
-            color: #b0b0b0;
-        }
+        .form-input::placeholder { color: #b0b0b0; }
         
         .grid-2 { 
             display: grid; 
@@ -1103,9 +1037,7 @@
             border: 2px solid var(--border-color);
             transition: all 0.3s;
         }
-        .stepper-group:focus-within {
-            border-color: var(--accent);
-        }
+        .stepper-group:focus-within { border-color: var(--accent); }
         .btn-stepper { 
             width: 44px; 
             height: 44px; 
@@ -1236,9 +1168,7 @@
             transform: scale(1.03);
             background: linear-gradient(180deg, white 0%, var(--bg-cream) 100%);
         }
-        .plan-card.experto:hover {
-            transform: scale(1.03) translateY(-5px);
-        }
+        .plan-card.experto:hover { transform: scale(1.03) translateY(-5px); }
         .plan-card.experto::before {
             content: '⭐ El Más Elegido'; 
             position: absolute; 
@@ -1345,9 +1275,8 @@
             color: var(--accent);
             transition: transform 0.3s;
         }
-        details.plan-accordion[open] summary::after { 
-            content: '−';
-        }
+        details.plan-accordion[open] summary::after { content: '−'; }
+        
         .details-list { 
             margin-top: 1rem; 
             padding-top: 1rem; 
@@ -1397,9 +1326,7 @@
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); 
             box-shadow: var(--shadow-gold);
         }
-        .plan-card.experto .btn-select-plan:hover { 
-            background: var(--primary);
-        }
+        .plan-card.experto .btn-select-plan:hover { background: var(--primary); }
 
         /* ============ FAQ ============ */
         .faq-section {
@@ -1436,9 +1363,7 @@
             transition: transform 0.3s;
             line-height: 1;
         }
-        .faq-item[open] summary::after {
-            content: '−';
-        }
+        .faq-item[open] summary::after { content: '−'; }
         .faq-answer {
             padding: 1rem 0 0.5rem;
             color: var(--text-muted);
@@ -1496,14 +1421,9 @@
             margin-bottom: 3rem;
         }
         @media(min-width: 768px) {
-            .footer-grid {
-                grid-template-columns: 2fr 1fr 1fr 1fr;
-            }
+            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
         }
-        .footer-brand h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
+        .footer-brand h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
         .footer-brand .tag {
             color: var(--accent);
             font-size: 0.75rem;
@@ -1525,21 +1445,15 @@
             margin-bottom: 1.5rem;
             color: var(--accent);
         }
-        .footer-col ul {
-            list-style: none;
-        }
-        .footer-col ul li {
-            margin-bottom: 0.75rem;
-        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.75rem; }
         .footer-col a {
             color: #aaa;
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s;
         }
-        .footer-col a:hover {
-            color: var(--accent);
-        }
+        .footer-col a:hover { color: var(--accent); }
         .footer-bottom {
             max-width: 1280px;
             margin: 0 auto;
@@ -1551,14 +1465,8 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-        .footer-bottom p {
-            color: #666;
-            font-size: 0.85rem;
-        }
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
+        .footer-bottom p { color: #666; font-size: 0.85rem; }
+        .social-links { display: flex; gap: 1rem; }
         .social-links a {
             width: 40px;
             height: 40px;
@@ -1596,12 +1504,39 @@
             transition: all 0.3s;
             animation: pulse-gold 2s infinite;
         }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float svg { width: 30px; height: 30px; }
+
+        /* ============ RESPONSIVE MOBILE FIXES (Añadido) ============ */
+        @media (max-width: 768px) {
+            .hero { padding: 7rem 0 3rem; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-visual { height: 400px; }
+            
+            /* Ajuste de Botones en Móvil para que no se desborden */
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .hero-cta-group .btn-hero {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            /* Ajuste de formulario/pasos en móviles pequeños */
+            .step-indicators { padding: 1rem 0.5rem 0; gap: 0.25rem; }
+            .step-dot .dot { width: 28px; height: 28px; font-size: 0.75rem; }
+            .step-content { padding: 1.5rem 1rem 2rem; }
+            .wizard-form { padding: 0.5rem; }
         }
-        .whatsapp-float svg {
-            width: 30px;
-            height: 30px;
+
+        @media (max-width: 640px) {
+            .brand-text span:first-child { font-size: 1rem; }
+            .brand-img { height: 32px; }
+            .cloud-bonus { top: 10px; right: 10px; padding: 0.8rem 1.2rem; border-radius: 30px; }
+            .floating-badge { left: 10px; bottom: 10px; padding: 1rem; }
+            .floating-badge-2 { display: none; }
         }
     </style>
 </head>
@@ -1649,10 +1584,11 @@
                     
                     <div class="hero-cta-group fade-in-up delay-300">
                         <a href="#cotizador" class="btn-hero btn-hero-primary">
-                            Calcular mi presupuesto 
-                            <span class="arrow">→</span>
+                            Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
                         </a>
-                        <a href="#galeria" class="btn-hero btn-hero-secondary">Ver proyectos</a>
+                        <a href="https://wa.me/573224307053?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20otro%20tipo%20de%20remodelaci%C3%B3n" target="_blank" class="btn-hero btn-hero-secondary">
+                            Otro tipo de remodelación
+                        </a>
                     </div>
 
                     <div class="hero-trust fade-in-up delay-400">
@@ -1675,8 +1611,8 @@
                     <div class="cloud-bonus">
                         <div class="icon">✨</div>
                         <div class="text">
-                            <strong>Recibe tu bono</strong>
-                            <span>de bienvenida al cotizar</span>
+                            <strong>Recibe un obsequio</strong>
+                            <span>por contratar nuestros servicios</span>
                         </div>
                     </div>
 
@@ -1888,7 +1824,7 @@
                                     <div class="form-error" data-field="area_privada"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Fecha de entrega</label>
+                                    <label class="form-label">Fecha inicio de obras</label>
                                     <input type="date" name="fecha_entrega" class="form-input">
                                 </div>
                             </div>
@@ -2009,7 +1945,7 @@
                 <details class="faq-item">
                     <summary>¿Trabajan en todo Bogotá y alrededores?</summary>
                     <div class="faq-answer">
-                        Nuestro equipo se enfoca y especializa en proyectos dentro de Bogotá. Sin embargo, si su solicitud se encuentra en municipios aledaños como Chía, Cajicá, La Calera, Mosquera, Madrid o Funza, estamos en total disposición de llegar a un acuerdo para atenderlo. Es importante tener en cuenta que, en estos casos, se adicionarán los costos de desplazamiento, lo cual generará un ajuste sobre el precio estimado inicialmente en la cotización del programa
+                        Nuestro equipo se enfoca y especializa en proyectos dentro de Bogotá. Sin embargo, si su solicitud se encuentra en municipios aledaños como Chía, Cajicá, La Calera, Mosquera, Madrid o Funza, estamos en total disposición de llegar a un acuerdo para atenderlo. Es importante tener en cuenta que, en estos casos, se adicionarán los costos de desplazamiento, lo cual generará un ajuste sobre el precio estimado inicialmente en la cotización del programa.
                     </div>
                 </details>
             </div>
@@ -2022,7 +1958,7 @@
             <h2>Tu nuevo hogar está a <span class="accent-text">3 clics de distancia</span></h2>
             <p>Obtén 3 propuestas personalizadas gratis. Sin compromisos, sin letras pequeñas.</p>
             <a href="#cotizador" class="btn-hero btn-hero-primary" style="background: var(--accent); border-color: var(--accent); color: var(--primary);">
-                Cotizar mi apartamento <span class="arrow">→</span>
+                Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
             </a>
         </div>
     </section>
@@ -2246,7 +2182,8 @@
                     let detallesHTML = '';
                     if(plan.detalle && plan.detalle.length > 0) {
                         plan.detalle.forEach(item => {
-                            detallesHTML += `<div class="detail-item"><i>✓</i><span><strong>${item.categoria}:</strong> ${item.descripcion} (${item.cantidad} ${item.unidad})</span></div>`;
+                            // Se quitó la cantidad y la unidad (los m2, ml, etc.)
+                            detallesHTML += `<div class="detail-item"><i>✓</i><span><strong>${item.categoria}:</strong> ${item.descripcion}</span></div>`;
                         });
                     }
 
@@ -2266,7 +2203,7 @@
                         <h3 class="plan-name">Línea ${plan.tipo}</h3>
                         <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
                         <div class="plan-price">${plan.vr_total_formateado}</div>
-                        <div class="plan-price-m2">Descubre tu bono de bienvenida  : <strong></strong></div>
+                        <div class="plan-price-m2">Descubre tu bono de bienvenida : <strong></strong></div>
                         
                         <ul class="plan-features">${features}</ul>
 
@@ -2298,7 +2235,7 @@
                 const habs = formData.get('num_habitaciones') || '1';
                 const banos = formData.get('num_banos') || '1';
 
-                const mensaje = `Hola, estoy cotizando mi inmueble.\n\nElegí la Línea: *${tipoPropuesta.toUpperCase()}*\n\n*Datos de mi proyecto:*\n- Proyecto/Conjunto: ${proyecto}\n- Área: ${area} m²\n- Habitaciones: ${habs}\n- Baños: ${banos}\n- Fecha de entrega: ${fecha}\n\n*Presupuesto Estimado:*\n- Inversión Total: ${vrTotal}\n- Valor por m²: ${vrM2}\n\nMe gustaría continuar con el proceso.`;
+                const mensaje = `Hola, estoy cotizando mi inmueble.\n\nElegí la Línea: *${tipoPropuesta.toUpperCase()}*\n\n*Datos de mi proyecto:*\n- Proyecto/Conjunto: ${proyecto}\n- Área: ${area} m²\n- Habitaciones: ${habs}\n- Baños: ${banos}\n- Fecha inicio de obras: ${fecha}\n\n*Presupuesto Estimado:*\n- Inversión Total: ${vrTotal}`;
 
                 const encodedMessage = encodeURIComponent(mensaje);
                 const whatsappUrl = `https://wa.me/573224307053?text=${encodedMessage}`;
