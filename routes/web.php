@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -10,6 +11,11 @@ Route::get('/', function () {
 Route::get('/experiencia', function () {
     return view('prueba');
 })->name('nuestra.experiencia');
+
+// Ruta para ver el QR
+Route::get('/ver-qr', function () {
+    return view('qr-view');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
