@@ -311,11 +311,12 @@
             flex-shrink: 0;
         }
         .hero-content h1 {
-            font-size: clamp(2rem, 5.5vw, 4.2rem);
+            /* AJUSTE: Tamaño sutilmente más pequeño */
+            font-size: clamp(1.8rem, 5vw, 3.8rem);
             line-height: 1.08;
             margin-bottom: 1.25rem;
-            word-break: normal; /* Corregido para móviles */
-            overflow-wrap: break-word; /* Corregido para móviles */
+            word-break: normal; 
+            overflow-wrap: break-word; 
         }
         .hero-content h1 .serif-italic {
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
@@ -565,7 +566,8 @@
             margin-inline: auto;
         }
         .section-header h2 {
-            font-size: clamp(1.8rem, 4vw, 3rem);
+            /* AJUSTE: Tamaño sutilmente más pequeño */
+            font-size: clamp(1.6rem, 3.5vw, 2.6rem);
             margin-bottom: 0.85rem;
             line-height: 1.1;
         }
@@ -1167,7 +1169,12 @@
             margin: 0 auto;
             padding: 0 1.5rem;
         }
-        .final-cta h2 { font-size: clamp(1.85rem, 4vw, 2.85rem); margin-bottom: 0.85rem; line-height: 1.1; }
+        .final-cta h2 { 
+            /* AJUSTE: Tamaño sutilmente más pequeño */
+            font-size: clamp(1.65rem, 3.5vw, 2.65rem); 
+            margin-bottom: 0.85rem; 
+            line-height: 1.1; 
+        }
         .final-cta p { color: #b0b0b0; font-size: 1.05rem; margin-bottom: 2.25rem; }
 
         /* ============ FOOTER ============ */
@@ -1263,7 +1270,8 @@
             /* Hero */
             .hero { padding: 8.5rem 0 3rem; }
             .hero-content h1 {
-                font-size: clamp(1.75rem, 7.5vw, 2.6rem);
+                /* AJUSTE: Tamaño sutilmente más pequeño para móvil */
+                font-size: clamp(1.6rem, 7vw, 2.3rem);
                 line-height: 1.12;
                 letter-spacing: -0.02em;
             }
@@ -1340,7 +1348,10 @@
 
             /* Section headers */
             .section-header { margin-bottom: 2.25rem; }
-            .section-header h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+            .section-header h2 { 
+                /* AJUSTE: Tamaño sutilmente más pequeño para móvil */
+                font-size: clamp(1.4rem, 5.5vw, 1.8rem); 
+            }
             .section-header p { font-size: 0.92rem; }
 
             /* Cotizador */
@@ -1397,7 +1408,8 @@
             /* Hero */
             .hero { padding: 7.5rem 0 2.5rem; }
             .hero-content h1 {
-                font-size: clamp(1.55rem, 7vw, 1.95rem);
+                /* AJUSTE: Tamaño sutilmente más pequeño para móvil pequeño */
+                font-size: clamp(1.45rem, 6.5vw, 1.8rem);
                 letter-spacing: -0.015em;
             }
             .hero-tag { font-size: 0.68rem; padding: 0.38rem 0.75rem; }
@@ -1793,7 +1805,7 @@
             <div id="resultados-container" class="results-container">
                 <div class="section-header" style="margin-bottom: 2rem;">
                     <span class="section-label">Resultados</span>
-                    <h2 style="color: white; font-size: clamp(1.8rem, 4vw, 2.4rem);">Tus Opciones de <span class="accent-text">Diseño</span></h2>
+                    <h2 style="color: white; font-size: clamp(1.6rem, 3.5vw, 2.2rem);">Tus Opciones de <span class="accent-text">Diseño</span></h2>
                     <p>Basado en las dimensiones de tu inmueble, estas son las propuestas:</p>
                 </div>
                 <div id="planes-list" class="plans-grid"></div>
@@ -1830,6 +1842,11 @@
                     <summary>¿Trabajan en todo Bogotá y alrededores?</summary>
                     <div class="faq-answer">Nuestro equipo se enfoca y especializa en proyectos dentro de Bogotá. Sin embargo, si su solicitud se encuentra en municipios aledaños como Chía, Cajicá, La Calera, Mosquera, Madrid o Funza, estamos en total disposición de llegar a un acuerdo para atenderlo. Es importante tener en cuenta que, en estos casos, se adicionarán los costos de desplazamiento, lo cual generará un ajuste sobre el precio estimado inicialmente en la cotización del programa.</div>
                 </details>
+                <!-- NUEVO ITEM AÑADIDO: Medios de Pago -->
+                <details class="faq-item">
+                    <summary>¿Qué métodos de pago aceptan?</summary>
+                    <div class="faq-answer">Para tu total comodidad, recibimos todo tipo de medios de pago: tarjetas de crédito, tarjetas de débito, transferencias bancarias y dinero en efectivo.</div>
+                </details>
             </div>
         </div>
     </section>
@@ -1842,6 +1859,12 @@
             <a href="#cotizador" class="btn-hero btn-hero-primary" style="background: var(--accent); border-color: var(--accent); color: var(--primary);">
                 Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
             </a>
+            
+            <!-- NUEVA SECCIÓN AÑADIDA: Nota de Medios de Pago -->
+            <div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #e8d5a1; font-size: 0.95rem; font-weight: 500;">
+                <span>💳</span>
+                <span>Aceptamos todo tipo de pago: Tarjetas de crédito, débito y efectivo.</span>
+            </div>
         </div>
     </section>
 
