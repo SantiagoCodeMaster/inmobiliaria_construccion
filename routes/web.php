@@ -17,6 +17,10 @@ Route::get('/ver-qr', function () {
     return view('qr-view');
 });
 
+Route::get('/back-up', function () {
+    return view('backup');
+})->name('backup');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -33,7 +33,6 @@ class CotizacionService
         'ducha',
         'acoflex',
         'brida',
-        'pedestal',
         'taza',
         'combo ecoclean'
     ];
@@ -155,6 +154,13 @@ class CotizacionService
             $actividad = $item->actividad;
             
             if (!$actividad) {
+                continue;
+            }
+
+            $textoBusqueda = strtolower($actividad->nombre . ' ' . $actividad->descripcion);
+
+            // Filtro estricto: Si menciona pedestal, se excluye de la cotización
+            if (str_contains($textoBusqueda, 'pedestal')) {
                 continue;
             }
 
