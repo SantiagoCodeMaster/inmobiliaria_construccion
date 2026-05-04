@@ -55,6 +55,9 @@
             overflow-x: hidden;
             width: 100%;
         }
+        body.modal-open {
+            overflow: hidden;
+        }
         h1, h2, h3, h4 {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
@@ -158,7 +161,6 @@
         .top-bar span { position: relative; z-index: 1; }
         .top-bar strong { color: var(--accent); }
         
-        /* Ocultar top bar al hacer scroll */
         header.scrolled .top-bar {
             max-height: 0;
             padding-top: 0;
@@ -248,7 +250,7 @@
 
         /* ============ HERO ============ */
         .hero {
-            padding: 10rem 0 5rem; /* Ajustado por el top bar */
+            padding: 10rem 0 5rem;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -311,7 +313,6 @@
             flex-shrink: 0;
         }
         .hero-content h1 {
-            /* AJUSTE: Tamaño sutilmente más pequeño */
             font-size: clamp(1.8rem, 5vw, 3.8rem);
             line-height: 1.08;
             margin-bottom: 1.25rem;
@@ -380,7 +381,6 @@
             background: var(--primary);
             color: white;
         }
-        /* Trust */
         .hero-trust {
             display: flex;
             gap: 2rem;
@@ -401,7 +401,6 @@
             margin-top: 0.3rem;
             letter-spacing: 0.4px;
         }
-        /* Hero Visual */
         .hero-visual {
             position: relative;
             height: 580px;
@@ -433,7 +432,6 @@
             z-index: 1;
             pointer-events: none;
         }
-        /* Cloud bonus */
         .cloud-bonus {
             position: absolute;
             top: -18px; right: -15px;
@@ -473,7 +471,6 @@
             letter-spacing: 0.4px;
             text-transform: uppercase;
         }
-        /* Floating badge */
         .floating-badge {
             position: absolute;
             bottom: 25px; left: -15px;
@@ -566,7 +563,6 @@
             margin-inline: auto;
         }
         .section-header h2 {
-            /* AJUSTE: Tamaño sutilmente más pequeño */
             font-size: clamp(1.6rem, 3.5vw, 2.6rem);
             margin-bottom: 0.85rem;
             line-height: 1.1;
@@ -780,7 +776,7 @@
         .step-dot {
             display: flex;
             align-items: center;
-            justify-content: center; /* Centrar para moviles */
+            justify-content: center;
             gap: 0.4rem;
             flex: 1;
             max-width: 140px;
@@ -897,7 +893,7 @@
             transition: all 0.2s;
             box-shadow: var(--shadow-sm);
             color: var(--primary);
-            flex-shrink: 0; /* Previene aplastamiento */
+            flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
         }
         .btn-stepper:hover { background: var(--primary); color: var(--accent); transform: scale(1.05); }
@@ -911,7 +907,7 @@
             pointer-events: none;
             color: var(--primary);
             font-family: 'Syne';
-            flex-shrink: 0; /* Previene aplastamiento */
+            flex-shrink: 0;
         }
         .wizard-footer {
             padding: 1.35rem 2.25rem;
@@ -1055,43 +1051,34 @@
             color: var(--accent);
             font-size: 0.68rem;
         }
-        details.plan-accordion {
-            background: var(--bg-subtle);
-            border-radius: 13px;
-            padding: 1.1rem;
-            margin-bottom: 1.75rem;
-            border: 1px solid var(--border-color);
-        }
-        details.plan-accordion summary {
-            font-size: 0.88rem;
+        
+        .btn-ver-desglose {
+            background: transparent;
+            border: 1.5px solid var(--border-color);
+            color: var(--primary);
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            font-family: 'Syne';
             font-weight: 700;
+            font-size: 0.85rem;
+            width: 100%;
             cursor: pointer;
-            list-style: none;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 0.5rem;
         }
-        details.plan-accordion summary::-webkit-details-marker { display: none; }
-        details.plan-accordion summary::after { content: '+'; font-size: 1.3rem; color: var(--accent); }
-        details.plan-accordion[open] summary::after { content: '−'; }
-        .details-list {
-            margin-top: 0.9rem;
-            padding-top: 0.9rem;
-            border-top: 1px solid #e0e0e0;
-            max-height: 230px;
-            overflow-y: auto;
+        .btn-ver-desglose:hover {
+            border-color: var(--accent);
+            background: var(--bg-subtle);
+            color: var(--accent-dark);
         }
-        .details-list::-webkit-scrollbar { width: 4px; }
-        .details-list::-webkit-scrollbar-track { background: transparent; }
-        .details-list::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-        .detail-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.45rem;
-            margin-bottom: 0.7rem;
-            font-size: 0.83rem;
+        .plan-card.experto .btn-ver-desglose {
+            border-color: var(--accent-light);
         }
-        .detail-item i { color: var(--success); font-weight: bold; font-style: normal; }
+
         .btn-select-plan {
             padding: 1.05rem;
             background: var(--primary);
@@ -1113,6 +1100,245 @@
             box-shadow: var(--shadow-gold);
         }
         .plan-card.experto .btn-select-plan:hover { background: var(--primary); }
+
+        /* ============ MODAL DESGLOSE (PÁGINA COMPLETA) ============ */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1rem;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--bg-subtle);
+            width: 100%;
+            max-width: 1100px;
+            max-height: 95vh;
+            border-radius: 28px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            transform: translateY(40px) scale(0.98);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: 1px solid rgba(201,169,97,0.3);
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            position: relative;
+            z-index: 10;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .modal-header h3 span {
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .modal-close {
+            background: var(--bg-cream);
+            border: 1px solid var(--border-color);
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+        .modal-close:hover {
+            background: var(--error);
+            color: white;
+            border-color: var(--error);
+            transform: rotate(90deg);
+        }
+        .modal-body {
+            padding: 2.5rem 2rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .modal-body::-webkit-scrollbar { width: 8px; }
+        .modal-body::-webkit-scrollbar-track { background: var(--bg-subtle); }
+        .modal-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+        .modal-item-card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 1.15rem;
+            align-items: flex-start;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .modal-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(201,169,97,0.4);
+        }
+        
+        /* Imagen dentro del card con indicador de hover (lupa) */
+        .modal-item-img {
+            width: 75px; 
+            height: 75px;
+            background: var(--bg-cream);
+            border-radius: 12px;
+            flex-shrink: 0;
+            border: 1px solid rgba(201,169,97,0.3);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        .modal-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .modal-item-img::after {
+            content: '🔍';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-item-img:hover::after {
+            opacity: 1;
+        }
+        
+        .modal-item-text {
+            flex: 1;
+        }
+        .modal-item-text h4 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 0.35rem;
+            font-family: 'Syne';
+            line-height: 1.2;
+        }
+        .modal-item-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* ============ LIGHTBOX (IMAGEN GIGANTE) ============ */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10000; /* Siempre encima de todo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 1rem;
+        }
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10001;
+        }
+        .lightbox-close:hover {
+            background: var(--error);
+            border-color: var(--error);
+            transform: rotate(90deg);
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1);
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 2px solid var(--accent);
+        }
+        .lightbox-content h4 {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            text-align: center;
+            font-family: 'Syne';
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         /* ============ FAQ ============ */
         .faq-section { padding: 6rem 0; background: var(--bg-white); }
@@ -1170,7 +1396,6 @@
             padding: 0 1.5rem;
         }
         .final-cta h2 { 
-            /* AJUSTE: Tamaño sutilmente más pequeño */
             font-size: clamp(1.65rem, 3.5vw, 2.65rem); 
             margin-bottom: 0.85rem; 
             line-height: 1.1; 
@@ -1243,7 +1468,7 @@
         .whatsapp-float svg { width: 28px; height: 28px; }
 
         /* ============================================================
-           RESPONSIVE — TABLET (max 1023px)
+           RESPONSIVE
         ============================================================ */
         @media(max-width: 1023px) {
             .hero { padding: 9rem 0 4rem; min-height: auto; }
@@ -1251,110 +1476,58 @@
             .hero-visual { height: 420px; max-width: 600px; margin: 0 auto; width: 100%; }
             .cloud-bonus { top: -14px; right: 10px; padding: 0.85rem 1.2rem; border-radius: 36px; }
             .floating-badge { left: 10px; bottom: 12px; }
+            
+            .modal-content { max-height: 90vh; }
         }
 
-        /* ============================================================
-           RESPONSIVE — MÓVIL (max 768px)
-        ============================================================ */
         @media(max-width: 768px) {
             .container { padding: 0 1.1rem; }
-
-            /* Top bar */
             .top-bar { font-size: 0.7rem; padding: 0.5rem 0.75rem; line-height: 1.5; }
-
-            /* Nav */
             .nav-container { padding: 0.8rem 1.1rem; }
             .brand-img { height: 36px; }
             .brand-text span:first-child { font-size: 1.08rem; }
-
-            /* Hero */
             .hero { padding: 8.5rem 0 3rem; }
-            .hero-content h1 {
-                /* AJUSTE: Tamaño sutilmente más pequeño para móvil */
-                font-size: clamp(1.6rem, 7vw, 2.3rem);
-                line-height: 1.12;
-                letter-spacing: -0.02em;
-            }
+            .hero-content h1 { font-size: clamp(1.6rem, 7vw, 2.3rem); line-height: 1.12; letter-spacing: -0.02em; }
             .hero-content p { font-size: 0.97rem; max-width: 100%; }
-            .hero-cta-group {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.75rem;
-            }
-            .hero-cta-group .btn-hero {
-                width: 100%;
-                padding: 0.95rem 1.25rem;
-                font-size: 0.85rem;
-                border-radius: 50px;
-            }
+            .hero-cta-group { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+            .hero-cta-group .btn-hero { width: 100%; padding: 0.95rem 1.25rem; font-size: 0.85rem; border-radius: 50px; }
             .hero-trust { gap: 1.25rem; justify-content: flex-start; }
             .trust-item .number { font-size: 1.55rem; }
             .trust-item .label { font-size: 0.72rem; }
-
-            /* Hero visual */
             .hero-visual { height: 320px; border-radius: 20px; max-width: 100%; }
             .hero-visual .img-container { border-radius: 20px; }
-
-            /* Cloud bonus */
-            .cloud-bonus {
-                top: -10px; right: 8px;
-                padding: 0.65rem 0.95rem;
-                gap: 0.55rem;
-                border-radius: 24px;
-            }
+            .cloud-bonus { top: -10px; right: 8px; padding: 0.65rem 0.95rem; gap: 0.55rem; border-radius: 24px; }
             .cloud-bonus .icon { font-size: 1.25rem; }
             .cloud-bonus .text strong { font-size: 0.85rem; }
             .cloud-bonus .text span { font-size: 0.62rem; }
-
-            /* Floating badge */
             .floating-badge { left: 8px; bottom: 8px; padding: 0.65rem 0.9rem; border-radius: 14px; gap: 0.55rem; }
             .badge-icon { width: 34px; height: 34px; font-size: 0.95rem; border-radius: 9px; }
             .badge-text h4 { font-size: 0.75rem; }
             .badge-text p { font-size: 0.65rem; }
-
-            /* Stats */
             .stats-bar { padding: 1.75rem 0; }
             .stats-grid { gap: 0.85rem; }
             .stat-number { font-size: 1.75rem; }
             .stat-label { font-size: 0.7rem; }
-
-            /* Features */
             .features { padding: 3.75rem 0; }
             .features-grid { grid-template-columns: 1fr; }
             .feature-card { padding: 1.85rem 1.4rem; }
             .feature-icon-wrap { width: 56px; height: 56px; margin-bottom: 1.15rem; }
             .feature-icon { font-size: 1.6rem; }
             .feature-card h3 { font-size: 1.12rem; }
-
-            /* Process */
             .process-section { padding: 3.75rem 0; }
             .process-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
             .process-number { width: 64px; height: 64px; font-size: 1.6rem; }
-
-            /* Gallery */
             .gallery { padding: 3.75rem 0; }
             .bento-overlay { padding: 1rem; }
-            .bento-grid {
-                grid-template-columns: 1fr 1fr;
-                grid-auto-rows: 170px;
-                gap: 0.65rem;
-            }
+            .bento-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 170px; gap: 0.65rem; }
             .bento-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
             .bento-item:nth-child(2) { grid-column: span 2; }
-            .bento-item:nth-child(3),
-            .bento-item:nth-child(4) { grid-column: span 1; }
+            .bento-item:nth-child(3), .bento-item:nth-child(4) { grid-column: span 1; }
             .bento-caption h4 { font-size: 0.88rem; }
             .bento-caption p { font-size: 0.75rem; }
-
-            /* Section headers */
             .section-header { margin-bottom: 2.25rem; }
-            .section-header h2 { 
-                /* AJUSTE: Tamaño sutilmente más pequeño para móvil */
-                font-size: clamp(1.4rem, 5.5vw, 1.8rem); 
-            }
+            .section-header h2 { font-size: clamp(1.4rem, 5.5vw, 1.8rem); }
             .section-header p { font-size: 0.92rem; }
-
-            /* Cotizador */
             .cotizador-section { padding: 3.75rem 0; border-radius: 24px 24px 0 0; }
             .step-indicators { padding: 1.25rem 0.85rem 0; }
             .step-content { padding: 1.4rem 1.15rem 2rem; }
@@ -1364,90 +1537,58 @@
             .wizard-footer { padding: 1.1rem 1.15rem; gap: 0.65rem; }
             .btn-back { width: 100%; order: 2; text-align: center; }
             .btn-next, .btn-submit { width: 100%; order: 1; min-width: unset; }
-
-            /* Results / Plans */
             .results-container { padding: 0 1rem; }
             .plans-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .plan-card.experto { transform: none !important; margin-top: 1.25rem; }
             .plan-card { padding: 1.85rem 1.35rem; }
             .plan-price { font-size: 1.75rem; }
-
-            /* FAQ */
             .faq-section { padding: 3.75rem 0; }
             .faq-item summary { font-size: 0.97rem; }
-
-            /* Final CTA */
             .final-cta { padding: 3.75rem 0; }
             .final-cta p { font-size: 0.92rem; }
-
-            /* Footer */
             footer { padding: 2.75rem 1.1rem 1.5rem; }
             .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
             .footer-bottom { flex-direction: column; text-align: center; align-items: center; }
-
-            /* WhatsApp */
             .whatsapp-float { width: 52px; height: 52px; bottom: 18px; right: 18px; }
             .whatsapp-float svg { width: 25px; height: 25px; }
+
+            /* Modal Móvil */
+            .modal-overlay { padding: 0; }
+            .modal-content { max-height: 100vh; border-radius: 0; }
+            .modal-header { padding: 1.25rem; }
+            .modal-header h3 { font-size: 1.2rem; }
+            .modal-body { padding: 1.5rem 1rem; }
+            .modal-grid { grid-template-columns: 1fr; }
+            
+            /* Lightbox Móvil */
+            .lightbox-close { top: 10px; right: 10px; width: 40px; height: 40px; font-size: 1.5rem; }
+            .lightbox-content h4 { font-size: 1rem; }
         }
 
-        /* ============================================================
-           RESPONSIVE — MÓVIL PEQUEÑO (max 480px)
-        ============================================================ */
         @media(max-width: 480px) {
             .container { padding: 0 0.9rem; }
-
-            /* Top bar */
             .top-bar { font-size: 0.65rem; padding: 0.45rem 0.5rem; line-height: 1.55; }
-
-            /* Nav */
             .brand-img { height: 30px; }
             .brand-text span:first-child { font-size: 0.95rem; }
             .brand-text span:last-child { font-size: 0.52rem; }
             .nav-container { padding: 0.7rem 0.9rem; }
-
-            /* Hero */
             .hero { padding: 7.5rem 0 2.5rem; }
-            .hero-content h1 {
-                /* AJUSTE: Tamaño sutilmente más pequeño para móvil pequeño */
-                font-size: clamp(1.45rem, 6.5vw, 1.8rem);
-                letter-spacing: -0.015em;
-            }
+            .hero-content h1 { font-size: clamp(1.45rem, 6.5vw, 1.8rem); letter-spacing: -0.015em; }
             .hero-tag { font-size: 0.68rem; padding: 0.38rem 0.75rem; }
-
-            /* Ocultar elementos decorativos en pantallas muy pequeñas */
             .cloud-bonus { display: none; }
             .floating-badge { display: none; }
-
-            /* Bento a 1 columna */
-            .bento-grid {
-                grid-template-columns: 1fr;
-                grid-auto-rows: 200px;
-                gap: 0.65rem;
-            }
-            .bento-item:nth-child(1),
-            .bento-item:nth-child(2),
-            .bento-item:nth-child(3),
-            .bento-item:nth-child(4) { grid-column: span 1; grid-row: span 1; }
-
-            /* Process a 1 columna */
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; gap: 0.65rem; }
+            .bento-item:nth-child(1), .bento-item:nth-child(2), .bento-item:nth-child(3), .bento-item:nth-child(4) { grid-column: span 1; grid-row: span 1; }
             .process-grid { grid-template-columns: 1fr; gap: 1rem; }
-
-            /* Cotizador */
             .cotizador-section { border-radius: 16px 16px 0 0; }
             .step-content { padding: 1.15rem 0.85rem 1.65rem; }
             .step-title { font-size: 1.2rem; }
             .step-subtitle { font-size: 0.82rem; }
             .form-input { padding: 0.85rem 0.95rem; font-size: 0.88rem; }
             .wizard-footer { padding: 0.95rem 0.85rem; }
-
-            /* Plans */
             .plan-card { padding: 1.5rem 1.1rem; }
             .plan-price { font-size: 1.55rem; }
-
-            /* Footer */
             footer { padding: 2.25rem 0.9rem 1.35rem; }
-
-            /* WhatsApp */
             .whatsapp-float { width: 48px; height: 48px; bottom: 14px; right: 14px; }
             .whatsapp-float svg { width: 22px; height: 22px; }
         }
@@ -1842,7 +1983,6 @@
                     <summary>¿Trabajan en todo Bogotá y alrededores?</summary>
                     <div class="faq-answer">Nuestro equipo se enfoca y especializa en proyectos dentro de Bogotá. Sin embargo, si su solicitud se encuentra en municipios aledaños como Chía, Cajicá, La Calera, Mosquera, Madrid o Funza, estamos en total disposición de llegar a un acuerdo para atenderlo. Es importante tener en cuenta que, en estos casos, se adicionarán los costos de desplazamiento, lo cual generará un ajuste sobre el precio estimado inicialmente en la cotización del programa.</div>
                 </details>
-                <!-- NUEVO ITEM AÑADIDO: Medios de Pago -->
                 <details class="faq-item">
                     <summary>¿Qué métodos de pago aceptan?</summary>
                     <div class="faq-answer">Para tu total comodidad, recibimos todo tipo de medios de pago: tarjetas de crédito, tarjetas de débito, transferencias bancarias y dinero en efectivo.</div>
@@ -1860,7 +2000,6 @@
                 Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
             </a>
             
-            <!-- NUEVA SECCIÓN AÑADIDA: Nota de Medios de Pago -->
             <div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: #e8d5a1; font-size: 0.95rem; font-weight: 500;">
                 <span>💳</span>
                 <span>Aceptamos todo tipo de pago: Tarjetas de crédito, débito y efectivo.</span>
@@ -1913,20 +2052,182 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
                 </a>
                 <a href="https://wa.me/573224307053?text=Hola,%20quiero%20cotizar%20mi%20apartamento" aria-label="WhatsApp" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                </a>
-            </div>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
         </div>
     </footer>
 
-    <a href="https://wa.me/573224307053?text=Hola,%20quiero%20cotizar%20mi%20apartamento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <!-- ============ BOTÓN WHATSAPP FLOTANTE ============ -->
+    <a href="https://wa.me/573224307053?text=Hola,%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n" class="whatsapp-float" target="_blank" aria-label="Chat en WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
     </a>
 
-    {{-- ============ JAVASCRIPT — BACKEND INTACTO ============ --}}
+    <!-- ============ ESTRUCTURA DEL MODAL GIGANTE (DESGLOSE) ============ -->
+    <div id="modalDesglose" class="modal-overlay" onclick="cerrarModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Desglose de Obra <span id="modalPlanBadge">Línea</span></h3>
+                <button class="modal-close" onclick="cerrarModal()" title="Cerrar ventana">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalGrid" class="modal-grid">
+                    <!-- Los items se inyectarán aquí vía JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ ESTRUCTURA DEL LIGHTBOX (IMAGEN EXPANDIDA) ============ -->
+    <div id="modalImagenOverlay" class="lightbox-overlay" onclick="cerrarImagen()">
+        <button class="lightbox-close" onclick="cerrarImagen()" title="Cerrar imagen">×</button>
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <img id="lightboxImg" src="" alt="Vista detallada">
+            <h4 id="lightboxTitle"></h4>
+        </div>
+    </div>
+
+    {{-- ============ JAVASCRIPT ============ --}}
     <script>
+        // Función mapeada según los textos e imágenes específicos enviados
+        function obtenerImagenCategoria(categoria, descripcion, linea) {
+            const desc = (descripcion || '').toLowerCase();
+            const cat = (categoria || '').toLowerCase();
+
+            // 1. REGLAS EXCLUSIVAS DE EXPERTO / APARATOS / QUARZTONE
+            if (desc.includes('mueble de ropas')) return "{{ asset('mublescuartoexperto.png') }}";
+            if (desc.includes('estufa de empotrar')) return "{{ asset('estufaagasvidrio.png') }}";
+            if (desc.includes('horno')) return "{{ asset('horno.png') }}";
+            if (desc.includes('kit sanitario') || desc.includes('acoflex sanitario')) return "{{ asset('kitacoflex.png') }}";
+            if (desc.includes('acoflex lavamanos')) return "{{ asset('kitacoflexlavamanos.png') }}";
+            if (desc.includes('lavaplatos radiante')) return "{{ asset('lavaplatoradiante.png') }}";
+            if (desc.includes('sencilla gus')) return "{{ asset('griferialavaplatossencilla.png') }}";
+            if (desc.includes('kit de instalación completo')) return "{{ asset('kitgriferia.png') }}";
+            if (cat.includes('incrustacion') && desc.includes('ducha monocontrol')) return "{{ asset('incrustaciongriferiaducha.png') }}";
+            if (desc.includes('ducha monocontrol nott')) return "{{ asset('griferiaducharegadera.png') }}";
+            if (desc.includes('mesón de cocina en quarztone')) return "{{ asset('quartzonemesoncocina.png') }}";
+            if (desc.includes('barra auxiliar en quarztone')) return "{{ asset('barraauxiliarcocinaquarztone.png') }}";
+            if (desc.includes('lavamanos tipo guitarra')) return "{{ asset('quartzonemesonlavamanos.png') }}";
+            if (desc.includes('riel spot 3 luces')) return "{{ asset('ilumnacionriel.png') }}";
+
+            // 2. REGLAS DE ESTÁNDAR (que aplican también a Experto si no cambiaron)
+            if (desc.includes('closet habitaciones')) {
+                // Si es la línea experto, usa la madera profesional, sino la estandar
+                if (linea === 'experto') return "{{ asset('mueblesropaaglomeradoprofesional.png') }}";
+                return "{{ asset('mueblremadera1estandar.png') }}";
+            }
+            if (desc.includes('mueble flotado de baño')) return "{{ asset('mueblebañoestandar.png') }}";
+            if (desc.includes('división de baño')) return "{{ asset('mueblebañoestandar.png') }}";
+            if (desc.includes('mueble alto de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
+            if (desc.includes('espejo flotado')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
+            if (desc.includes('puertas en madera')) return "{{ asset('puertaestandar.png') }}";
+            if (desc.includes('barra auxiliar de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
+            if (desc.includes('campana extractora')) return "{{ asset('estractoraltococina.png') }}";
+
+            // 3. REGLAS DE ELEMENTAL (que son la base para todas)
+            if (desc.includes('nivelación y cargue de pisos')) return "{{ asset('pisos1elemental.png') }}";
+            if (desc.includes('cerámica salpicadero') || desc.includes('cabina de ducha')) return "{{ asset('pisos2elemental.png') }}";
+            if (desc.includes('piso en cerámica') || desc.includes('piso spc')) return "{{ asset('pisos2elemental.png') }}";
+            if (desc.includes('drywall plano')) return "{{ asset('techos1elemental.png') }}";
+            if (desc.includes('nivelación de paredes') || desc.includes('estuco y pintura')) return "{{ asset('muros2elemental.png') }}";
+            if (desc.includes('aseo final') || desc.includes('escombros')) return "{{ asset('aseoelemental.png') }}";
+
+            // 4. FALLBACKS DE SEGURIDAD (Por si el nombre en base de datos cambia un poco)
+            if (cat.includes('piso') || desc.includes('piso')) return "{{ asset('pisos1elemental.png') }}";
+            if (cat.includes('muro')) return "{{ asset('muros2elemental.png') }}";
+            if (cat.includes('techo')) return "{{ asset('techos1elemental.png') }}";
+            if (cat.includes('aseo')) return "{{ asset('aseoelemental.png') }}";
+            if (cat.includes('madera') || cat.includes('carpintería')) return "{{ asset('mueblremadera1estandar.png') }}";
+            if (cat.includes('cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
+            if (cat.includes('baño') || cat.includes('aparato')) return "{{ asset('kitacoflex.png') }}";
+            if (cat.includes('eléctric') || cat.includes('iluminación')) return "{{ asset('ilumnacionriel.png') }}";
+            if (cat.includes('grifería')) return "{{ asset('griferiaducharegadera.png') }}";
+            if (cat.includes('electrodoméstico')) return "{{ asset('estractoraltococina.png') }}";
+            if (cat.includes('vidrio')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
+            
+            // Si por alguna razón no coincide nada, foto por defecto
+            return "{{ asset('foto_default.jpg') }}"; 
+        }
+
+        // Variables globales para el Modal
+        window.propuestasGlobales = {};
+
+        function abrirModal(tipoPlan) {
+            const plan = window.propuestasGlobales[tipoPlan];
+            if (!plan) return;
+
+            const modal = document.getElementById('modalDesglose');
+            const grid = document.getElementById('modalGrid');
+            const badge = document.getElementById('modalPlanBadge');
+            
+            // Cambiar título
+            badge.innerText = `Línea ${plan.tipo}`;
+            if(plan.tipo === 'experto') {
+                badge.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
+            } else {
+                badge.style.background = 'var(--primary)';
+            }
+
+            // Limpiar cuadrícula
+            grid.innerHTML = '';
+
+            // Generar contenido con IMÁGENES CLICKEABLES
+            if (plan.detalle && plan.detalle.length > 0) {
+                plan.detalle.forEach(item => {
+                    // Pasamos la categoría, la descripción y el TIPO DE PLAN a la función
+                    const imgSrc = obtenerImagenCategoria(item.categoria, item.descripcion, plan.tipo);
+                    const card = document.createElement('div');
+                    card.className = 'modal-item-card';
+                    card.innerHTML = `
+                        <div class="modal-item-img" onclick="abrirImagen('${imgSrc}', '${item.categoria}')" title="Ver imagen completa">
+                            <img src="${imgSrc}" alt="${item.categoria}">
+                        </div>
+                        <div class="modal-item-text">
+                            <h4>${item.categoria}</h4>
+                            <p>${item.descripcion}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } else {
+                grid.innerHTML = '<p style="text-align:center; color:var(--text-muted); grid-column: 1 / -1;">No hay desglose disponible para esta línea.</p>';
+            }
+
+            // Mostrar Modal
+            document.body.classList.add('modal-open'); 
+            modal.classList.add('active');
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById('modalDesglose');
+            modal.classList.remove('active');
+            
+            // Solo quitar el bloqueo de scroll si la imagen expandida no está abierta
+            if (!document.getElementById('modalImagenOverlay').classList.contains('active')) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        // --- FUNCIONES PARA EL LIGHTBOX ---
+        function abrirImagen(src, titulo) {
+            const overlay = document.getElementById('modalImagenOverlay');
+            const img = document.getElementById('lightboxImg');
+            const title = document.getElementById('lightboxTitle');
+            
+            img.src = src;
+            title.innerText = titulo;
+            
+            overlay.classList.add('active');
+        }
+
+        function cerrarImagen() {
+            const overlay = document.getElementById('modalImagenOverlay');
+            overlay.classList.remove('active');
+        }
+
+        // Stepper
         function updateStepper(fieldId, change) {
             const input = document.getElementById(fieldId);
             let value = parseInt(input.value) || 1;
@@ -2062,6 +2363,9 @@
             });
 
             function mostrarPropuestas(propuestasObj) {
+                // Guardar globalmente para que el Modal pueda acceder
+                window.propuestasGlobales = propuestasObj; 
+
                 planesList.innerHTML = '';
                 const propuestas = Object.values(propuestasObj);
 
@@ -2072,13 +2376,6 @@
                 };
 
                 propuestas.forEach((plan) => {
-                    let detallesHTML = '';
-                    if (plan.detalle && plan.detalle.length > 0) {
-                        plan.detalle.forEach(item => {
-                            detallesHTML += `<div class="detail-item"><i>✓</i><span><strong>${item.categoria}:</strong> ${item.descripcion}</span></div>`;
-                        });
-                    }
-
                     let features = `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
                     if (plan.tipo === 'elemental') {
                         features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
@@ -2090,16 +2387,18 @@
 
                     const card = document.createElement('div');
                     card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
+                    
                     card.innerHTML = `
                         <h3 class="plan-name">Línea ${plan.tipo}</h3>
                         <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
                         <div class="plan-price">${plan.vr_total_formateado}</div>
                         <div class="plan-price-m2">Descubre tu bono de bienvenida : <strong></strong></div>
                         <ul class="plan-features">${features}</ul>
-                        <details class="plan-accordion">
-                            <summary>Ver desglose de obra</summary>
-                            <div class="details-list">${detallesHTML}</div>
-                        </details>
+                        
+                        <button type="button" class="btn-ver-desglose" onclick="abrirModal('${plan.tipo}')">
+                            📄 Ver desglose completo de la obra
+                        </button>
+
                         <button type="button" class="btn-select-plan"
                             onclick="seleccionarPlan('${plan.tipo}', '${plan.vr_total_formateado}', '${plan.precio_m2_formateado}', this)">
                             Me interesa esta línea →
@@ -2159,6 +2458,18 @@
                 el.style.transform = 'translateY(30px)';
                 el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                 observer.observe(el);
+            });
+            
+            // Mejor control del teclado para cerrar modales en orden
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    const lightbox = document.getElementById('modalImagenOverlay');
+                    if (lightbox.classList.contains('active')) {
+                        cerrarImagen(); // Cierra primero la imagen grande
+                    } else {
+                        cerrarModal(); // Si no hay imagen grande, cierra el desglose
+                    }
+                }
             });
         });
     </script>
