@@ -124,6 +124,14 @@
             line-height: 1.4;
         }
 
+        .hero-action-text {
+            font-size: 0.9rem;
+            color: #ffffff;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-top: 0.4rem;
+        }
+
         /* ============ CUERPO ============ */
         .flyer-body {
             padding: 1.8rem;
@@ -393,6 +401,7 @@
                 <span class="hero-tag">Escuadr Arq</span>
                 <h1 class="hero-title">tu hogar empieza  <span class="gold"> aquí</span></h1>
                 <p class="hero-sub">Convierte tu obra gris en el lugar que siempre soñaste</p>
+                <p class="hero-action-text">- Cotiza en segundos los acabados de tu apartamento:</p>
             </div>
         </div>
 
