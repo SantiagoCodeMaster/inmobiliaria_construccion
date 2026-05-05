@@ -391,8 +391,8 @@
             <img src="{{ asset('casa5.ico') }}" alt="Remodelación Escuadr Arq">
             <div class="hero-content">
                 <span class="hero-tag">Escuadr Arq</span>
-                <h1 class="hero-title">Tu obra gris en el hogar que <span class="gold">mereces</span></h1>
-                <p class="hero-sub">Remodelaciones integrales en apartamentos</p>
+                <h1 class="hero-title">tu hogar empieza  <span class="gold"> aquí</span></h1>
+                <p class="hero-sub">Convierte tu obra gris en el lugar que siempre soñaste</p>
             </div>
         </div>
 
