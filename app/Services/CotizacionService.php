@@ -14,20 +14,38 @@ class CotizacionService
     private const IVA_UTILIDAD = 0.19; // 19% aplicado SOLO sobre la utilidad
 
     // Palabras clave para la detección inteligente de categorías
-    // Items que se multiplican por el número de HABITACIONES
-    private const KEYWORDS_HABITACION = [
-        'closet habitaciones',
+    
+    // Items que son de COCINA o ZONA DE ROPAS (SIEMPRE 1, no se multiplican)
+    // Se evalúan primero para evitar falsos positivos con otras áreas
+    private const KEYWORDS_COCINA = [
+        'mueble alto',
+        'mueble bajo',
+        'barra auxiliar',
+        'campana extractora',
+        'estufa',
+        'horno',
+        'punto de gas',
+        'lavaplatos',
+        'meson de cocina',
+        'meson barra',
+        'riel spot',
         'mueble de ropas',
         'ropa'
     ];
 
+    // Items que se multiplican por el número de HABITACIONES
+    private const KEYWORDS_HABITACION = [
+        'closet'
+    ];
+
     // Items que se multiplican por el número de BAÑOS
     private const KEYWORDS_BANO = [
-        'División de Baño',
+        'división de baño',
+        'division de baño',
         'espejo flotado',
         'herrajes',
-        'mueble flotado de baño',
-        'Vidrio',
+        'mueble flotado',
+        'vidrio templado',
         'sanitario',
         'lavamanos',
         'ducha',
@@ -39,25 +57,7 @@ class CotizacionService
 
     // Items que se multiplican por el número de PUERTAS (baños + habitaciones)
     private const KEYWORDS_PUERTA = [
-        'puertas en madera'
-    ];
-
-    // Items que son de COCINA (SIEMPRE 1, no se multiplican)
-    private const KEYWORDS_COCINA = [
-        'mueble alto de cocina',
-        'mueble bajo de cocina',
-        'barra auxiliar de cocina',
-        'campana extractora',
-        'estufa de empotrar',
-        'horno de empotrar',
-        'punto de gas',
-        'lavaplatos',
-        'grifería lavaplatos',
-        'kit de instalación completo para lavaplatos',
-        'meson de cocina',
-        'meson barra auxiliar',
-        'riel spot',
-        'instalacion riel spot'
+        'puerta'
     ];
 
     /**
@@ -157,13 +157,6 @@ class CotizacionService
                 continue;
             }
 
-            $textoBusqueda = strtolower($actividad->nombre . ' ' . $actividad->descripcion);
-
-            // Filtro estricto: Si menciona pedestal, se excluye de la cotización
-            if (str_contains($textoBusqueda, 'pedestal')) {
-                continue;
-            }
-
             $multiplicador = $this->determinarMultiplicador($actividad, $parametros, $numPuertas);
             $cantidadBase = $this->calcularCantidadBase($item, $actividad, $parametros);
             $cantidad = $cantidadBase * $multiplicador;
@@ -198,9 +191,15 @@ class CotizacionService
      */
     private function determinarMultiplicador($actividad, array $parametros, int $numPuertas): int
     {
+        // Regla estricta: Si la unidad es por m2, el multiplicador de cantidad de espacios 
+        // siempre es 1, ya que el área base contiene la totalidad del metraje a cotizar.
+        if (strtolower($actividad->unidad) === 'm2') {
+            return 1;
+        }
+
         $textoBusqueda = strtolower($actividad->nombre . ' ' . $actividad->descripcion);
 
-        // Primero verificar si es COCINA (siempre 1, no se multiplica)
+        // Primero verificar si es COCINA o ZONA DE ROPAS (siempre 1, no se multiplica)
         foreach (self::KEYWORDS_COCINA as $keyword) {
             if (str_contains($textoBusqueda, $keyword)) {
                 return 1;
@@ -228,7 +227,7 @@ class CotizacionService
             }
         }
 
-        // Por defecto, no se multiplica (cocina u otros)
+        // Por defecto, no se multiplica
         return 1;
     }
 
@@ -243,7 +242,7 @@ class CotizacionService
     private function calcularCantidadBase($item, $actividad, array $parametros): float|int
     {
         // Items que se calculan por metro cuadrado (pisos, muros, techos, aseo)
-        if ($actividad->unidad === 'm2') {
+        if (strtolower($actividad->unidad) === 'm2') {
             // Si tiene multiplicador_m2 específico (ej: muros = área * 3)
             if ($item->multiplicador_m2 !== null) {
                 return $parametros['area_privada'] * (float) $item->multiplicador_m2;
@@ -261,11 +260,11 @@ class CotizacionService
         // Items opcionales (mueble alto cocina, barra auxiliar)
         $textoBusqueda = strtolower($actividad->nombre . ' ' . $actividad->descripcion);
         
-        if (str_contains($textoBusqueda, 'mueble alto de cocina')) {
+        if (str_contains($textoBusqueda, 'mueble alto') && str_contains($textoBusqueda, 'cocina')) {
             return $parametros['tiene_mueble_alto_cocina'] ? 1 : 0;
         }
         
-        if (str_contains($textoBusqueda, 'barra auxiliar de cocina')) {
+        if (str_contains($textoBusqueda, 'barra auxiliar')) {
             return $parametros['tiene_barra_auxiliar'] ? 1 : 0;
         }
 
