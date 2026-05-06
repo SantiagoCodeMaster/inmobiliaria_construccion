@@ -2096,7 +2096,22 @@
             const desc = (descripcion || '').toLowerCase();
             const cat = (categoria || '').toLowerCase();
 
-            // 1. REGLAS EXCLUSIVAS DE EXPERTO / APARATOS / QUARZTONE
+            // 1. REGLAS PARA PISOS (primera regla: la imagen que va en el primer recuadro de Pisos)
+            if (desc.includes('suministro e instalación piso , nivelacion y cargue de pisos en mortero')) {
+                return "{{ asset('pisosmaking.png') }}";
+            }
+            
+            // 2. REGLA PARA LA SEGUNDA IMAGEN DE PISOS (la que estaba originalmente en el primer puesto)
+            if (desc.includes('mano de obra instalacion de piso en ceramica y/o piso spc incluye guarda escobas')) {
+                return "{{ asset('pisos2elemental.png') }}";
+            }
+            
+            // 3. REGLA PARA MUROS CON LA NUEVA IMAGEN enchapes.png
+            if (desc.includes('mano de obra instalacion de ceramica salpicadero de cocina, y zona de lavadero, cabina de ducha')) {
+                return "{{ asset('enchapes.png') }}";
+            }
+
+            // 4. REGLAS EXCLUSIVAS DE EXPERTO / APARATOS / QUARZTONE
             if (desc.includes('mueble de ropas')) return "{{ asset('mublescuartoexperto.png') }}";
             if (desc.includes('estufa de empotrar')) return "{{ asset('estufaagasvidrio.png') }}";
             if (desc.includes('horno')) return "{{ asset('horno.png') }}";
@@ -2112,7 +2127,7 @@
             if (desc.includes('lavamanos tipo guitarra')) return "{{ asset('quartzonemesonlavamanos.png') }}";
             if (desc.includes('riel spot 3 luces')) return "{{ asset('ilumnacionriel.png') }}";
 
-            // 2. REGLAS DE ESTÁNDAR (que aplican también a Experto si no cambiaron)
+            // 5. REGLAS DE ESTÁNDAR (que aplican también a Experto si no cambiaron)
             if (desc.includes('closet habitaciones')) {
                 // Si es la línea experto, usa la madera profesional, sino la estandar
                 if (linea === 'experto') return "{{ asset('mueblesropaaglomeradoprofesional.png') }}";
@@ -2126,7 +2141,7 @@
             if (desc.includes('barra auxiliar de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
             if (desc.includes('campana extractora')) return "{{ asset('estractoraltococina.png') }}";
 
-            // 3. REGLAS DE ELEMENTAL (que son la base para todas)
+            // 6. REGLAS DE ELEMENTAL (que son la base para todas)
             if (desc.includes('nivelación y cargue de pisos')) return "{{ asset('pisos1elemental.png') }}";
             if (desc.includes('cerámica salpicadero') || desc.includes('cabina de ducha')) return "{{ asset('pisos2elemental.png') }}";
             if (desc.includes('piso en cerámica') || desc.includes('piso spc')) return "{{ asset('pisos2elemental.png') }}";
@@ -2134,9 +2149,9 @@
             if (desc.includes('nivelación de paredes') || desc.includes('estuco y pintura')) return "{{ asset('muros2elemental.png') }}";
             if (desc.includes('aseo final') || desc.includes('escombros')) return "{{ asset('aseoelemental.png') }}";
 
-            // 4. FALLBACKS DE SEGURIDAD (Por si el nombre en base de datos cambia un poco)
+            // 7. FALLBACKS DE SEGURIDAD (Por si el nombre en base de datos cambia un poco)
             if (cat.includes('piso') || desc.includes('piso')) return "{{ asset('pisos1elemental.png') }}";
-            if (cat.includes('muro')) return "{{ asset('muros2elemental.png') }}";
+            if (cat.includes('muro')) return "{{ asset('enchapes.png') }}";
             if (cat.includes('techo')) return "{{ asset('techos1elemental.png') }}";
             if (cat.includes('aseo')) return "{{ asset('aseoelemental.png') }}";
             if (cat.includes('madera') || cat.includes('carpintería')) return "{{ asset('mueblremadera1estandar.png') }}";
