@@ -2091,401 +2091,382 @@
 
     {{-- ============ JAVASCRIPT ============ --}}
     <script>
-        // Función mapeada según los textos e imágenes específicos enviados
-        function obtenerImagenCategoria(categoria, descripcion, linea) {
-            const desc = (descripcion || '').toLowerCase();
-            const cat = (categoria || '').toLowerCase();
+    function obtenerImagenCategoria(categoria, descripcion, linea) {
+        const desc = (descripcion || '').toLowerCase();
+        const cat = (categoria || '').toLowerCase();
 
-            // 1. REGLAS PARA PISOS (primera regla: la imagen que va en el primer recuadro de Pisos)
-            if (desc.includes('suministro e instalación piso , nivelacion y cargue de pisos en mortero')) {
-                return "{{ asset('pisosmaking.png') }}";
-            }
-            
-            // 2. REGLA PARA LA SEGUNDA IMAGEN DE PISOS (la que estaba originalmente en el primer puesto)
-            if (desc.includes('mano de obra instalacion de piso en ceramica y/o piso spc incluye guarda escobas')) {
-                return "{{ asset('pisos2elemental.png') }}";
-            }
-            
-            // 3. REGLA PARA MUROS CON LA NUEVA IMAGEN enchapes.png
-            if (desc.includes('mano de obra instalacion de ceramica salpicadero de cocina, y zona de lavadero, cabina de ducha')) {
-                return "{{ asset('enchapes.png') }}";
-            }
-
-            // 4. REGLAS EXCLUSIVAS DE EXPERTO / APARATOS / QUARZTONE
-            if (desc.includes('mueble de ropas')) return "{{ asset('mublescuartoexperto.png') }}";
-            if (desc.includes('estufa de empotrar')) return "{{ asset('estufaagasvidrio.png') }}";
-            if (desc.includes('horno')) return "{{ asset('horno.png') }}";
-            if (desc.includes('kit sanitario') || desc.includes('acoflex sanitario')) return "{{ asset('kitacoflex.png') }}";
-            if (desc.includes('acoflex lavamanos')) return "{{ asset('kitacoflexlavamanos.png') }}";
-            if (desc.includes('lavaplatos radiante')) return "{{ asset('lavaplatoradiante.png') }}";
-            if (desc.includes('sencilla gus')) return "{{ asset('griferialavaplatossencilla.png') }}";
-            if (desc.includes('kit de instalación completo')) return "{{ asset('kitgriferia.png') }}";
-            if (cat.includes('incrustacion') && desc.includes('ducha monocontrol')) return "{{ asset('incrustaciongriferiaducha.png') }}";
-            if (desc.includes('ducha monocontrol nott')) return "{{ asset('griferiaducharegadera.png') }}";
-            if (desc.includes('mesón de cocina en quarztone')) return "{{ asset('quartzonemesoncocina.png') }}";
-            if (desc.includes('barra auxiliar en quarztone')) return "{{ asset('barraauxiliarcocinaquarztone.png') }}";
-            if (desc.includes('lavamanos tipo guitarra')) return "{{ asset('quartzonemesonlavamanos.png') }}";
-            if (desc.includes('riel spot 3 luces')) return "{{ asset('ilumnacionriel.png') }}";
-
-            // 5. REGLAS DE ESTÁNDAR (que aplican también a Experto si no cambiaron)
-            if (desc.includes('closet habitaciones')) {
-                // Si es la línea experto, usa la madera profesional, sino la estandar
-                if (linea === 'experto') return "{{ asset('mueblesropaaglomeradoprofesional.png') }}";
-                return "{{ asset('mueblremadera1estandar.png') }}";
-            }
-            if (desc.includes('mueble flotado de baño')) return "{{ asset('mueblebañoestandar.png') }}";
-            if (desc.includes('división de baño')) return "{{ asset('mueblebañoestandar.png') }}";
-            if (desc.includes('mueble alto de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
-            if (desc.includes('espejo flotado')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
-            if (desc.includes('puertas en madera')) return "{{ asset('puertaestandar.png') }}";
-            if (desc.includes('barra auxiliar de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
-            if (desc.includes('campana extractora')) return "{{ asset('estractoraltococina.png') }}";
-
-            // 6. REGLAS DE ELEMENTAL (que son la base para todas)
-            if (desc.includes('nivelación y cargue de pisos')) return "{{ asset('pisos1elemental.png') }}";
-            if (desc.includes('cerámica salpicadero') || desc.includes('cabina de ducha')) return "{{ asset('pisos2elemental.png') }}";
-            if (desc.includes('piso en cerámica') || desc.includes('piso spc')) return "{{ asset('pisos2elemental.png') }}";
-            if (desc.includes('drywall plano')) return "{{ asset('techos1elemental.png') }}";
-            if (desc.includes('nivelación de paredes') || desc.includes('estuco y pintura')) return "{{ asset('muros2elemental.png') }}";
-            if (desc.includes('aseo final') || desc.includes('escombros')) return "{{ asset('aseoelemental.png') }}";
-
-            // 7. FALLBACKS DE SEGURIDAD (Por si el nombre en base de datos cambia un poco)
-            if (cat.includes('piso') || desc.includes('piso')) return "{{ asset('pisos1elemental.png') }}";
-            if (cat.includes('muro')) return "{{ asset('enchapes.png') }}";
-            if (cat.includes('techo')) return "{{ asset('techos1elemental.png') }}";
-            if (cat.includes('aseo')) return "{{ asset('aseoelemental.png') }}";
-            if (cat.includes('madera') || cat.includes('carpintería')) return "{{ asset('mueblremadera1estandar.png') }}";
-            if (cat.includes('cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
-            if (cat.includes('baño') || cat.includes('aparato')) return "{{ asset('kitacoflex.png') }}";
-            if (cat.includes('eléctric') || cat.includes('iluminación')) return "{{ asset('ilumnacionriel.png') }}";
-            if (cat.includes('grifería')) return "{{ asset('griferiaducharegadera.png') }}";
-            if (cat.includes('electrodoméstico')) return "{{ asset('estractoraltococina.png') }}";
-            if (cat.includes('vidrio')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
-            
-            // Si por alguna razón no coincide nada, foto por defecto
-            return "{{ asset('foto_default.jpg') }}"; 
+        // ===== REGLA 1: ENCHAPES (MUROS) - PRIMERO para que no sea interceptada =====
+        if (desc.includes('salpicadero') || desc.includes('enchape') || desc.includes('enchapes')) {
+            return "https://escuadrarq.com/enchapes.png";
         }
 
-        // Variables globales para el Modal
-        window.propuestasGlobales = {};
+        // ===== REGLA 2: PISOS MAKING (mortero/nivelacion) =====
+        if (desc.includes('mortero') || desc.includes('nivelacion y cargue') || desc.includes('nivelación y cargue')) {
+            return "https://escuadrarq.com/pisosmaking.png";
+        }
 
-       function abrirModal(tipoPlan) {
-    const plan = window.propuestasGlobales[tipoPlan];
-    if (!plan) return;
+        // ===== REGLA 3: PISOS CERAMICA/SPC =====
+        if (desc.includes('guarda escoba') || desc.includes('guardaescoba') || desc.includes('ceramica') || desc.includes('cerámica') || desc.includes('spc')) {
+            return "https://escuadrarq.com/pisos2elemental.png";
+        }
 
-    // DIAGNÓSTICO TEMPORAL - Borrar después de revisar
-    console.log('=== TEXTOS REALES DE LA BD ===');
-    console.table(plan.detalle.map(i => ({ categoria: i.categoria, descripcion: i.descripcion })));
+        // ===== REGLAS EXPERTO / QUARZTONE =====
+        if (desc.includes('mueble de ropa') || desc.includes('mueble de ropas')) return "https://escuadrarq.com/mublescuartoexperto.png";
+        if (desc.includes('estufa de empotrar')) return "https://escuadrarq.com/estufaagasvidrio.png";
+        if (desc.includes('horno')) return "https://escuadrarq.com/horno.png";
+        if (desc.includes('acoflex sanitario') || desc.includes('kit sanitario')) return "https://escuadrarq.com/kitacoflex.png";
+        if (desc.includes('acoflex lavamanos')) return "https://escuadrarq.com/kitacoflexlavamanos.png";
+        if (desc.includes('lavaplatos radiante')) return "https://escuadrarq.com/lavaplatoradiante.png";
+        if (desc.includes('sencilla gus')) return "https://escuadrarq.com/griferialavaplatossencilla.png";
+        if (desc.includes('kit de instalacion') || desc.includes('kit de instalación')) return "https://escuadrarq.com/kitgriferia.png";
+        if (desc.includes('ducha monocontrol') && cat.includes('incrustacion')) return "https://escuadrarq.com/incrustaciongriferiaducha.png";
+        if (desc.includes('ducha monocontrol nott')) return "https://escuadrarq.com/griferiaducharegadera.png";
+        if (desc.includes('quarztone') && desc.includes('cocina')) return "https://escuadrarq.com/quartzonemesoncocina.png";
+        if (desc.includes('barra auxiliar') && desc.includes('quarztone')) return "https://escuadrarq.com/barraauxiliarcocinaquarztone.png";
+        if (desc.includes('lavamanos tipo guitarra')) return "https://escuadrarq.com/quartzonemesonlavamanos.png";
+        if (desc.includes('riel spot') || desc.includes('riel') && desc.includes('luces')) return "https://escuadrarq.com/ilumnacionriel.png";
 
-    const modal = document.getElementById('modalDesglose');
-    const grid = document.getElementById('modalGrid');
-    const badge = document.getElementById('modalPlanBadge');
-    
-    badge.innerText = `Línea ${plan.tipo}`;
-    if(plan.tipo === 'experto') {
-        badge.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
-    } else {
-        badge.style.background = 'var(--primary)';
+        // ===== REGLAS ESTÁNDAR / EXPERTO =====
+        if (desc.includes('closet') || desc.includes('ropas')) {
+            if (linea === 'experto') return "https://escuadrarq.com/mueblesropaaglomeradoprofesional.png";
+            return "https://escuadrarq.com/mueblremadera1estandar.png";
+        }
+        if (desc.includes('mueble flotado') && desc.includes('bano') || desc.includes('mueble flotado') && desc.includes('baño')) return "https://escuadrarq.com/mueblebañoestandar.png";
+        if (desc.includes('division') && desc.includes('bano') || desc.includes('división') && desc.includes('baño')) return "https://escuadrarq.com/mueblebañoestandar.png";
+        if (desc.includes('mueble alto') && desc.includes('cocina')) return "https://escuadrarq.com/mueblealtococinaestandar.png";
+        if (desc.includes('espejo flotado')) return "https://escuadrarq.com/vidrioflotantebañoestandar.png";
+        if (desc.includes('puertas en madera') || desc.includes('puerta') && desc.includes('madera')) return "https://escuadrarq.com/puertaestandar.png";
+        if (desc.includes('barra auxiliar')) return "https://escuadrarq.com/mueblealtococinaestandar.png";
+        if (desc.includes('campana extractora') || desc.includes('extractor')) return "https://escuadrarq.com/estractoraltococina.png";
+
+        // ===== REGLAS ELEMENTAL =====
+        if (desc.includes('drywall')) return "https://escuadrarq.com/techos1elemental.png";
+        if (desc.includes('estuco') || desc.includes('pintura') || desc.includes('nivelacion de paredes') || desc.includes('nivelación de paredes')) return "https://escuadrarq.com/muros2elemental.png";
+        if (desc.includes('aseo final') || desc.includes('escombros') || desc.includes('limpieza')) return "https://escuadrarq.com/aseoelemental.png";
+
+        // ===== FALLBACKS POR CATEGORÍA =====
+        if (cat.includes('piso')) return "https://escuadrarq.com/pisosmaking.png";
+        if (cat.includes('muro') || cat.includes('enchape')) return "https://escuadrarq.com/enchapes.png";
+        if (cat.includes('techo')) return "https://escuadrarq.com/techos1elemental.png";
+        if (cat.includes('aseo')) return "https://escuadrarq.com/aseoelemental.png";
+        if (cat.includes('madera') || cat.includes('carpinteria') || cat.includes('carpintería')) return "https://escuadrarq.com/mueblremadera1estandar.png";
+        if (cat.includes('cocina')) return "https://escuadrarq.com/mueblealtococinaestandar.png";
+        if (cat.includes('bano') || cat.includes('baño') || cat.includes('aparato')) return "https://escuadrarq.com/kitacoflex.png";
+        if (cat.includes('electric') || cat.includes('eléctric') || cat.includes('iluminacion') || cat.includes('iluminación')) return "https://escuadrarq.com/ilumnacionriel.png";
+        if (cat.includes('griferia') || cat.includes('grifería')) return "https://escuadrarq.com/griferiaducharegadera.png";
+        if (cat.includes('electrodomestico') || cat.includes('electrodoméstico')) return "https://escuadrarq.com/estractoraltococina.png";
+        if (cat.includes('vidrio')) return "https://escuadrarq.com/vidrioflotantebañoestandar.png";
+
+        return "https://escuadrarq.com/foto_default.jpg";
     }
 
-    grid.innerHTML = '';
+    window.propuestasGlobales = {};
 
-    if (plan.detalle && plan.detalle.length > 0) {
-        plan.detalle.forEach(item => {
-            const imgSrc = obtenerImagenCategoria(item.categoria, item.descripcion, plan.tipo);
-            const card = document.createElement('div');
-            card.className = 'modal-item-card';
-            card.innerHTML = `
-                <div class="modal-item-img" onclick="abrirImagen('${imgSrc}', '${item.categoria}')" title="Ver imagen completa">
-                    <img src="${imgSrc}" alt="${item.categoria}">
-                </div>
-                <div class="modal-item-text">
-                    <h4>${item.categoria}</h4>
-                    <p>${item.descripcion}</p>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    } else {
-        grid.innerHTML = '<p style="text-align:center; color:var(--text-muted); grid-column: 1 / -1;">No hay desglose disponible para esta línea.</p>';
+    function abrirModal(tipoPlan) {
+        const plan = window.propuestasGlobales[tipoPlan];
+        if (!plan) return;
+
+        const modal = document.getElementById('modalDesglose');
+        const grid = document.getElementById('modalGrid');
+        const badge = document.getElementById('modalPlanBadge');
+        
+        badge.innerText = `Línea ${plan.tipo}`;
+        if(plan.tipo === 'experto') {
+            badge.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
+        } else {
+            badge.style.background = 'var(--primary)';
+        }
+
+        grid.innerHTML = '';
+
+        if (plan.detalle && plan.detalle.length > 0) {
+            plan.detalle.forEach(item => {
+                const imgSrc = obtenerImagenCategoria(item.categoria, item.descripcion, plan.tipo);
+                const card = document.createElement('div');
+                card.className = 'modal-item-card';
+                card.innerHTML = `
+                    <div class="modal-item-img" onclick="abrirImagen('${imgSrc}', '${item.categoria}')" title="Ver imagen completa">
+                        <img src="${imgSrc}" alt="${item.categoria}">
+                    </div>
+                    <div class="modal-item-text">
+                        <h4>${item.categoria}</h4>
+                        <p>${item.descripcion}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        } else {
+            grid.innerHTML = '<p style="text-align:center; color:var(--text-muted); grid-column: 1 / -1;">No hay desglose disponible para esta línea.</p>';
+        }
+
+        document.body.classList.add('modal-open'); 
+        modal.classList.add('active');
     }
 
-    document.body.classList.add('modal-open'); 
-    modal.classList.add('active');
-}
-
-        function cerrarModal() {
-            const modal = document.getElementById('modalDesglose');
-            modal.classList.remove('active');
-            
-            // Solo quitar el bloqueo de scroll si la imagen expandida no está abierta
-            if (!document.getElementById('modalImagenOverlay').classList.contains('active')) {
-                document.body.classList.remove('modal-open');
-            }
+    function cerrarModal() {
+        const modal = document.getElementById('modalDesglose');
+        modal.classList.remove('active');
+        if (!document.getElementById('modalImagenOverlay').classList.contains('active')) {
+            document.body.classList.remove('modal-open');
         }
+    }
 
-        // --- FUNCIONES PARA EL LIGHTBOX ---
-        function abrirImagen(src, titulo) {
-            const overlay = document.getElementById('modalImagenOverlay');
-            const img = document.getElementById('lightboxImg');
-            const title = document.getElementById('lightboxTitle');
-            
-            img.src = src;
-            title.innerText = titulo;
-            
-            overlay.classList.add('active');
-        }
+    function abrirImagen(src, titulo) {
+        const overlay = document.getElementById('modalImagenOverlay');
+        const img = document.getElementById('lightboxImg');
+        const title = document.getElementById('lightboxTitle');
+        img.src = src;
+        title.innerText = titulo;
+        overlay.classList.add('active');
+    }
 
-        function cerrarImagen() {
-            const overlay = document.getElementById('modalImagenOverlay');
-            overlay.classList.remove('active');
-        }
+    function cerrarImagen() {
+        const overlay = document.getElementById('modalImagenOverlay');
+        overlay.classList.remove('active');
+    }
 
-        // Stepper
-        function updateStepper(fieldId, change) {
-            const input = document.getElementById(fieldId);
-            let value = parseInt(input.value) || 1;
-            value += change;
-            if (value < 1) value = 1;
-            if (value > 10) value = 10;
-            input.value = value;
-        }
+    function updateStepper(fieldId, change) {
+        const input = document.getElementById(fieldId);
+        let value = parseInt(input.value) || 1;
+        value += change;
+        if (value < 1) value = 1;
+        if (value > 10) value = 10;
+        input.value = value;
+    }
 
-        const header = document.getElementById('mainHeader');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 50);
-        });
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('cotizacionForm');
-            const steps = Array.from(document.querySelectorAll('.step-content'));
-            const stepDots = Array.from(document.querySelectorAll('[data-step-indicator]'));
-            const btnNext = document.getElementById('btnNext');
-            const btnPrev = document.getElementById('btnPrev');
-            const btnSubmit = document.getElementById('btnSubmit');
-            const progressBar = document.getElementById('progressBar');
-            const wizardBox = document.getElementById('wizard-box');
-            const resultsContainer = document.getElementById('resultados-container');
-            const planesList = document.getElementById('planes-list');
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('cotizacionForm');
+        const steps = Array.from(document.querySelectorAll('.step-content'));
+        const stepDots = Array.from(document.querySelectorAll('[data-step-indicator]'));
+        const btnNext = document.getElementById('btnNext');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const progressBar = document.getElementById('progressBar');
+        const wizardBox = document.getElementById('wizard-box');
+        const resultsContainer = document.getElementById('resultados-container');
+        const planesList = document.getElementById('planes-list');
 
-            let currentStep = 0;
+        let currentStep = 0;
 
-            function updateWizard() {
-                steps.forEach((step, index) => step.classList.toggle('active', index === currentStep));
-                stepDots.forEach((dot, index) => {
-                    dot.classList.remove('active', 'completed');
-                    if (index < currentStep) {
-                        dot.classList.add('completed');
-                        dot.querySelector('.dot').innerHTML = '✓';
-                    } else if (index === currentStep) {
-                        dot.classList.add('active');
-                        dot.querySelector('.dot').innerHTML = index + 1;
-                    } else {
-                        dot.querySelector('.dot').innerHTML = index + 1;
-                    }
-                });
-                btnPrev.style.display = currentStep > 0 ? 'block' : 'none';
-                if (currentStep === steps.length - 1) {
-                    btnNext.style.display = 'none';
-                    btnSubmit.style.display = 'block';
+        function updateWizard() {
+            steps.forEach((step, index) => step.classList.toggle('active', index === currentStep));
+            stepDots.forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < currentStep) {
+                    dot.classList.add('completed');
+                    dot.querySelector('.dot').innerHTML = '✓';
+                } else if (index === currentStep) {
+                    dot.classList.add('active');
+                    dot.querySelector('.dot').innerHTML = index + 1;
                 } else {
-                    btnNext.style.display = 'block';
-                    btnSubmit.style.display = 'none';
-                }
-                const progress = ((currentStep + 1) / steps.length) * 100;
-                progressBar.style.width = `${progress}%`;
-            }
-
-            function validateCurrentStep() {
-                const activeStep = steps[currentStep];
-                const inputs = activeStep.querySelectorAll('input[required]');
-                let isValid = true;
-                inputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        input.classList.add('input-error');
-                        isValid = false;
-                    } else {
-                        input.classList.remove('input-error');
-                    }
-                });
-                if (!isValid) {
-                    activeStep.style.transform = 'translateX(5px)';
-                    setTimeout(() => activeStep.style.transform = 'translateX(-5px)', 100);
-                    setTimeout(() => activeStep.style.transform = 'translateX(0)', 200);
-                }
-                return isValid;
-            }
-
-            btnNext.addEventListener('click', () => { if (validateCurrentStep()) { currentStep++; updateWizard(); } });
-            btnPrev.addEventListener('click', () => { currentStep--; updateWizard(); });
-
-            function limpiarErrores() {
-                document.querySelectorAll('.form-error').forEach(d => { d.textContent = ''; d.classList.remove('show'); });
-                document.querySelectorAll('.input-error').forEach(input => input.classList.remove('input-error'));
-            }
-
-            function mostrarErrores(errors) {
-                Object.keys(errors).forEach(field => {
-                    const div = document.querySelector(`[data-field="${field}"]`);
-                    const input = document.querySelector(`[name="${field}"]`);
-                    if (div) { div.textContent = errors[field][0]; div.classList.add('show'); }
-                    if (input) { input.classList.add('input-error'); }
-                });
-            }
-
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                if (!validateCurrentStep()) return;
-                limpiarErrores();
-
-                btnSubmit.classList.add('loading');
-                btnSubmit.innerText = 'Calculando...';
-                btnSubmit.disabled = true;
-
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-                data.tiene_mueble_alto_cocina = 1;
-                data.tiene_barra_auxiliar = 1;
-
-                try {
-                    const response = await fetch('/api/cotizacion/store', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok || response.status === 201) {
-                        wizardBox.style.display = 'none';
-                        mostrarPropuestas(result.propuestas);
-                    } else if (response.status === 422) {
-                        mostrarErrores(result.errors || result);
-                    } else {
-                        alert('Error: ' + (result.error || 'No se pudo generar la cotización'));
-                    }
-                } catch (error) {
-                    alert('Hubo un problema de red.');
-                } finally {
-                    btnSubmit.classList.remove('loading');
-                    btnSubmit.innerText = 'Calcular Presupuestos ✨';
-                    btnSubmit.disabled = false;
+                    dot.querySelector('.dot').innerHTML = index + 1;
                 }
             });
+            btnPrev.style.display = currentStep > 0 ? 'block' : 'none';
+            if (currentStep === steps.length - 1) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'block';
+            } else {
+                btnNext.style.display = 'block';
+                btnSubmit.style.display = 'none';
+            }
+            const progress = ((currentStep + 1) / steps.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
 
-            function mostrarPropuestas(propuestasObj) {
-                // Guardar globalmente para que el Modal pueda acceder
-                window.propuestasGlobales = propuestasObj; 
+        function validateCurrentStep() {
+            const activeStep = steps[currentStep];
+            const inputs = activeStep.querySelectorAll('input[required]');
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('input-error');
+                    isValid = false;
+                } else {
+                    input.classList.remove('input-error');
+                }
+            });
+            if (!isValid) {
+                activeStep.style.transform = 'translateX(5px)';
+                setTimeout(() => activeStep.style.transform = 'translateX(-5px)', 100);
+                setTimeout(() => activeStep.style.transform = 'translateX(0)', 200);
+            }
+            return isValid;
+        }
 
-                planesList.innerHTML = '';
-                const propuestas = Object.values(propuestasObj);
+        btnNext.addEventListener('click', () => { if (validateCurrentStep()) { currentStep++; updateWizard(); } });
+        btnPrev.addEventListener('click', () => { currentStep--; updateWizard(); });
 
-                const taglines = {
-                    'elemental': 'Lo esencial, bien hecho',
-                    'estandar': 'El equilibrio perfecto',
-                    'experto': 'Acabados de alta gama'
-                };
+        function limpiarErrores() {
+            document.querySelectorAll('.form-error').forEach(d => { d.textContent = ''; d.classList.remove('show'); });
+            document.querySelectorAll('.input-error').forEach(input => input.classList.remove('input-error'));
+        }
 
-                propuestas.forEach((plan) => {
-                    let features = `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
-                    if (plan.tipo === 'elemental') {
-                        features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
-                    } else if (plan.tipo === 'estandar') {
-                        features += `<li><span class="check-icon">✓</span> Todo lo de la línea Elemental</li><li><span class="check-icon">✓</span> Carpintería en madera</li><li><span class="check-icon">✓</span> Divisiones en vidrio</li><li><span class="check-icon">✓</span> Mayor variedad en materiales</li>`;
-                    } else {
-                        features += `<li><span class="check-icon">✓</span> Todo lo de la línea Estándar</li><li><span class="check-icon">✓</span> Mesones en Quarztone</li><li><span class="check-icon">✓</span> Griferías de Lujo</li><li><span class="check-icon">✓</span> Acabados de alta gama</li>`;
-                    }
+        function mostrarErrores(errors) {
+            Object.keys(errors).forEach(field => {
+                const div = document.querySelector(`[data-field="${field}"]`);
+                const input = document.querySelector(`[name="${field}"]`);
+                if (div) { div.textContent = errors[field][0]; div.classList.add('show'); }
+                if (input) { input.classList.add('input-error'); }
+            });
+        }
 
-                    const card = document.createElement('div');
-                    card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
-                    
-                    card.innerHTML = `
-                        <h3 class="plan-name">Línea ${plan.tipo}</h3>
-                        <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
-                        <div class="plan-price">${plan.vr_total_formateado}</div>
-                        <div class="plan-price-m2">Descubre tu bono de bienvenida : <strong></strong></div>
-                        <ul class="plan-features">${features}</ul>
-                        
-                        <button type="button" class="btn-ver-desglose" onclick="abrirModal('${plan.tipo}')">
-                            📄 Ver desglose completo de la obra
-                        </button>
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!validateCurrentStep()) return;
+            limpiarErrores();
 
-                        <button type="button" class="btn-select-plan"
-                            onclick="seleccionarPlan('${plan.tipo}', '${plan.vr_total_formateado}', '${plan.precio_m2_formateado}', this)">
-                            Me interesa esta línea →
-                        </button>
-                    `;
-                    planesList.appendChild(card);
+            btnSubmit.classList.add('loading');
+            btnSubmit.innerText = 'Calculando...';
+            btnSubmit.disabled = true;
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            data.tiene_mueble_alto_cocina = 1;
+            data.tiene_barra_auxiliar = 1;
+
+            try {
+                const response = await fetch('/api/cotizacion/store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(data)
                 });
 
-                resultsContainer.classList.add('visible');
-                setTimeout(() => {
-                    document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' });
-                }, 100);
+                const result = await response.json();
+
+                if (response.ok || response.status === 201) {
+                    wizardBox.style.display = 'none';
+                    mostrarPropuestas(result.propuestas);
+                } else if (response.status === 422) {
+                    mostrarErrores(result.errors || result);
+                } else {
+                    alert('Error: ' + (result.error || 'No se pudo generar la cotización'));
+                }
+            } catch (error) {
+                alert('Hubo un problema de red.');
+            } finally {
+                btnSubmit.classList.remove('loading');
+                btnSubmit.innerText = 'Calcular Presupuestos ✨';
+                btnSubmit.disabled = false;
             }
+        });
 
-            window.seleccionarPlan = function(tipoPropuesta, vrTotal, vrM2, btnElement) {
-                const formData = new FormData(document.getElementById('cotizacionForm'));
-                const proyecto = formData.get('nombre_proyecto') || 'No especificado';
-                const area = formData.get('area_privada') || '0';
-                const fecha = formData.get('fecha_entrega') || 'No especificada';
-                const habs = formData.get('num_habitaciones') || '1';
-                const banos = formData.get('num_banos') || '1';
+        function mostrarPropuestas(propuestasObj) {
+            window.propuestasGlobales = propuestasObj;
 
-                const mensaje = `Hola, estoy cotizando mi inmueble.\n\nElegí la Línea: *${tipoPropuesta.toUpperCase()}*\n\n*Datos de mi proyecto:*\n- Proyecto/Conjunto: ${proyecto}\n- Área: ${area} m²\n- Habitaciones: ${habs}\n- Baños: ${banos}\n- Fecha inicio de obras: ${fecha}\n\n*Presupuesto Estimado:*\n- Inversión Total: ${vrTotal}`;
+            planesList.innerHTML = '';
+            const propuestas = Object.values(propuestasObj);
 
-                const encodedMessage = encodeURIComponent(mensaje);
-                const whatsappUrl = `https://wa.me/573224307053?text=${encodedMessage}`;
-
-                const originalText = btnElement.innerText;
-                btnElement.innerText = 'Abriendo WhatsApp...';
-                btnElement.style.background = 'var(--success)';
-                btnElement.style.color = 'white';
-
-                window.open(whatsappUrl, '_blank');
-
-                setTimeout(() => {
-                    btnElement.innerText = originalText;
-                    btnElement.style.background = tipoPropuesta !== 'experto'
-                        ? 'var(--primary)'
-                        : 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
-                    btnElement.style.color = '';
-                }, 3000);
+            const taglines = {
+                'elemental': 'Lo esencial, bien hecho',
+                'estandar': 'El equilibrio perfecto',
+                'experto': 'Acabados de alta gama'
             };
 
-            updateWizard();
+            propuestas.forEach((plan) => {
+                let features = `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
+                if (plan.tipo === 'elemental') {
+                    features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
+                } else if (plan.tipo === 'estandar') {
+                    features += `<li><span class="check-icon">✓</span> Todo lo de la línea Elemental</li><li><span class="check-icon">✓</span> Carpintería en madera</li><li><span class="check-icon">✓</span> Divisiones en vidrio</li><li><span class="check-icon">✓</span> Mayor variedad en materiales</li>`;
+                } else {
+                    features += `<li><span class="check-icon">✓</span> Todo lo de la línea Estándar</li><li><span class="check-icon">✓</span> Mesones en Quarztone</li><li><span class="check-icon">✓</span> Griferías de Lujo</li><li><span class="check-icon">✓</span> Acabados de alta gama</li>`;
+                }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+                const card = document.createElement('div');
+                card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
+                
+                card.innerHTML = `
+                    <h3 class="plan-name">Línea ${plan.tipo}</h3>
+                    <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
+                    <div class="plan-price">${plan.vr_total_formateado}</div>
+                    <div class="plan-price-m2">Descubre tu bono de bienvenida : <strong></strong></div>
+                    <ul class="plan-features">${features}</ul>
+                    
+                    <button type="button" class="btn-ver-desglose" onclick="abrirModal('${plan.tipo}')">
+                        📄 Ver desglose completo de la obra
+                    </button>
 
-            document.querySelectorAll('.feature-card, .process-step, .bento-item').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
+                    <button type="button" class="btn-select-plan"
+                        onclick="seleccionarPlan('${plan.tipo}', '${plan.vr_total_formateado}', '${plan.precio_m2_formateado}', this)">
+                        Me interesa esta línea →
+                    </button>
+                `;
+                planesList.appendChild(card);
             });
-            
-            // Mejor control del teclado para cerrar modales en orden
-            document.addEventListener('keydown', function(event) {
-                if (event.key === "Escape") {
-                    const lightbox = document.getElementById('modalImagenOverlay');
-                    if (lightbox.classList.contains('active')) {
-                        cerrarImagen(); // Cierra primero la imagen grande
-                    } else {
-                        cerrarModal(); // Si no hay imagen grande, cierra el desglose
-                    }
+
+            resultsContainer.classList.add('visible');
+            setTimeout(() => {
+                document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        window.seleccionarPlan = function(tipoPropuesta, vrTotal, vrM2, btnElement) {
+            const formData = new FormData(document.getElementById('cotizacionForm'));
+            const proyecto = formData.get('nombre_proyecto') || 'No especificado';
+            const area = formData.get('area_privada') || '0';
+            const fecha = formData.get('fecha_entrega') || 'No especificada';
+            const habs = formData.get('num_habitaciones') || '1';
+            const banos = formData.get('num_banos') || '1';
+
+            const mensaje = `Hola, estoy cotizando mi inmueble.\n\nElegí la Línea: *${tipoPropuesta.toUpperCase()}*\n\n*Datos de mi proyecto:*\n- Proyecto/Conjunto: ${proyecto}\n- Área: ${area} m²\n- Habitaciones: ${habs}\n- Baños: ${banos}\n- Fecha inicio de obras: ${fecha}\n\n*Presupuesto Estimado:*\n- Inversión Total: ${vrTotal}`;
+
+            const encodedMessage = encodeURIComponent(mensaje);
+            const whatsappUrl = `https://wa.me/573224307053?text=${encodedMessage}`;
+
+            const originalText = btnElement.innerText;
+            btnElement.innerText = 'Abriendo WhatsApp...';
+            btnElement.style.background = 'var(--success)';
+            btnElement.style.color = 'white';
+
+            window.open(whatsappUrl, '_blank');
+
+            setTimeout(() => {
+                btnElement.innerText = originalText;
+                btnElement.style.background = tipoPropuesta !== 'experto'
+                    ? 'var(--primary)'
+                    : 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
+                btnElement.style.color = '';
+            }, 3000);
+        };
+
+        updateWizard();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.feature-card, .process-step, .bento-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
         });
-    </script>
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const lightbox = document.getElementById('modalImagenOverlay');
+                if (lightbox.classList.contains('active')) {
+                    cerrarImagen();
+                } else {
+                    cerrarModal();
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
