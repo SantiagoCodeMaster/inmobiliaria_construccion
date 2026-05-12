@@ -1579,7 +1579,7 @@ footer {
     <div class="footer-col">
       <h4>Contacto</h4>
       <ul>
-        <li><a href="tel:+573163034447">316 703 44 47</a></li>
+        <li><a href="tel:+573224307053">322 430 70 53</a></li>
         <li><a href="mailto:Proyectos.escuadrarq@gmail.com">Proyectos.escuadrarq@gmail.com</a></li>
         <li><a href="#">Calle 10 No 80-41, Bogotá</a></li>
       </ul>

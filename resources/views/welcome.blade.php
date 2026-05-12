@@ -1661,13 +1661,13 @@
                 </div>
 
                 <div class="hero-visual">
-                    <div class="cloud-bonus">
-                        <div class="icon">✨</div>
-                        <div class="text">
-                            <strong>Recibe un obsequio</strong>
-                            <span>por contratar nuestros servicios</span>
-                        </div>
-                    </div>
+                    <a href="https://wa.me/573224307053" class="cloud-bonus" target="_blank">
+    <div class="icon">💬</div>
+    <div class="text">
+        <strong>Pregunta por nuestra promoción</strong>
+        <span>especial del día de hoy</span>
+    </div>
+</a>
 
                     <div class="img-container">
                         <img src="{{ asset('casa1.ico') }}" alt="Proyecto destacado Escuadr Arq">
