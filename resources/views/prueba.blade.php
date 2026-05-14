@@ -988,11 +988,13 @@ footer {
                 <span>Constructora S.A.S.</span>
             </div>
         </a>
+        <!-- MENÚ ACTUALIZADO AQUÍ -->
         <nav class="nav-links">
             <a href="{{ route('nuestra.experiencia') }}">Nuestra Experiencia</a>
-            <a href="#ventajas">Nuestra Esencia</a>
-            <a href="#proceso">Proceso</a>
-            <a href="#galeria">Proyectos</a>
+            <a href="#empresa">Quiénes Somos</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#clientes">Clientes</a>
+            <a href="#proyectos">Proyectos</a>
             <a href="#cotizador" class="btn-nav-cta"><span>Cotizar ahora</span></a>
         </nav>
     </div>
