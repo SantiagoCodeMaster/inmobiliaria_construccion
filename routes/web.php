@@ -22,7 +22,8 @@ Route::get('/back-up', function () {
 })->name('backup');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $cotizaciones = \App\Models\Cotizacion::latest()->get();
+    return view('dashboard', compact('cotizaciones'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

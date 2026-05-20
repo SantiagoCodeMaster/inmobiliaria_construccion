@@ -11,10 +11,6 @@
             --primary: #1a1a1a;
             --primary-light: #2d2d2d;
             --accent: #d4af37;
-            --accent-dark: #b8941f;
-            --success: #10b981;
-            --info: #3b82f6;
-            --error: #ef4444;
             --border-color: #e5e5e5;
             --bg-subtle: #f9f9f9;
         }
@@ -22,69 +18,16 @@
         .dalpor-dashboard {
             font-family: 'Outfit', sans-serif;
             color: var(--primary);
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 3rem auto;
             padding: 0 1.5rem;
-            letter-spacing: 0.3px;
         }
 
-        .dalpor-dashboard h1, 
-        .dalpor-dashboard h2, 
-        .dalpor-dashboard h3 { 
-            font-family: 'Syne', sans-serif; 
-        }
-
-        /* NAVEGACIÓN DE PESTAÑAS */
-        .tabs-nav {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            justify-content: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: #666;
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-bottom: 1rem;
-        }
-
-        .tab-btn.active { color: var(--primary); }
-        .tab-btn:hover { color: var(--accent); }
-
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-        .tab-btn.active::after { width: 100%; }
-
-        .tab-content { display: none; animation: slideUp 0.5s ease-out; }
-        .tab-content.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* CONTENEDORES PREMIUM */
         .form-container {
             background: white;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
             overflow: hidden;
             margin-bottom: 3rem;
         }
@@ -92,12 +35,12 @@
         .form-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
-            padding: 2.5rem 2rem;
-            position: relative;
-            overflow: hidden;
+            padding: 2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .form-header::before {
@@ -105,22 +48,51 @@
             position: absolute;
             top: 0; right: 0;
             width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
             border-radius: 50%;
         }
 
-        .form-header h2 { font-size: 1.5rem; position: relative; z-index: 1; margin: 0; }
-        .form-content { padding: 2rem; }
-
-        /* TABLAS PREMIUM */
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
+        .form-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            margin: 0;
+            position: relative;
+            z-index: 1;
         }
+
+        .form-header small {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            display: block;
+            margin-top: 0.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-refresh {
+            padding: 0.7rem 1.4rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+            transition: opacity 0.2s;
+        }
+        .btn-refresh:hover { opacity: 0.85; }
+
+        .admin-table { width: 100%; border-collapse: collapse; }
 
         .admin-table th {
             font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--primary);
@@ -128,388 +100,91 @@
             border-bottom: 2px solid var(--accent);
             text-align: left;
             background: var(--bg-subtle);
+            white-space: nowrap;
         }
 
         .admin-table td {
-            padding: 1.2rem 1rem;
+            padding: 1rem;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.95rem;
-            vertical-align: top;
-        }
-
-        /* Utilidad para truncar textos largos en la tabla */
-        .text-truncate-multiline {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 300px;
-            color: #666;
-            font-size: 0.85rem;
-        }
-
-        /* BOTONES */
-        .btn-primary {
-            padding: 0.8rem 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Syne', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            color: var(--accent);
-        }
-
-        .btn-select-plan {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            border-radius: 6px;
-            font-family: 'Syne', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-        }
-        .btn-select-plan:hover { background: var(--accent); color: white; }
-        
-        .btn-danger { border-color: var(--error); color: var(--error); }
-        .btn-danger:hover { background: var(--error); color: white; }
-
-        /* FORMULARIO INTERNO */
-        .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
-        .form-group.full-width { grid-column: 1 / -1; }
-        
-        .form-label {
-            font-family: 'Syne', sans-serif;
             font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td { border-bottom: none; }
+        .admin-table tr:hover td { background: #fafaf8; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.7rem;
-            text-transform: capitalize;
-        }
-        
-        .form-input {
-            padding: 0.85rem 1.2rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-subtle);
-            color: var(--primary);
-            transition: all 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            font-family: 'Syne', sans-serif;
         }
 
-        textarea.form-input {
-            resize: vertical;
-            min-height: 120px;
-            line-height: 1.5;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        @media (min-width: 768px) {
-            .form-grid { grid-template-columns: 1fr 1fr; }
+        .badge-obra { background: #eff6ff; color: #2563eb; }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-size: 0.95rem;
         }
     </style>
 
     <div class="dalpor-dashboard">
-        <div class="tabs-nav">
-            <button class="tab-btn active" onclick="switchTab('productos')">Gestión de Productos</button>
-            <button class="tab-btn" onclick="switchTab('cotizaciones')">Cotizaciones Recibidas</button>
-        </div>
-
-        <div id="tab-productos" class="tab-content active">
-            
-            <div class="form-container">
-                <div class="form-header">
-                    <h2 id="form-title" style="color: white;">✨ Crear Nuevo Producto</h2>
-                    <button type="button" class="btn-select-plan" onclick="resetForm()" style="background: white;">Limpiar Formulario</button>
+        <div class="form-container">
+            <div class="form-header">
+                <div>
+                    <h2>Cotizaciones Recibidas</h2>
+                    <small>{{ $cotizaciones->count() }} registro{{ $cotizaciones->count() !== 1 ? 's' : '' }} en total</small>
                 </div>
-                
-                <form id="productoForm" class="form-content">
-                    <input type="hidden" id="producto_id">
-                    
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Tipo de obra <span style="color:#ef4444">*</span></label>
-                            <input type="text" id="tipo_obra" class="form-input" placeholder="Ej: Obra gris" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Valor Unitario ($/m²) <span style="color:#ef4444">*</span></label>
-                            <input type="number" id="valor_unitario" class="form-input" placeholder="Ej: 664000" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Nombre del Plan <span style="color:#ef4444">*</span></label>
-                            <input type="text" id="planes" class="form-input" placeholder="Ej: Plan Premium" required>
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label class="form-label">Descripción del Producto <span style="color:#ef4444">*</span></label>
-                            <textarea id="descripcion" class="form-input" placeholder="Escribe aquí toda la descripción detallada de lo que incluye este plan..." required></textarea>
-                        </div>
-                    </div>
-
-                    <div style="text-align: right; margin-top: 1rem;">
-                        <button type="submit" class="btn-primary" id="btn-save">Guardar Producto</button>
-                    </div>
-                </form>
+                <a href="{{ route('dashboard') }}" class="btn-refresh">↻ Actualizar</a>
             </div>
 
-            <div class="form-container">
-                <div class="form-header" style="background: var(--primary-light);">
-                    <h2 style="color: white;">Productos Disponibles</h2>
-                </div>
-                <div class="form-content" style="padding: 0; overflow-x: auto;">
-                    <table class="admin-table">
-                        <thead>
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Tipo de Obra</th>
+                            <th>Proyecto</th>
+                            <th>Área (m²)</th>
+                            <th>Fecha Entrega</th>
+                            <th>Recibida</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($cotizaciones as $cot)
                             <tr>
-                                <th>ID</th>
-                                <th>Tipo de Obra</th>
-                                <th>Plan</th>
-                                <th>Descripción</th>
-                                <th>Val. Unitario ($/m²)</th>
-                                <th style="text-align: right;">Acciones</th>
+                                <td><strong>#{{ $cot->id }}</strong></td>
+                                <td>
+                                    <strong>{{ $cot->nombre }} {{ $cot->apellido }}</strong>
+                                </td>
+                                <td style="color:#555;">{{ $cot->email }}</td>
+                                <td style="color:#555;">{{ $cot->telefono ?? '-' }}</td>
+                                <td>
+                                    @if($cot->tipo_obra)
+                                        <span class="badge badge-obra">{{ $cot->tipo_obra }}</span>
+                                    @else
+                                        <span style="color:#aaa;">—</span>
+                                    @endif
+                                </td>
+                                <td>{{ $cot->nombre_proyecto ?? '-' }}</td>
+                                <td>{{ $cot->area_privada ? number_format($cot->area_privada, 0, ',', '.') : '-' }}</td>
+                                <td>{{ $cot->fecha_entrega ? $cot->fecha_entrega->format('d/m/Y') : '-' }}</td>
+                                <td style="color:#888; font-size:0.82rem;">{{ $cot->created_at->format('d/m/Y H:i') }}</td>
                             </tr>
-                        </thead>
-                        <tbody id="productos-tbody">
-                            <tr><td colspan="6" style="text-align: center; padding: 2rem;">Cargando...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-cotizaciones" class="tab-content">
-            <div class="form-container">
-                <div class="form-header">
-                    <h2 style="color: white;">Historial de Cotizaciones</h2>
-                    <button class="btn-primary" onclick="loadCotizaciones()" style="background: white; color: var(--primary);">Actualizar Lista</button>
-                </div>
-                <div class="form-content" style="padding: 0; overflow-x: auto;">
-                    <table class="admin-table">
-                        <thead>
+                        @empty
                             <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Email</th>
-                                <th>Proyecto / Obra</th>
-                                <th>Área</th>
-                                <th>Entrega</th>
+                                <td colspan="9" class="empty-state">No hay cotizaciones registradas aún.</td>
                             </tr>
-                        </thead>
-                        <tbody id="cotizaciones-tbody">
-                            <tr><td colspan="6" style="text-align: center; padding: 2rem;">Cargando cotizaciones...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
-
     </div>
-
-    <script>
-        const fetchConfig = {
-            credentials: 'same-origin', 
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-            }
-        };
-
-        const formatCOP = (value) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProductos();
-            loadCotizaciones();
-            
-            document.getElementById('productoForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                await saveProducto();
-            });
-        });
-
-        window.switchTab = (tabId) => {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        };
-
-        // ==========================================
-        // APIS: PRODUCTOS
-        // ==========================================
-        async function loadProductos() {
-            try {
-                const res = await fetch('/api/productos/crear', { method: 'GET', ...fetchConfig });
-                
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                
-                const json = await res.json();
-                const tbody = document.getElementById('productos-tbody');
-                tbody.innerHTML = '';
-
-                const productos = json.data || json;
-                if(!productos.length) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay productos.</td></tr>';
-                    return;
-                }
-
-                productos.forEach(prod => {
-                    const descripcion = prod.descripcion ? prod.descripcion : '<em style="color:#aaa;">Sin descripción</em>';
-                    
-                    // IMPORTANTE: Cambio de prod.id a prod.id_producto en esta iteración
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><strong>#${prod.id_producto}</strong></td>
-                            <td><span style="color: var(--success); font-weight: bold;">${prod.tipo_obra}</span></td>
-                            <td><strong>${prod.planes}</strong></td>
-                            <td><div class="text-truncate-multiline">${descripcion}</div></td>
-                            <td><strong>${formatCOP(prod.valor_unitario)}/m²</strong></td>
-                            <td style="text-align: right; white-space: nowrap;">
-                                <button class="btn-select-plan" onclick="editProducto(${prod.id_producto})">Editar</button>
-                                <button class="btn-select-plan btn-danger" onclick="deleteProducto(${prod.id_producto})" style="margin-left: 0.5rem;">Eliminar</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (error) { 
-                console.error("Error GET Productos:", error); 
-                document.getElementById('productos-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center; color: red;">Error 401: No autorizado (Revisa tu sesión)</td></tr>';
-            }
-        }
-
-        async function saveProducto() {
-            const id = document.getElementById('producto_id').value;
-            
-            const payload = {
-                tipo_obra:      document.getElementById('tipo_obra').value,
-                planes:         document.getElementById('planes').value,
-                descripcion:    document.getElementById('descripcion').value,
-                valor_unitario: document.getElementById('valor_unitario').value
-            };
-
-            const method = id ? 'PUT' : 'POST';
-            const url = id ? `/api/productos/crear/${id}` : '/api/productos/crear';
-
-            const btn = document.getElementById('btn-save');
-            btn.textContent = 'Procesando...';
-            btn.disabled = true;
-
-            try {
-                const res = await fetch(url, { 
-                    method: method, 
-                    ...fetchConfig, 
-                    body: JSON.stringify(payload) 
-                });
-                
-                if(res.ok) {
-                    resetForm();
-                    loadProductos();
-                    alert(id ? 'Producto actualizado con éxito' : 'Producto creado con éxito');
-                } else {
-                    const err = await res.json();
-                    alert('Error en validación: ' + JSON.stringify(err));
-                }
-            } catch (error) { 
-                console.error("Error Guardando:", error); 
-            } finally { 
-                btn.textContent = 'Guardar Producto'; btn.disabled = false; 
-            }
-        }
-
-        async function editProducto(id) {
-            try {
-                const res = await fetch(`/api/productos/crear/${id}`, { method: 'GET', ...fetchConfig });
-                const json = await res.json();
-                const prod = json.data || json;
-
-                // IMPORTANTE: Cambio de prod.id a prod.id_producto al asignar los valores
-                document.getElementById('producto_id').value = prod.id_producto;
-                document.getElementById('tipo_obra').value = prod.tipo_obra;
-                document.getElementById('planes').value = prod.planes;
-                document.getElementById('descripcion').value = prod.descripcion || '';
-                document.getElementById('valor_unitario').value = prod.valor_unitario;
-                
-                document.getElementById('form-title').textContent = `✏️ Editando Producto #${prod.id_producto}`;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (error) { console.error("Error GET Show:", error); }
-        }
-
-        async function deleteProducto(id) {
-            if(!confirm('¿Eliminar definitivamente este producto?')) return;
-            try {
-                const res = await fetch(`/api/productos/crear/${id}`, { method: 'DELETE', ...fetchConfig });
-                if(res.ok) loadProductos();
-            } catch (error) { console.error("Error DELETE:", error); }
-        }
-
-        function resetForm() {
-            document.getElementById('productoForm').reset();
-            document.getElementById('producto_id').value = '';
-            document.getElementById('form-title').textContent = '✨ Crear Nuevo Producto';
-        }
-
-        // ==========================================
-        // APIS: COTIZACIONES
-        // ==========================================
-        async function loadCotizaciones() {
-            try {
-                const res = await fetch('/api/cotizacion/index', { method: 'GET', ...fetchConfig });
-                
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
-                const cotizaciones = await res.json();
-                const tbody = document.getElementById('cotizaciones-tbody');
-                tbody.innerHTML = '';
-
-                if(!cotizaciones.length) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay cotizaciones registradas.</td></tr>';
-                    return;
-                }
-
-                cotizaciones.forEach(cot => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>#${cot.id}</td>
-                            <td><strong>${cot.nombre} ${cot.apellido || ''}</strong><br><small style="color:#666;">${cot.telefono}</small></td>
-                            <td>${cot.email}</td>
-                            <td><span style="color: var(--info); font-weight: bold;">${cot.tipo_obra || 'N/A'}</span><br><small>${cot.nombre_proyecto || ''}</small></td>
-                            <td>${cot.area_privada ? cot.area_privada + ' m²' : '-'}</td>
-                            <td>${cot.fecha_entrega || '-'}</td>
-                        </tr>
-                    `;
-                });
-            } catch (error) { 
-                console.error("Error GET Cotizaciones:", error); 
-                document.getElementById('cotizaciones-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center; color: red;">Error 401 al cargar cotizaciones</td></tr>';
-            }
-        }
-    </script>
 </x-app-layout>
