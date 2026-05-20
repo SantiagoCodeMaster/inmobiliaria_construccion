@@ -158,6 +158,8 @@
             font-size: 0.95rem;
         }
 
+        [x-cloak] { display: none !important; }
+
         /* ALERT */
         .alert-success {
             background: #d1fae5;
