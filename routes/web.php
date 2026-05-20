@@ -30,7 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-   
+
+    Route::put('/admin/cotizaciones/{id}', [\App\Http\Controllers\AdminCotizacionController::class, 'update'])->name('admin.cotizaciones.update');
+    Route::delete('/admin/cotizaciones/{id}', [\App\Http\Controllers\AdminCotizacionController::class, 'destroy'])->name('admin.cotizaciones.destroy');
 });
 
 
