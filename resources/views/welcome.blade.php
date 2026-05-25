@@ -1268,6 +1268,180 @@
             margin: 0;
         }
 
+        /* ============ MODAL HABEAS DATA / TÉRMINOS ============ */
+        #modalTerminos {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.80);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 1rem;
+        }
+        #modalTerminos.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .terminos-content {
+            background: var(--bg-white);
+            border-radius: 20px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.35s ease;
+        }
+        .terminos-header {
+            padding: 1.75rem 2rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+        .terminos-header-text h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        .terminos-header-text p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            font-family: 'Outfit', sans-serif;
+        }
+        .terminos-shield {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .terminos-body {
+            overflow-y: auto;
+            padding: 1.5rem 2rem;
+            flex: 1;
+        }
+        .terminos-body::-webkit-scrollbar { width: 6px; }
+        .terminos-body::-webkit-scrollbar-track { background: var(--bg-subtle); border-radius: 10px; }
+        .terminos-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        .terminos-section {
+            margin-bottom: 1.25rem;
+        }
+        .terminos-section h4 {
+            font-size: 0.85rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent-dark);
+            margin-bottom: 0.5rem;
+        }
+        .terminos-section p, .terminos-section li {
+            font-size: 0.875rem;
+            color: #444;
+            line-height: 1.65;
+            font-family: 'Outfit', sans-serif;
+        }
+        .terminos-section ul {
+            padding-left: 1.25rem;
+            margin-top: 0.35rem;
+        }
+        .terminos-section ul li { margin-bottom: 0.25rem; }
+        .terminos-section .ley-badge {
+            display: inline-block;
+            background: var(--bg-cream);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+            margin-bottom: 0.6rem;
+        }
+        .terminos-footer {
+            padding: 1.25rem 2rem 1.75rem;
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .terminos-check-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.1rem;
+            cursor: pointer;
+        }
+        .terminos-check-row input[type="checkbox"] {
+            width: 18px; height: 18px;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+        .terminos-check-row label {
+            font-size: 0.85rem;
+            color: var(--primary);
+            line-height: 1.5;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+        }
+        .terminos-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+        .btn-terminos-rechazar {
+            padding: 0.65rem 1.4rem;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-terminos-rechazar:hover { border-color: var(--error); color: var(--error); }
+        .btn-terminos-aceptar {
+            padding: 0.65rem 1.75rem;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: #fff;
+            font-size: 0.875rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 12px rgba(201,169,97,0.35);
+        }
+        .btn-terminos-aceptar:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .btn-terminos-aceptar:not(:disabled):hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(201,169,97,0.45);
+        }
+        @media (max-width: 640px) {
+            .terminos-content { max-height: 96vh; border-radius: 16px; }
+            .terminos-header, .terminos-body, .terminos-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .terminos-actions { flex-direction: column-reverse; }
+            .btn-terminos-rechazar, .btn-terminos-aceptar { width: 100%; text-align: center; }
+        }
+
         /* ============ LIGHTBOX (IMAGEN GIGANTE) ============ */
         .lightbox-overlay {
             position: fixed;
@@ -2082,6 +2256,85 @@
         </div>
     </div>
 
+    <!-- ============ MODAL HABEAS DATA / TÉRMINOS Y CONDICIONES ============ -->
+    <div id="modalTerminos" role="dialog" aria-modal="true" aria-labelledby="terminosTitulo">
+        <div class="terminos-content" onclick="event.stopPropagation()">
+            <div class="terminos-header">
+                <div class="terminos-header-text">
+                    <h3 id="terminosTitulo">Autorización de Tratamiento de Datos Personales</h3>
+                    <p>Antes de calcular tu presupuesto, necesitamos tu consentimiento informado.</p>
+                </div>
+                <div class="terminos-shield">🛡️</div>
+            </div>
+
+            <div class="terminos-body">
+
+                <div class="terminos-section">
+                    <span class="ley-badge">Ley 1581 de 2012 — Habeas Data Colombia</span>
+                    <p>En cumplimiento de la <strong>Ley Estatutaria 1581 de 2012</strong> de Protección de Datos Personales de la República de Colombia y su Decreto Reglamentario 1377 de 2013, <strong>Constructora Escuadr Arq S.A.S.</strong> informa que los datos que suministres en este formulario serán incorporados a nuestra base de datos interna con las siguientes condiciones:</p>
+                </div>
+
+                <div class="terminos-section">
+                    <h4>¿Qué datos recopilamos?</h4>
+                    <ul>
+                        <li>Nombre y apellido</li>
+                        <li>Correo electrónico</li>
+                        <li>Número de teléfono</li>
+                        <li>Información del proyecto (tipo de obra, área, nombre del proyecto, fecha estimada de entrega)</li>
+                    </ul>
+                </div>
+
+                <div class="terminos-section">
+                    <h4>Finalidad del tratamiento</h4>
+                    <p>Los datos recopilados tienen como <strong>única finalidad</strong> la gestión interna de cotizaciones dentro de nuestro sistema. Específicamente serán usados para:</p>
+                    <ul>
+                        <li>Generar y almacenar tu cotización de manera segura</li>
+                        <li>Realizar el seguimiento de tu proceso de cotización con nuestra empresa</li>
+                        <li>Contactarte para resolver dudas o avanzar en tu proyecto de construcción o remodelación</li>
+                    </ul>
+                    <p style="margin-top:0.6rem; color:#c0392b; font-weight:600;">🔒 Tus datos <strong>NO serán compartidos, vendidos ni cedidos</strong> a terceros bajo ninguna circunstancia.</p>
+                </div>
+
+                <div class="terminos-section">
+                    <h4>Seguridad de la información</h4>
+                    <p>Toda la información es almacenada con medidas técnicas y administrativas de seguridad para protegerla frente a accesos no autorizados, pérdida o alteración, en cumplimiento del principio de <em>seguridad</em> establecido en el artículo 4 de la Ley 1581 de 2012.</p>
+                </div>
+
+                <div class="terminos-section">
+                    <h4>Tus derechos como titular (Habeas Data)</h4>
+                    <p>Como titular de tus datos personales tienes derecho a:</p>
+                    <ul>
+                        <li><strong>Conocer</strong> qué datos tenemos sobre ti y con qué finalidad</li>
+                        <li><strong>Actualizar</strong> o <strong>rectificar</strong> información inexacta o desactualizada</li>
+                        <li><strong>Solicitar la supresión</strong> de tus datos cuando no exista obligación legal de conservarlos</li>
+                        <li><strong>Revocar</strong> esta autorización en cualquier momento</li>
+                        <li><strong>Exigir prueba</strong> de la autorización que nos otorgaste</li>
+                    </ul>
+                    <p style="margin-top:0.6rem;">Para ejercer cualquiera de estos derechos puedes escribirnos a <strong>gutierrezparadasanti@gmail.com</strong>. La entidad de control es la <strong>Superintendencia de Industria y Comercio (SIC)</strong>.</p>
+                </div>
+
+                <div class="terminos-section">
+                    <h4>Consecuencia de no autorizar</h4>
+                    <p>Si no otorgas tu autorización, no podremos almacenar tu solicitud en nuestra base de datos ni generar tu cotización, ya que el registro seguro de los datos es requisito indispensable para el funcionamiento del sistema de cotización.</p>
+                </div>
+
+            </div>
+
+            <div class="terminos-footer">
+                <label class="terminos-check-row" for="checkTerminos">
+                    <input type="checkbox" id="checkTerminos" onchange="toggleAceptarBtn()">
+                    <span>He leído y comprendo la política de tratamiento de datos. <strong>Autorizo expresamente</strong> a Constructora Escuadr Arq S.A.S. para recopilar y tratar mis datos personales con la finalidad descrita, conforme a la Ley 1581 de 2012.</span>
+                </label>
+                <div class="terminos-actions">
+                    <button type="button" class="btn-terminos-rechazar" onclick="cerrarModalTerminos()">No acepto</button>
+                    <button type="button" id="btnAceptarTerminos" class="btn-terminos-aceptar" disabled onclick="confirmarTerminos()">
+                        ✓ Acepto y continúo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ============ ESTRUCTURA DEL LIGHTBOX (IMAGEN EXPANDIDA) ============ -->
     <div id="modalImagenOverlay" class="lightbox-overlay" onclick="cerrarImagen()">
         <button class="lightbox-close" onclick="cerrarImagen()" title="Cerrar imagen">×</button>
@@ -2336,9 +2589,44 @@
                 });
             }
 
+            // ——— HABEAS DATA: intercept submit ———
+            let termsAccepted = false;
+
+            window.toggleAceptarBtn = function() {
+                const checked = document.getElementById('checkTerminos').checked;
+                document.getElementById('btnAceptarTerminos').disabled = !checked;
+            };
+
+            window.cerrarModalTerminos = function() {
+                document.getElementById('modalTerminos').classList.remove('active');
+                document.body.classList.remove('modal-open');
+                document.getElementById('checkTerminos').checked = false;
+                document.getElementById('btnAceptarTerminos').disabled = true;
+            };
+
+            window.confirmarTerminos = function() {
+                termsAccepted = true;
+                document.getElementById('modalTerminos').classList.remove('active');
+                document.body.classList.remove('modal-open');
+                form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+            };
+
+            document.getElementById('modalTerminos').addEventListener('click', function(e) {
+                if (e.target === this) cerrarModalTerminos();
+            });
+            // ——————————————————————————————————
+
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 if (!validateCurrentStep()) return;
+
+                if (!termsAccepted) {
+                    document.getElementById('modalTerminos').classList.add('active');
+                    document.body.classList.add('modal-open');
+                    return;
+                }
+
+                termsAccepted = false; // reset para la próxima vez
                 limpiarErrores();
 
                 btnSubmit.classList.add('loading');
