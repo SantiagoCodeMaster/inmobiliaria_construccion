@@ -2346,23 +2346,35 @@
 
     {{-- ============ JAVASCRIPT ============ --}}
     <script>
-        // Función mapeada según los textos e imágenes específicos enviados
-        function obtenerImagenCategoria(categoria, descripcion, linea) {
-            const desc = (descripcion || '').toLowerCase();
-            const cat = (categoria || '').toLowerCase();
+        // Normaliza texto: quita acentos/ñ, minúsculas y colapsa no-alfanuméricos.
+        // Necesario para que el matching funcione igual en producción aunque
+        // la BD/JSON entreguen los acentos con codificación distinta a la del código.
+        function _norm(s) {
+            return (s || '')
+                .toString()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+        }
 
-            // 1. REGLAS PARA PISOS (primera regla: la imagen que va en el primer recuadro de Pisos)
-            if (desc.includes('suministro e instalación piso , nivelacion y cargue de pisos en mortero')) {
+        function obtenerImagenCategoria(categoria, descripcion, linea) {
+            const desc = _norm(descripcion);
+            const cat = _norm(categoria);
+
+            // 1. PISOS – primer slot: "Suministro e instalación piso, ... cargue de pisos en mortero"
+            if (desc.includes('suministro') && desc.includes('piso') && desc.includes('mortero')) {
                 return "{{ asset('pisosmaking.png') }}";
             }
-            
-            // 2. REGLA PARA LA SEGUNDA IMAGEN DE PISOS (la que estaba originalmente en el primer puesto)
-            if (desc.includes('mano de obra instalacion de piso en ceramica y/o piso spc incluye guarda escobas')) {
+
+            // 2. PISOS – segundo slot: "Mano de obra ... piso en ceramica y/o piso SPC ... guarda escobas"
+            if (desc.includes('piso') && (desc.includes('spc') || desc.includes('guarda escobas'))) {
                 return "{{ asset('pisos1elemental.png') }}";
             }
-            
-            // 3. REGLA PARA MUROS CON LA NUEVA IMAGEN enchapes.png
-            if (desc.includes('mano de obra instalacion de ceramica salpicadero de cocina, y zona de lavadero, cabina de ducha')) {
+
+            // 3. MUROS – salpicadero / cabina de ducha → enchapes.png
+            if (desc.includes('salpicadero') || desc.includes('cabina de ducha')) {
                 return "{{ asset('enchapes.png') }}";
             }
 
@@ -2374,51 +2386,47 @@
             if (desc.includes('acoflex lavamanos')) return "{{ asset('kitacoflexlavamanos.png') }}";
             if (desc.includes('lavaplatos radiante')) return "{{ asset('lavaplatoradiante.png') }}";
             if (desc.includes('sencilla gus')) return "{{ asset('griferialavaplatossencilla.png') }}";
-            if (desc.includes('kit de instalación completo')) return "{{ asset('kitgriferia.png') }}";
+            if (desc.includes('kit de instalacion completo')) return "{{ asset('kitgriferia.png') }}";
             if (cat.includes('incrustacion') && desc.includes('ducha monocontrol')) return "{{ asset('incrustaciongriferiaducha.png') }}";
             if (desc.includes('ducha monocontrol nott')) return "{{ asset('griferiaducharegadera.png') }}";
-            if (desc.includes('mesón de cocina en quarztone')) return "{{ asset('quartzonemesoncocina.png') }}";
+            if (desc.includes('meson de cocina en quarztone')) return "{{ asset('quartzonemesoncocina.png') }}";
             if (desc.includes('barra auxiliar en quarztone')) return "{{ asset('barraauxiliarcocinaquarztone.png') }}";
             if (desc.includes('lavamanos tipo guitarra')) return "{{ asset('quartzonemesonlavamanos.png') }}";
             if (desc.includes('riel spot 3 luces')) return "{{ asset('ilumnacionriel.png') }}";
 
-            // 5. REGLAS DE ESTÁNDAR (que aplican también a Experto si no cambiaron)
+            // 5. REGLAS DE ESTÁNDAR (aplican también a Experto si no cambiaron)
             if (desc.includes('closet habitaciones')) {
-                // Si es la línea experto, usa la madera profesional, sino la estandar
                 if (linea === 'experto') return "{{ asset('mueblesropaaglomeradoprofesional.png') }}";
                 return "{{ asset('mueblremadera1estandar.png') }}";
             }
-            if (desc.includes('mueble flotado de baño')) return "{{ asset('mueblebañoestandar.png') }}";
-            if (desc.includes('división de baño')) return "{{ asset('mueblebañoestandar.png') }}";
+            if (desc.includes('mueble flotado de bano')) return "{{ asset('mueblebañoestandar.png') }}";
+            if (desc.includes('division de bano')) return "{{ asset('mueblebañoestandar.png') }}";
             if (desc.includes('mueble alto de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
             if (desc.includes('espejo flotado')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
             if (desc.includes('puertas en madera')) return "{{ asset('puertaestandar.png') }}";
             if (desc.includes('barra auxiliar de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
             if (desc.includes('campana extractora')) return "{{ asset('estractoraltococina.png') }}";
 
-            // 6. REGLAS DE ELEMENTAL (que son la base para todas)
-            if (desc.includes('nivelación y cargue de pisos')) return "{{ asset('pisos1elemental.png') }}";
-            if (desc.includes('cerámica salpicadero') || desc.includes('cabina de ducha')) return "{{ asset('pisos2elemental.png') }}";
-            if (desc.includes('piso en cerámica') || desc.includes('piso spc')) return "{{ asset('pisos2elemental.png') }}";
-            if (desc.includes('drywall plano')) return "{{ asset('techos1elemental.png') }}";
-            if (desc.includes('nivelación de paredes') || desc.includes('estuco y pintura')) return "{{ asset('muros2elemental.png') }}";
+            // 6. REGLAS DE ELEMENTAL (base para todas)
+            if (desc.includes('drywall')) return "{{ asset('techos1elemental.png') }}";
+            if (desc.includes('nivelacion de paredes') || desc.includes('estuco y pintura')) return "{{ asset('muros2elemental.png') }}";
             if (desc.includes('aseo final') || desc.includes('escombros')) return "{{ asset('aseoelemental.png') }}";
 
-            // 7. FALLBACKS DE SEGURIDAD (Por si el nombre en base de datos cambia un poco)
+            // 7. FALLBACKS POR CATEGORÍA (sin acentos porque cat ya está normalizada)
             if (cat.includes('piso') || desc.includes('piso')) return "{{ asset('pisos1elemental.png') }}";
             if (cat.includes('muro')) return "{{ asset('enchapes.png') }}";
             if (cat.includes('techo')) return "{{ asset('techos1elemental.png') }}";
             if (cat.includes('aseo')) return "{{ asset('aseoelemental.png') }}";
-            if (cat.includes('madera') || cat.includes('carpintería')) return "{{ asset('mueblremadera1estandar.png') }}";
+            if (cat.includes('madera') || cat.includes('carpinteria')) return "{{ asset('mueblremadera1estandar.png') }}";
             if (cat.includes('cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
-            if (cat.includes('baño') || cat.includes('aparato')) return "{{ asset('kitacoflex.png') }}";
-            if (cat.includes('eléctric') || cat.includes('iluminación')) return "{{ asset('ilumnacionriel.png') }}";
-            if (cat.includes('grifería')) return "{{ asset('griferiaducharegadera.png') }}";
-            if (cat.includes('electrodoméstico')) return "{{ asset('estractoraltococina.png') }}";
+            if (cat.includes('bano') || cat.includes('aparato')) return "{{ asset('kitacoflex.png') }}";
+            if (cat.includes('electric') || cat.includes('iluminacion')) return "{{ asset('ilumnacionriel.png') }}";
+            if (cat.includes('griferia')) return "{{ asset('griferiaducharegadera.png') }}";
+            if (cat.includes('electrodomestico')) return "{{ asset('estractoraltococina.png') }}";
             if (cat.includes('vidrio')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
-            
-            // Si por alguna razón no coincide nada, foto por defecto
-            return "{{ asset('foto_default.jpg') }}"; 
+
+            // Fallback final: imagen genérica existente (foto_default.jpg no existe en /public)
+            return "{{ asset('aseoelemental.png') }}";
         }
 
         // Variables globales para el Modal
