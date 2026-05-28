@@ -2358,7 +2358,7 @@
             
             // 2. REGLA PARA LA SEGUNDA IMAGEN DE PISOS (la que estaba originalmente en el primer puesto)
             if (desc.includes('mano de obra instalacion de piso en ceramica y/o piso spc incluye guarda escobas')) {
-                return "{{ asset('pisos2elemental.png') }}";
+                return "{{ asset('pisos1elemental.png') }}";
             }
             
             // 3. REGLA PARA MUROS CON LA NUEVA IMAGEN enchapes.png
