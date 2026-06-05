@@ -955,7 +955,7 @@
         .form-error.show { display: block; }
         .input-error { border-color: var(--error) !important; }
 
-        /* ============ RESULTS ============ */
+        /* ============ RESULTADOS & FINANCIACION ============ */
         .results-container {
             max-width: 1200px;
             margin: 3.5rem auto 0;
@@ -965,11 +965,45 @@
             z-index: 1;
         }
         .results-container.visible { display: block; animation: fadeInUp 0.8s ease forwards; }
+        
+        /* ESTILOS DEL AVISO DE FINANCIACION */
+        .financing-alert {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 18px;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: var(--shadow-gold);
+            border: 2px solid var(--accent-light);
+            animation: pulse-gold 2.5s infinite;
+        }
+        .financing-alert-icon {
+            font-size: 2.8rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .financing-alert-text h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.35rem;
+            margin-bottom: 0.35rem;
+            color: white;
+        }
+        .financing-alert-text p {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.95);
+        }
+
         .plans-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.75rem;
-            margin-top: 2.5rem;
+            margin-top: 1.5rem;
         }
         @media(min-width: 900px) { .plans-grid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
         .plan-card {
@@ -1440,6 +1474,15 @@
             .terminos-header, .terminos-body, .terminos-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
             .terminos-actions { flex-direction: column-reverse; }
             .btn-terminos-rechazar, .btn-terminos-aceptar { width: 100%; text-align: center; }
+            .financing-alert {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.25rem;
+                gap: 0.75rem;
+            }
+            .financing-alert-icon { font-size: 2.2rem; }
+            .financing-alert-text h3 { font-size: 1.15rem; }
+            .financing-alert-text p { font-size: 0.85rem; }
         }
 
         /* ============ LIGHTBOX (IMAGEN GIGANTE) ============ */
@@ -2105,6 +2148,12 @@
                                     <div class="form-error" data-field="email"></div>
                                 </div>
                             </div>
+
+                            <div style="margin-top: 1.25rem; background: rgba(201,169,97,0.15); border: 1px solid var(--accent); border-radius: 12px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+                                <span style="font-size: 1.25rem; line-height: 1;">💡</span>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--primary);"><strong>¿No tienes el dinero completo ahora?</strong> ¡No hay problema! Contamos con planes de <strong>financiación del 100%</strong> para tu obra. Calcula tu presupuesto sin compromiso.</p>
+                            </div>
+
                         </div>
 
                         <div class="wizard-footer">
@@ -2123,6 +2172,15 @@
                     <h2 style="color: white; font-size: clamp(1.6rem, 3.5vw, 2.2rem);">Tus Opciones de <span class="accent-text">Diseño</span></h2>
                     <p>Basado en las dimensiones de tu inmueble, estas son las propuestas:</p>
                 </div>
+
+                <div class="financing-alert">
+                    <div class="financing-alert-icon">💳</div>
+                    <div class="financing-alert-text">
+                        <h3>¡Aviso Importante: Tu obra es 100% Financiable!</h3>
+                        <p>No te preocupes si no cuentas con el dinero en este momento. <strong>Te ayudamos a financiar la totalidad de tu remodelación</strong> para que disfrutes de tu nuevo hogar sin estrés financiero.</p>
+                    </div>
+                </div>
+
                 <div id="planes-list" class="plans-grid"></div>
             </div>
         </div>
@@ -2159,7 +2217,7 @@
                 </details>
                 <details class="faq-item">
                     <summary>¿Qué métodos de pago aceptan?</summary>
-                    <div class="faq-answer">Para tu total comodidad, recibimos todo tipo de medios de pago: tarjetas de crédito, tarjetas de débito, transferencias bancarias y dinero en efectivo.</div>
+                    <div class="faq-answer">Para tu total comodidad, recibimos todo tipo de medios de pago: tarjetas de crédito, tarjetas de débito, transferencias bancarias y dinero en efectivo. Además, contamos con opciones de <strong>financiación del 100%</strong> de tu obra.</div>
                 </details>
             </div>
         </div>
@@ -2234,14 +2292,12 @@
         </div>
     </footer>
 
-    <!-- ============ BOTÓN WHATSAPP FLOTANTE ============ -->
     <a href="https://wa.me/573224307053?text=Hola,%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n" class="whatsapp-float" target="_blank" aria-label="Chat en WhatsApp">
         <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
     </a>
 
-    <!-- ============ ESTRUCTURA DEL MODAL GIGANTE (DESGLOSE) ============ -->
     <div id="modalDesglose" class="modal-overlay" onclick="cerrarModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -2250,13 +2306,11 @@
             </div>
             <div class="modal-body">
                 <div id="modalGrid" class="modal-grid">
-                    <!-- Los items se inyectarán aquí vía JS -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 
-    <!-- ============ MODAL HABEAS DATA / TÉRMINOS Y CONDICIONES ============ -->
     <div id="modalTerminos" role="dialog" aria-modal="true" aria-labelledby="terminosTitulo">
         <div class="terminos-content" onclick="event.stopPropagation()">
             <div class="terminos-header">
@@ -2335,7 +2389,6 @@
         </div>
     </div>
 
-    <!-- ============ ESTRUCTURA DEL LIGHTBOX (IMAGEN EXPANDIDA) ============ -->
     <div id="modalImagenOverlay" class="lightbox-overlay" onclick="cerrarImagen()">
         <button class="lightbox-close" onclick="cerrarImagen()" title="Cerrar imagen">×</button>
         <div class="lightbox-content" onclick="event.stopPropagation()">
