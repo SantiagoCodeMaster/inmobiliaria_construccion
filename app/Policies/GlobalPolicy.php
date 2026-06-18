@@ -21,7 +21,7 @@ class GlobalPolicy
     {
         // Si el usuario es administrador (is_admin == 1), le damos permiso absoluto.
         // Retornar 'true' aquí aprueba automáticamente cualquier acción en todo el sistema.
-        if ($user->is_admin == 1) {
+        if ($user->is_admin) {
             return true;
         }
 

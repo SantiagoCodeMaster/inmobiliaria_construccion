@@ -12,7 +12,7 @@ class AdminCotizacionDetalleController extends Controller
 {
     private function checkAdmin(): void
     {
-        abort_unless(auth()->check() && auth()->user()->is_admin == 1, 403);
+        abort_unless(auth()->check() && auth()->user()->is_admin, 403);
     }
 
     public function edit(Cotizacion $cotizacion)
