@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cotizacion;
+use App\Models\CotizacionActividad;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use App\Services\CotizacionService;
@@ -91,6 +92,37 @@ class CotizacionController extends Controller
 
         $propuestas = $cotizador->calcularPropuestas($datos);
         $propuesta  = $propuestas[$tipo];
+
+        $customActs = CotizacionActividad::where('cotizacion_id', $cotizacion->id)
+            ->where('tipo_plan', $tipo)
+            ->get();
+
+        if ($customActs->isNotEmpty()) {
+            $detalle = $customActs->map(fn ($a) => [
+                'categoria'      => $a->categoria,
+                'descripcion'    => $a->descripcion,
+                'unidad'         => $a->unidad,
+                'cantidad'       => (float) $a->cantidad,
+                'valor_unitario' => (int) round((float) $a->valor_unitario),
+                'vr_total'       => (int) round((float) $a->vr_total),
+            ])->toArray();
+
+            $subtotal = array_reduce($detalle, fn ($s, $d) => $s + $d['vr_total'], 0);
+            $totales  = $cotizador->calcularTotalesAIU($subtotal, (float) ($cotizacion->area_privada ?: 1));
+
+            $propuesta = [
+                'tipo'                  => $tipo,
+                'subtotal'              => $totales['subtotal'],
+                'administracion_12pct'  => $totales['administracion'],
+                'imprevistos_3pct'      => $totales['imprevistos'],
+                'utilidad_4pct'         => $totales['utilidad'],
+                'iva_sobre_u_19pct'     => $totales['iva_utilidad'],
+                'vr_total'              => $totales['total'],
+                'vr_total_formateado'   => $totales['total_formateado'],
+                'precio_m2_formateado'  => $totales['precio_m2_formateado'],
+                'detalle'               => $detalle,
+            ];
+        }
 
         $pdf = Pdf::loadView('cotizacion-pdf', compact('cotizacion', 'propuesta', 'numHabitaciones'))
             ->setPaper('a4', 'portrait')

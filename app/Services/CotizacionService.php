@@ -293,7 +293,7 @@ class CotizacionService
      *   Total          = subtotal + admon + imprevistos + utilidad + IVA sobre U
      *   Precio m²      = total / área privada
      */
-    private function calcularTotalesAIU(float $subtotal, float $areaPrivada): array
+    public function calcularTotalesAIU(float $subtotal, float $areaPrivada): array
     {
         $administracion = $subtotal * self::ADMINISTRACION;
         $imprevistos    = $subtotal * self::IMPREVISTOS;

@@ -56,7 +56,7 @@
         .badge { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; font-family: 'Syne', sans-serif; }
         .badge-obra { background: #eff6ff; color: #2563eb; }
 
-        .btn-edit, .btn-pdf, .btn-del {
+        .btn-edit, .btn-pdf, .btn-del, .btn-detalle {
             padding: 0.35rem 0.75rem; border-radius: 6px; font-family: 'Syne', sans-serif;
             font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
             text-transform: uppercase; display: inline-block; text-decoration: none;
@@ -65,6 +65,8 @@
         .btn-edit:hover { background: var(--accent); color: white; }
         .btn-pdf { background: var(--primary); border: 1px solid var(--primary); color: white; margin: 0 0.3rem; }
         .btn-pdf:hover { background: var(--primary-light); }
+        .btn-detalle { background: transparent; border: 1px solid #3b82f6; color: #3b82f6; margin: 0 0.3rem; }
+        .btn-detalle:hover { background: #3b82f6; color: white; }
         .btn-del { background: transparent; border: 1px solid var(--error); color: var(--error); }
         .btn-del:hover { background: var(--error); color: white; }
 
@@ -274,6 +276,7 @@
                                 <td style="color:#888; font-size:0.78rem;">{{ $cot->created_at->format('d/m/Y H:i') }}</td>
                                 <td style="white-space:nowrap;">
                                     <button type="button" class="btn-edit" @click="open({{ $cot->id }})">Editar</button>
+                                    <a href="/admin/cotizaciones/{{ $cot->id }}/detalle" class="btn-detalle" style="text-decoration:none;">Personalizar</a>
                                     <a href="/cotizacion/{{ $cot->id }}/pdf/elemental?h={{ $cot->num_habitaciones ?? 1 }}" target="_blank" class="btn-pdf" style="text-decoration:none;">PDF</a>
                                     <form method="POST" action="{{ route('admin.cotizaciones.destroy', $cot->id) }}" style="display:inline;" @submit.prevent="del($event)">
                                         @csrf

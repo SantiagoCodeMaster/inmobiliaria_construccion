@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminCotizacionDetalleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,6 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/cotizacion/{id}/pdf/{tipo}',
         [\App\Http\Controllers\CotizacionController::class, 'descargarPdf']
     )->name('cotizacion.pdf');
+
+    // Editor de actividades por cotización
+    Route::get('/admin/cotizaciones/{cotizacion}/detalle', [AdminCotizacionDetalleController::class, 'edit'])->name('admin.cotizaciones.detalle');
+    Route::get('/admin/cotizaciones/{cotizacion}/detalle/data/{tipo}', [AdminCotizacionDetalleController::class, 'data']);
+    Route::post('/admin/cotizaciones/{cotizacion}/detalle/save/{tipo}', [AdminCotizacionDetalleController::class, 'save']);
+    Route::post('/admin/cotizaciones/{cotizacion}/detalle/recalcular', [AdminCotizacionDetalleController::class, 'recalcular']);
+    Route::get('/admin/cotizaciones/catalogo', [AdminCotizacionDetalleController::class, 'catalogo']);
 });
 
 
