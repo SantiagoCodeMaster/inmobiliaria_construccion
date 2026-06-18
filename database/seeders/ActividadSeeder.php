@@ -339,7 +339,7 @@ class ActividadSeeder extends Seeder
             ],
             // ── 33. Instalación Grifería Ducha ───────────────────────────────
             [
-                'nombre'         => 'Incrustaciones',
+                'nombre'         => 'Duchas',
                 'descripcion'    => 'Instalacion Grifería Ducha Monocontrol Nott Negra+Regadera 25X25',
                 'unidad'         => 'UND',
                 'valor_unitario' => 50000,

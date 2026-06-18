@@ -21,6 +21,11 @@ Route::get('/back-up', function () {
     return view('backup');
 })->name('backup');
 
+// Descarga PDF de cotización (público)
+Route::get('/cotizacion/{id}/pdf/{tipo}',
+    [\App\Http\Controllers\CotizacionController::class, 'descargarPdf']
+)->name('cotizacion.pdf');
+
 Route::get('/dashboard', function () {
     $cotizaciones = \App\Models\Cotizacion::latest()->get();
     return view('dashboard', compact('cotizaciones'));

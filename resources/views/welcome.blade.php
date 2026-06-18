@@ -1135,6 +1135,33 @@
         }
         .plan-card.experto .btn-select-plan:hover { background: var(--primary); }
 
+        .btn-descargar-pdf {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.2px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-descargar-pdf:hover {
+            border-color: var(--accent);
+            color: var(--accent-dark);
+            background: var(--bg-subtle);
+        }
+
         /* ============ MODAL DESGLOSE (PÁGINA COMPLETA) ============ */
         .modal-overlay {
             position: fixed;
@@ -2453,7 +2480,7 @@
                 return "{{ asset('mueblremadera1estandar.png') }}";
             }
             if (desc.includes('mueble flotado de bano')) return "{{ asset('mueblebañoestandar.png') }}";
-            if (desc.includes('division de bano')) return "{{ asset('mueblebañoestandar.png') }}";
+            if (desc.includes('division de bano')) return "{{ asset('divisionvidriobano1.png') }}";
             if (desc.includes('mueble alto de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
             if (desc.includes('espejo flotado')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
             if (desc.includes('puertas en madera')) return "{{ asset('puertaestandar.png') }}";
@@ -2713,6 +2740,8 @@
 
                     if (response.ok || response.status === 201) {
                         wizardBox.style.display = 'none';
+                        window.cotizacionIdGlobal = result.cotizacion ? result.cotizacion.id : null;
+                        window.numHabitacionesGlobal = parseInt(data.num_habitaciones || 1);
                         mostrarPropuestas(result.propuestas);
                     } else if (response.status === 422) {
                         mostrarErrores(result.errors || result);
@@ -2762,13 +2791,20 @@
                         <ul class="plan-features">${features}</ul>
                         
                         <button type="button" class="btn-ver-desglose" onclick="abrirModal('${plan.tipo}')">
-                            📄 Ver desglose completo de la obra
+                            🔍 Ver desglose completo de la obra
                         </button>
 
                         <button type="button" class="btn-select-plan"
                             onclick="seleccionarPlan('${plan.tipo}', '${plan.vr_total_formateado}', '${plan.precio_m2_formateado}', this)">
                             Me interesa esta línea →
                         </button>
+
+                        ${window.cotizacionIdGlobal ? `
+                        <a href="/cotizacion/${window.cotizacionIdGlobal}/pdf/${plan.tipo}?h=${window.numHabitacionesGlobal || 1}"
+                           target="_blank"
+                           class="btn-descargar-pdf">
+                            📄 Descargar cotización PDF
+                        </a>` : ''}
                     `;
                     planesList.appendChild(card);
                 });

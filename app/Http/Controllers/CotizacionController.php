@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use App\Services\CotizacionService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CotizacionController extends Controller
 {
@@ -64,6 +65,45 @@ class CotizacionController extends Controller
                 'detalle' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Genera y descarga el PDF de cotización para una propuesta específica.
+     */
+    public function descargarPdf(Request $request, $id, $tipo, CotizacionService $cotizador)
+    {
+        $tipos = ['elemental', 'estandar', 'experto'];
+        if (! in_array($tipo, $tipos)) {
+            abort(404, 'Tipo de propuesta inválido.');
+        }
+
+        $cotizacion = Cotizacion::findOrFail($id);
+
+        $numHabitaciones = max(1, (int) $request->query('h', 1));
+
+        $datos = [
+            'area_privada'             => $cotizacion->area_privada,
+            'num_banos'                => $cotizacion->num_banos ?? 1,
+            'num_habitaciones'         => $numHabitaciones,
+            'tiene_mueble_alto_cocina' => $cotizacion->tiene_mueble_alto_cocina ?? true,
+            'tiene_barra_auxiliar'     => $cotizacion->tiene_barra_auxiliar ?? true,
+        ];
+
+        $propuestas = $cotizador->calcularPropuestas($datos);
+        $propuesta  = $propuestas[$tipo];
+
+        $pdf = Pdf::loadView('cotizacion-pdf', compact('cotizacion', 'propuesta', 'numHabitaciones'))
+            ->setPaper('a4', 'portrait')
+            ->setOptions([
+                'defaultFont' => 'DejaVu Sans',
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => false,
+                'dpi' => 150,
+            ]);
+
+        $filename = 'cotizacion-' . strtoupper($tipo) . '-' . $cotizacion->id . '.pdf';
+
+        return $pdf->download($filename);
     }
 
     /**
