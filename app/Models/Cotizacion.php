@@ -28,6 +28,7 @@ class Cotizacion extends Model
         'telefono',
         'tipo_obra',
         'area_privada',
+        'num_habitaciones',
         'num_puertas',
         'num_closets',
         'num_banos',
@@ -44,6 +45,7 @@ class Cotizacion extends Model
      */
     protected $casts = [
         'area_privada'             => 'decimal:2',
+        'num_habitaciones'         => 'integer',
         'num_puertas'              => 'integer',
         'num_closets'              => 'integer',
         'num_banos'                => 'integer',

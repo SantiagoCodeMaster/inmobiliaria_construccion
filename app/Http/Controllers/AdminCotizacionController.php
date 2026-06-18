@@ -25,6 +25,7 @@ class AdminCotizacionController extends Controller
             'nombre_proyecto'          => 'nullable|string|max:255',
             'area_privada'             => 'nullable|numeric|min:0',
             'fecha_entrega'            => 'nullable|date',
+            'num_habitaciones'         => 'nullable|integer|min:1',
             'num_banos'                => 'nullable|integer|min:0',
             'tiene_mueble_alto_cocina' => 'nullable|boolean',
             'tiene_barra_auxiliar'     => 'nullable|boolean',

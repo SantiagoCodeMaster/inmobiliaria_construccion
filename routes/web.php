@@ -21,11 +21,6 @@ Route::get('/back-up', function () {
     return view('backup');
 })->name('backup');
 
-// Descarga PDF de cotización (público)
-Route::get('/cotizacion/{id}/pdf/{tipo}',
-    [\App\Http\Controllers\CotizacionController::class, 'descargarPdf']
-)->name('cotizacion.pdf');
-
 Route::get('/dashboard', function () {
     $cotizaciones = \App\Models\Cotizacion::latest()->get();
     return view('dashboard', compact('cotizaciones'));
@@ -38,6 +33,11 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/admin/cotizaciones/{id}', [\App\Http\Controllers\AdminCotizacionController::class, 'update'])->name('admin.cotizaciones.update');
     Route::delete('/admin/cotizaciones/{id}', [\App\Http\Controllers\AdminCotizacionController::class, 'destroy'])->name('admin.cotizaciones.destroy');
+
+    // Descarga PDF de cotización (protegido, solo usuarios autenticados)
+    Route::get('/cotizacion/{id}/pdf/{tipo}',
+        [\App\Http\Controllers\CotizacionController::class, 'descargarPdf']
+    )->name('cotizacion.pdf');
 });
 
 

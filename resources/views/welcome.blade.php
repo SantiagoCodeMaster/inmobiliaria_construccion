@@ -1135,33 +1135,6 @@
         }
         .plan-card.experto .btn-select-plan:hover { background: var(--primary); }
 
-        .btn-descargar-pdf {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            width: 100%;
-            margin-top: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: transparent;
-            border: 1.5px solid var(--border-color);
-            border-radius: 12px;
-            font-family: 'Syne', sans-serif;
-            font-weight: 600;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 0.2px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .btn-descargar-pdf:hover {
-            border-color: var(--accent);
-            color: var(--accent-dark);
-            background: var(--bg-subtle);
-        }
-
         /* ============ MODAL DESGLOSE (PÁGINA COMPLETA) ============ */
         .modal-overlay {
             position: fixed;
@@ -2799,12 +2772,6 @@
                             Me interesa esta línea →
                         </button>
 
-                        ${window.cotizacionIdGlobal ? `
-                        <a href="/cotizacion/${window.cotizacionIdGlobal}/pdf/${plan.tipo}?h=${window.numHabitacionesGlobal || 1}"
-                           target="_blank"
-                           class="btn-descargar-pdf">
-                            📄 Descargar cotización PDF
-                        </a>` : ''}
                     `;
                     planesList.appendChild(card);
                 });

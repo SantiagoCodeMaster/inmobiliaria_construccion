@@ -33,6 +33,8 @@
         .card-head h2 { font-family: 'Syne', sans-serif; font-size: 1.4rem; margin: 0; color: white; position: relative; z-index: 1; }
         .card-head small { font-size: 0.85rem; opacity: 0.7; display: block; margin-top: 0.3rem; position: relative; z-index: 1; color: white; }
 
+        .card-body { padding: 2rem; }
+
         .btn-refresh {
             padding: 0.7rem 1.4rem; background: white; color: var(--primary); border: none;
             border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700;
@@ -43,32 +45,86 @@
 
         .tbl { width: 100%; border-collapse: collapse; }
         .tbl th {
-            font-family: 'Syne', sans-serif; font-size: 0.78rem; text-transform: uppercase;
-            letter-spacing: 1px; color: var(--primary); padding: 1rem;
+            font-family: 'Syne', sans-serif; font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--primary); padding: 0.8rem 0.6rem;
             border-bottom: 2px solid var(--accent); text-align: left; background: var(--bg-subtle); white-space: nowrap;
         }
-        .tbl td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.88rem; vertical-align: middle; }
+        .tbl td { padding: 0.7rem 0.6rem; border-bottom: 1px solid var(--border-color); font-size: 0.82rem; vertical-align: middle; }
         .tbl tr:last-child td { border-bottom: none; }
         .tbl tr:hover td { background: #fafaf8; }
 
         .badge { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; font-family: 'Syne', sans-serif; }
         .badge-obra { background: #eff6ff; color: #2563eb; }
 
-        .btn-edit {
-            padding: 0.4rem 0.9rem; border-radius: 6px; font-family: 'Syne', sans-serif;
-            font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-            text-transform: uppercase; background: transparent; border: 1px solid var(--accent); color: #b8941f;
+        .btn-edit, .btn-pdf, .btn-del {
+            padding: 0.35rem 0.75rem; border-radius: 6px; font-family: 'Syne', sans-serif;
+            font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+            text-transform: uppercase; display: inline-block; text-decoration: none;
         }
+        .btn-edit { background: transparent; border: 1px solid var(--accent); color: #b8941f; }
         .btn-edit:hover { background: var(--accent); color: white; }
-
-        .btn-del {
-            padding: 0.4rem 0.9rem; border-radius: 6px; font-family: 'Syne', sans-serif;
-            font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-            text-transform: uppercase; background: transparent; border: 1px solid var(--error); color: var(--error); margin-left: 0.4rem;
-        }
+        .btn-pdf { background: var(--primary); border: 1px solid var(--primary); color: white; margin: 0 0.3rem; }
+        .btn-pdf:hover { background: var(--primary-light); }
+        .btn-del { background: transparent; border: 1px solid var(--error); color: var(--error); }
         .btn-del:hover { background: var(--error); color: white; }
 
         .alert-ok { background: #d1fae5; border: 1px solid #a7f3d0; color: #065f46; padding: 1rem 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+        /* FORMULARIO COTIZADOR ADMIN */
+        .admin-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .admin-form .full { grid-column: 1 / -1; }
+        .admin-form label { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; display: block; }
+        .admin-form input, .admin-form select {
+            padding: 0.65rem 0.9rem; border: 1px solid var(--border-color); border-radius: 8px;
+            font-family: 'Outfit', sans-serif; font-size: 0.88rem; background: var(--bg-subtle);
+            width: 100%; box-sizing: border-box; transition: all 0.2s;
+        }
+        .admin-form input:focus, .admin-form select:focus {
+            outline: none; border-color: var(--accent); background: white; box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+        }
+        .admin-form .form-error { color: var(--error); font-size: 0.75rem; margin-top: 0.25rem; }
+
+        .btn-calcular {
+            padding: 0.8rem 2rem; background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white; border: none; border-radius: 8px; font-family: 'Syne', sans-serif;
+            font-size: 0.88rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 1px; transition: opacity 0.2s;
+        }
+        .btn-calcular:hover { opacity: 0.9; }
+        .btn-calcular:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-calcular.loading { pointer-events: none; }
+
+        /* PLAN CARDS (admin) */
+        .admin-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+        .admin-plan-card {
+            background: white; border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 1.5rem; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+        .admin-plan-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; margin: 0 0 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .admin-plan-card .price { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0.5rem 0; }
+        .admin-plan-card .price-m2 { font-size: 0.8rem; color: #888; margin-bottom: 1rem; }
+        .admin-plan-card .btn-pdf-plan {
+            display: inline-block; padding: 0.6rem 1.2rem; background: var(--primary); color: white;
+            border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 0.78rem;
+            font-weight: 700; cursor: pointer; text-transform: uppercase; text-decoration: none;
+            letter-spacing: 0.5px; transition: background 0.2s;
+        }
+        .admin-plan-card .btn-pdf-plan:hover { background: var(--primary-light); }
+        .admin-plan-card .btn-whatsapp {
+            display: inline-block; padding: 0.6rem 1.2rem; background: #25D366; color: white;
+            border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 0.78rem;
+            font-weight: 700; cursor: pointer; text-transform: uppercase; text-decoration: none;
+            letter-spacing: 0.5px; margin-top: 0.5rem; transition: background 0.2s;
+        }
+        .admin-plan-card .btn-whatsapp:hover { background: #128C7E; }
+        .admin-plan-card.experto { border-color: var(--accent); }
+        .admin-plan-card.experto h3 { color: var(--accent); }
+
+        .admin-section-title {
+            font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--primary); margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem;
+        }
 
         /* MODAL */
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
@@ -105,6 +161,74 @@
             <div class="alert-ok">✓ {{ session('success') }}</div>
         @endif
 
+        {{-- ========== COTIZADOR ADMIN ========== --}}
+        <div class="card">
+            <div class="card-head">
+                <div>
+                    <h2>Cotizador Administrativo</h2>
+                    <small>Crea una cotización y descarga el PDF para entregar al cliente</small>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="admin-section-title">Datos del Proyecto</div>
+                <form id="adminCotizadorForm" class="admin-form">
+                    @csrf
+                    <div>
+                        <label>Nombre del proyecto / conjunto</label>
+                        <input type="text" name="nombre_proyecto" placeholder="Ej: Torres del Parque">
+                    </div>
+                    <div>
+                        <label>Fecha inicio de obras</label>
+                        <input type="date" name="fecha_entrega">
+                    </div>
+                    <div>
+                        <label>Área Privada (m²) *</label>
+                        <input type="number" name="area_privada" placeholder="Ej: 55.5" step="0.01" required>
+                        <div class="form-error" data-field="area_privada"></div>
+                    </div>
+                    <div>
+                        <label>N° de Habitaciones *</label>
+                        <input type="number" name="num_habitaciones" value="1" min="1" max="10" required>
+                    </div>
+                    <div>
+                        <label>N° de Baños *</label>
+                        <input type="number" name="num_banos" value="1" min="1" max="10" required>
+                    </div>
+                    <div></div>
+                    <div class="admin-section-title full" style="margin-top:1rem;">Datos del Cliente</div>
+                    <div>
+                        <label>Nombre *</label>
+                        <input type="text" name="nombre" placeholder="Nombre del cliente" required>
+                        <div class="form-error" data-field="nombre"></div>
+                    </div>
+                    <div>
+                        <label>Apellido *</label>
+                        <input type="text" name="apellido" placeholder="Apellido del cliente" required>
+                        <div class="form-error" data-field="apellido"></div>
+                    </div>
+                    <div>
+                        <label>WhatsApp *</label>
+                        <input type="tel" name="telefono" placeholder="Ej: 300 123 4567" required>
+                        <div class="form-error" data-field="telefono"></div>
+                    </div>
+                    <div>
+                        <label>Correo electrónico *</label>
+                        <input type="email" name="email" placeholder="cliente@email.com" required>
+                        <div class="form-error" data-field="email"></div>
+                    </div>
+                    <div class="full" style="text-align:right; margin-top:0.5rem;">
+                        <button type="submit" class="btn-calcular" id="btnAdminCalcular">Calcular Presupuestos ✨</button>
+                    </div>
+                </form>
+
+                <div id="adminResultados" style="display:none;">
+                    <div class="admin-section-title" style="margin-top:2rem;">Propuestas</div>
+                    <div id="adminPlanesList" class="admin-plans"></div>
+                </div>
+            </div>
+        </div>
+
+        {{-- ========== TABLA DE COTIZACIONES ========== --}}
         <div class="card">
             <div class="card-head">
                 <div>
@@ -121,13 +245,16 @@
                             <th>ID</th>
                             <th>Cliente</th>
                             <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Tipo de Obra</th>
+                            <th>WhatsApp</th>
                             <th>Proyecto</th>
                             <th>Área m²</th>
+                            <th>Hab.</th>
+                            <th>Baños</th>
+                            <th>Mueble Cocina</th>
+                            <th>Barra Aux.</th>
                             <th>Entrega</th>
                             <th>Recibida</th>
-                            <th style="text-align:right;">Acciones</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,20 +262,19 @@
                             <tr>
                                 <td><strong>#{{ $cot->id }}</strong></td>
                                 <td><strong>{{ $cot->nombre }} {{ $cot->apellido }}</strong></td>
-                                <td style="color:#555;">{{ $cot->email }}</td>
+                                <td style="color:#555; font-size:0.78rem;">{{ $cot->email }}</td>
                                 <td style="color:#555;">{{ $cot->telefono ?? '-' }}</td>
-                                <td>
-                                    @if($cot->tipo_obra)
-                                        <span class="badge badge-obra">{{ $cot->tipo_obra }}</span>
-                                    @else —
-                                    @endif
-                                </td>
                                 <td>{{ $cot->nombre_proyecto ?? '-' }}</td>
-                                <td>{{ $cot->area_privada ? number_format($cot->area_privada, 0, ',', '.') : '-' }}</td>
-                                <td>{{ $cot->fecha_entrega ? $cot->fecha_entrega->format('d/m/Y') : '-' }}</td>
-                                <td style="color:#888; font-size:0.82rem;">{{ $cot->created_at->format('d/m/Y H:i') }}</td>
-                                <td style="text-align:right; white-space:nowrap;">
+                                <td>{{ $cot->area_privada ? number_format($cot->area_privada, 1, ',', '.') : '-' }}</td>
+                                <td>{{ $cot->num_habitaciones ?? '-' }}</td>
+                                <td>{{ $cot->num_banos ?? '-' }}</td>
+                                <td>{{ $cot->tiene_mueble_alto_cocina ? 'Sí' : 'No' }}</td>
+                                <td>{{ $cot->tiene_barra_auxiliar ? 'Sí' : 'No' }}</td>
+                                <td style="font-size:0.78rem;">{{ $cot->fecha_entrega ? $cot->fecha_entrega->format('d/m/Y') : '-' }}</td>
+                                <td style="color:#888; font-size:0.78rem;">{{ $cot->created_at->format('d/m/Y H:i') }}</td>
+                                <td style="white-space:nowrap;">
                                     <button type="button" class="btn-edit" @click="open({{ $cot->id }})">Editar</button>
+                                    <a href="/cotizacion/{{ $cot->id }}/pdf/elemental?h={{ $cot->num_habitaciones ?? 1 }}" target="_blank" class="btn-pdf" style="text-decoration:none;">PDF</a>
                                     <form method="POST" action="{{ route('admin.cotizaciones.destroy', $cot->id) }}" style="display:inline;" @submit.prevent="del($event)">
                                         @csrf
                                         @method('DELETE')
@@ -157,7 +283,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="10" class="empty">No hay cotizaciones registradas aún.</td></tr>
+                            <tr><td colspan="13" class="empty">No hay cotizaciones registradas aún.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -206,6 +332,10 @@
                         <div class="fg">
                             <label>Fecha de Entrega</label>
                             <input type="date" name="fecha_entrega" class="fi" :value="c?.fecha_entrega ? c.fecha_entrega.substring(0,10) : ''">
+                        </div>
+                        <div class="fg">
+                            <label>N° de Habitaciones</label>
+                            <input type="number" min="1" name="num_habitaciones" class="fi" :value="c?.num_habitaciones">
                         </div>
                         <div class="fg">
                             <label>N° de Baños</label>
@@ -260,5 +390,121 @@
                 }
             }
         }
+
+        // Admin cotizador - AJAX submit
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('adminCotizadorForm');
+            const btn = document.getElementById('btnAdminCalcular');
+            const planesList = document.getElementById('adminPlanesList');
+            const resultados = document.getElementById('adminResultados');
+
+            let currentAdminData = {};
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const raw = Object.fromEntries(formData.entries());
+                delete raw._token;
+
+                const data = {
+                    nombre: raw.nombre,
+                    apellido: raw.apellido,
+                    email: raw.email,
+                    telefono: raw.telefono,
+                    area_privada: raw.area_privada,
+                    num_habitaciones: raw.num_habitaciones || '1',
+                    num_banos: raw.num_banos || '1',
+                    tiene_mueble_alto_cocina: 1,
+                    tiene_barra_auxiliar: 1,
+                    nombre_proyecto: raw.nombre_proyecto || null,
+                    fecha_entrega: raw.fecha_entrega || null,
+                };
+                currentAdminData = data;
+
+                btn.classList.add('loading');
+                btn.innerText = 'Calculando...';
+                btn.disabled = true;
+
+                try {
+                    const response = await fetch('/api/cotizacion/store', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok || response.status === 201) {
+                        const cotizacionId = result.cotizacion ? result.cotizacion.id : null;
+                        const numHabs = parseInt(data.num_habitaciones || 1);
+                        mostrarPropuestasAdmin(result.propuestas, cotizacionId, numHabs);
+                    } else if (result.errors) {
+                        const msgs = Object.values(result.errors).flat().join('\n');
+                        alert('Errores:\n' + msgs);
+                    } else {
+                        alert('Error: ' + (result.error || 'No se pudo generar la cotización'));
+                    }
+                } catch (error) {
+                    alert('Hubo un problema de red. Verifica que el servidor esté funcionando.');
+                } finally {
+                    btn.classList.remove('loading');
+                    btn.innerText = 'Calcular Presupuestos ✨';
+                    btn.disabled = false;
+                }
+            });
+
+            function mostrarPropuestasAdmin(propuestasObj, cotizacionId, numHabs) {
+                planesList.innerHTML = '';
+                const propuestas = Object.values(propuestasObj);
+                const d = currentAdminData;
+
+                const taglines = {
+                    'elemental': 'Lo esencial, bien hecho',
+                    'estandar': 'El equilibrio perfecto',
+                    'experto': 'Acabados de alta gama'
+                };
+
+                propuestas.forEach((plan) => {
+                    const card = document.createElement('div');
+                    card.className = `admin-plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
+                    card.innerHTML = `
+                        <h3>Línea ${plan.tipo}</h3>
+                        <p style="font-size:0.82rem;color:#888;">${taglines[plan.tipo] || ''}</p>
+                        <div class="price">${plan.vr_total_formateado}</div>
+                        <div class="price-m2">${plan.precio_m2_formateado}</div>
+                        ${cotizacionId ? `
+                            <a href="/cotizacion/${cotizacionId}/pdf/${plan.tipo}?h=${numHabs}"
+                               target="_blank" class="btn-pdf-plan">
+                                📄 Descargar PDF
+                            </a>
+                        ` : ''}
+                        <br>
+                        <a href="https://wa.me/573224307053?text=${encodeURIComponent(
+                            'Hola, soy el administrador de Escuadr Arq.\n\n' +
+                            'Hemos generado una cotización para:\n' +
+                            '- Cliente: ' + (d.nombre || '') + ' ' + (d.apellido || '') + '\n' +
+                            '- Proyecto: ' + (d.nombre_proyecto || 'N/A') + '\n' +
+                            '- Área: ' + (d.area_privada || '0') + ' m²\n' +
+                            '- Habitaciones: ' + numHabs + '\n' +
+                            '- Baños: ' + (d.num_banos || '1') + '\n\n' +
+                            '*Línea Elegida:* ' + plan.tipo.toUpperCase() + '\n' +
+                            '*Valor Total:* ' + plan.vr_total_formateado
+                        )}"
+                           target="_blank" class="btn-whatsapp">
+                            Enviar por WhatsApp
+                        </a>
+                    `;
+                    planesList.appendChild(card);
+                });
+
+                resultados.style.display = 'block';
+                resultados.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     </script>
 </x-app-layout>

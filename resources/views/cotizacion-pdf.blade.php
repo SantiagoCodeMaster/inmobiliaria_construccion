@@ -156,60 +156,10 @@
             font-size: 8px;
         }
         .actividades-table tbody td.act { width: 45%; line-height: 1.4; }
-        .actividades-table tbody td.und { text-align: center; width: 6%; }
         .actividades-table tbody td.cant { text-align: right; width: 8%; }
-        .actividades-table tbody td.vunit { text-align: right; width: 13%; }
-        .actividades-table tbody td.vtotal { text-align: right; width: 14%; font-weight: bold; color: #1a1a1a; }
+        .actividades-table tbody td.vtotal { text-align: right; width: 27%; font-weight: bold; color: #1a1a1a; }
 
-        /* RESUMEN FINANCIERO */
-        .resumen-wrap {
-            display: table;
-            width: 100%;
-            margin-bottom: 12px;
-        }
-        .resumen-left {
-            display: table-cell;
-            width: 55%;
-            vertical-align: top;
-        }
-        .resumen-right {
-            display: table-cell;
-            width: 45%;
-            vertical-align: top;
-            padding-left: 12px;
-        }
-        .resumen-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .resumen-table tr td {
-            padding: 5px 8px;
-            border: 1px solid #e0e0e0;
-            font-size: 8.5px;
-        }
-        .resumen-table .lbl-r {
-            background: #f5f2ec;
-            color: #555;
-            width: 65%;
-        }
-        .resumen-table .val-r {
-            text-align: right;
-            background: #fff;
-            color: #1a1a1a;
-            font-weight: bold;
-            width: 35%;
-        }
-        .resumen-table .row-total td {
-            background: #1a1a1a !important;
-            color: #c9a961 !important;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .resumen-table .row-subtotal td {
-            background: #2a2a2a !important;
-            color: #e0e0e0 !important;
-            font-size: 9px;
-        }
+        /* FORMA DE PAGO */
 
         /* FORMA DE PAGO */
         .pago-table {
@@ -402,9 +352,7 @@
                 <th class="center">No</th>
                 <th>Capítulo</th>
                 <th>Actividades</th>
-                <th class="center">UND</th>
                 <th class="right">Cantidad</th>
-                <th class="right">V. Unitario</th>
                 <th class="right">V. Total</th>
             </tr>
         </thead>
@@ -415,9 +363,7 @@
                 <td class="num">{{ $rowNum++ }}</td>
                 <td class="cap">{{ $item['categoria'] }}</td>
                 <td class="act">{{ $item['descripcion'] }}</td>
-                <td class="und">{{ $item['unidad'] }}</td>
                 <td class="cant">{{ number_format($item['cantidad'], 2) }}</td>
-                <td class="vunit">$ {{ number_format($item['valor_unitario'], 0, ',', '.') }}</td>
                 <td class="vtotal">$ {{ number_format($item['vr_total'], 0, ',', '.') }}</td>
             </tr>
             @endforeach
@@ -425,77 +371,39 @@
     </table>
 
     {{-- PROPUESTA ECONÓMICA + FORMA DE PAGO --}}
-    <div class="resumen-wrap">
-        <div class="resumen-left">
-            <div class="section-title">Propuesta Económica</div>
-            <table class="resumen-table">
-                <tr class="row-subtotal">
-                    <td class="lbl-r"><strong>Subtotal Actividades</strong></td>
-                    <td class="val-r">$ {{ number_format($propuesta['subtotal'], 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td class="lbl-r">Administración (12%)</td>
-                    <td class="val-r">$ {{ number_format($propuesta['administracion_12pct'], 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td class="lbl-r">Imprevistos (3%)</td>
-                    <td class="val-r">$ {{ number_format($propuesta['imprevistos_3pct'], 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td class="lbl-r">Utilidad (4%)</td>
-                    <td class="val-r">$ {{ number_format($propuesta['utilidad_4pct'], 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <td class="lbl-r">IVA sobre Utilidad (19%)</td>
-                    <td class="val-r">$ {{ number_format($propuesta['iva_sobre_u_19pct'], 0, ',', '.') }}</td>
-                </tr>
-                <tr class="row-total">
-                    <td class="lbl-r"><strong>TOTAL PROPUESTA</strong></td>
-                    <td class="val-r">{{ $propuesta['vr_total_formateado'] }}</td>
-                </tr>
-                <tr>
-                    <td class="lbl-r" style="background:#f0f0f0;">Precio / m²</td>
-                    <td class="val-r" style="background:#f0f0f0;">{{ $propuesta['precio_m2_formateado'] }}</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="resumen-right">
-            <div class="section-title">Forma de Pago</div>
-            @php
-                $total = $propuesta['vr_total'];
-                $pagos = [
-                    ['cuota' => '45% de anticipo para inicio de labores', 'pct' => 45, 'detalle' => 'M.O + materiales obra gris + super board + parcial madera'],
-                    ['cuota' => '30%  semana No. 3', 'pct' => 30, 'detalle' => 'M.O + materiales madera'],
-                    ['cuota' => '25%  semana No. 7', 'pct' => 25, 'detalle' => 'M.O + materiales electrodomésticos + vidrio'],
-                    ['cuota' => '5%  contra entrega', 'pct' => 5, 'detalle' => 'Mano de obra final'],
-                ];
-            @endphp
-            <table class="pago-table">
-                <thead>
-                    <tr>
-                        <th>Cuota</th>
-                        <th>%</th>
-                        <th>Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pagos as $pago)
-                    <tr>
-                        <td>{{ $pago['cuota'] }}</td>
-                        <td class="pct">{{ $pago['pct'] }}%</td>
-                        <td class="monto">$ {{ number_format(round($total * $pago['pct'] / 100), 0, ',', '.') }}</td>
-                    </tr>
-                    @endforeach
-                    <tr style="background:#1a1a1a; color:#c9a961; font-weight:bold;">
-                        <td><strong>TOTAL</strong></td>
-                        <td class="pct">100%</td>
-                        <td class="monto" style="color:#c9a961;">$ {{ number_format($total, 0, ',', '.') }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <div class="section-title">Forma de Pago</div>
+    @php
+        $total = $propuesta['vr_total'];
+        $pagos = [
+            ['cuota' => '45% de anticipo para inicio de labores', 'pct' => 45, 'detalle' => 'M.O + materiales obra gris + super board + parcial madera'],
+            ['cuota' => '30%  semana No. 3', 'pct' => 30, 'detalle' => 'M.O + materiales madera'],
+            ['cuota' => '25%  semana No. 7', 'pct' => 25, 'detalle' => 'M.O + materiales electrodomésticos + vidrio'],
+            ['cuota' => '5%  contra entrega', 'pct' => 5, 'detalle' => 'Mano de obra final'],
+        ];
+    @endphp
+    <table class="pago-table">
+        <thead>
+            <tr>
+                <th>Cuota</th>
+                <th>%</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($pagos as $pago)
+            <tr>
+                <td>{{ $pago['cuota'] }}</td>
+                <td class="pct">{{ $pago['pct'] }}%</td>
+                <td class="monto">$ {{ number_format(round($total * $pago['pct'] / 100), 0, ',', '.') }}</td>
+            </tr>
+            @endforeach
+            <tr style="background:#1a1a1a; color:#c9a961; font-weight:bold;">
+                <td><strong>TOTAL</strong></td>
+                <td class="pct">100%</td>
+                <td class="monto" style="color:#c9a961;">$ {{ number_format($total, 0, ',', '.') }}</td>
+            </tr>
+        </tbody>
+    </table>
 
     {{-- ESPECIFICACIONES Y GARANTÍAS --}}
     <div class="specs-box">
