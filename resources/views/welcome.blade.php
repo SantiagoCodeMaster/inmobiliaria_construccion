@@ -2432,7 +2432,7 @@
             }
 
             // 4. REGLAS EXCLUSIVAS DE EXPERTO / APARATOS / QUARZTONE
-            if (desc.includes('mueble de ropas')) return "{{ asset('mublescuartoexperto.png') }}";
+            if (desc.includes('mueble de ropas')) return "{{ asset('mueble_ropas.png') }}";
             if (desc.includes('estufa de empotrar')) return "{{ asset('estufaagasvidrio.png') }}";
             if (desc.includes('horno')) return "{{ asset('horno.png') }}";
             if (desc.includes('kit sanitario') || desc.includes('acoflex sanitario')) return "{{ asset('kitacoflex.png') }}";
@@ -2457,7 +2457,7 @@
             if (desc.includes('mueble alto de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
             if (desc.includes('espejo flotado')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
             if (desc.includes('puertas en madera')) return "{{ asset('puertaestandar.png') }}";
-            if (desc.includes('barra auxiliar de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
+            if (desc.includes('barra auxiliar de cocina')) return "{{ asset('cocina_barra_auxiliar.png') }}";
             if (desc.includes('campana extractora')) return "{{ asset('estractoraltococina.png') }}";
 
             // 6. REGLAS DE ELEMENTAL (base para todas)
