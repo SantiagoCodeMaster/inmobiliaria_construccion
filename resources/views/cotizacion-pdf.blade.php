@@ -156,8 +156,7 @@
             font-size: 8px;
         }
         .actividades-table tbody td.act { width: 45%; line-height: 1.4; }
-        .actividades-table tbody td.cant { text-align: right; width: 8%; }
-        .actividades-table tbody td.vtotal { text-align: right; width: 27%; font-weight: bold; color: #1a1a1a; }
+        .actividades-table tbody td.cant { text-align: right; width: 12%; }
 
         /* FORMA DE PAGO */
 
@@ -353,7 +352,7 @@
                 <th>Capítulo</th>
                 <th>Actividades</th>
                 <th class="right">Cantidad</th>
-                <th class="right">V. Total</th>
+                <th class="right">UND</th>
             </tr>
         </thead>
         <tbody>
@@ -364,16 +363,24 @@
                 <td class="cap">{{ $item['categoria'] }}</td>
                 <td class="act">{{ $item['descripcion'] }}</td>
                 <td class="cant">{{ number_format($item['cantidad'], 2) }}</td>
-                <td class="vtotal">$ {{ number_format($item['vr_total'], 0, ',', '.') }}</td>
+                <td class="cant">{{ $item['unidad'] ?? '' }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
-    {{-- PROPUESTA ECONÓMICA + FORMA DE PAGO --}}
+    {{-- VALOR TOTAL --}}
+    @php $total = $propuesta['vr_total']; @endphp
+    <div style="margin-bottom:10px; padding:10px 14px; background:#1a1a1a; border-radius:6px; display:table; width:100%;">
+        <div style="display:table-cell; vertical-align:middle; color:#e0e0e0; font-size:9px; text-transform:uppercase; letter-spacing:1px;">Valor Total de la Cotización</div>
+        <div style="display:table-cell; vertical-align:middle; text-align:right; font-size:16px; font-weight:bold; color:#c9a961;">
+            $ {{ number_format($total, 0, ',', '.') }}
+        </div>
+    </div>
+
+    {{-- FORMA DE PAGO --}}
     <div class="section-title">Forma de Pago</div>
     @php
-        $total = $propuesta['vr_total'];
         $pagos = [
             ['cuota' => '45% de anticipo para inicio de labores', 'pct' => 45, 'detalle' => 'M.O + materiales obra gris + super board + parcial madera'],
             ['cuota' => '30%  semana No. 3', 'pct' => 30, 'detalle' => 'M.O + materiales madera'],
@@ -386,7 +393,6 @@
             <tr>
                 <th>Cuota</th>
                 <th>%</th>
-                <th>Monto</th>
             </tr>
         </thead>
         <tbody>
@@ -394,14 +400,8 @@
             <tr>
                 <td>{{ $pago['cuota'] }}</td>
                 <td class="pct">{{ $pago['pct'] }}%</td>
-                <td class="monto">$ {{ number_format(round($total * $pago['pct'] / 100), 0, ',', '.') }}</td>
             </tr>
             @endforeach
-            <tr style="background:#1a1a1a; color:#c9a961; font-weight:bold;">
-                <td><strong>TOTAL</strong></td>
-                <td class="pct">100%</td>
-                <td class="monto" style="color:#c9a961;">$ {{ number_format($total, 0, ',', '.') }}</td>
-            </tr>
         </tbody>
     </table>
 

@@ -210,34 +210,80 @@
                         </div>
 
                         {{-- AGREGAR ACTIVIDAD --}}
-                        <div class="add-form">
-                            <div>
-                                <label>Actividad del catálogo</label>
-                                <select x-model="nueva.catalogo_id" @change="selCatalogo()">
-                                    <option value="">— Seleccionar —</option>
-                                    <template x-for="cat in catalogo" :key="cat.id">
-                                        <option :value="cat.id" x-text="cat.nombre + ' — ' + cat.descripcion"></option>
-                                    </template>
-                                </select>
+                        <div style="margin-top:1.5rem;">
+                            {{-- Toggle modo --}}
+                            <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+                                <button
+                                    @click="modoAgregar='catalogo'; nueva={catalogo_id:'',categoria:'',descripcion:'',unidad:'UND',cantidad:1,valor_unitario:0}"
+                                    :style="modoAgregar==='catalogo' ? 'background:var(--primary);color:white;border-color:var(--primary);' : ''"
+                                    class="tab" style="font-size:0.75rem;">
+                                    📋 Del Catálogo
+                                </button>
+                                <button
+                                    @click="modoAgregar='extraordinaria'; nueva={catalogo_id:'',categoria:'',descripcion:'',unidad:'UND',cantidad:1,valor_unitario:0}"
+                                    :style="modoAgregar==='extraordinaria' ? 'background:var(--accent);color:var(--primary);border-color:var(--accent);' : ''"
+                                    class="tab" style="font-size:0.75rem;">
+                                    ⚡ Actividad Extraordinaria
+                                </button>
                             </div>
-                            <div>
-                                <label>Categoría</label>
-                                <input x-model="nueva.categoria" placeholder="Ej: Iluminación">
+
+                            {{-- Formulario Catálogo --}}
+                            <div x-show="modoAgregar==='catalogo'" class="add-form">
+                                <div>
+                                    <label>Actividad del catálogo</label>
+                                    <select x-model="nueva.catalogo_id" @change="selCatalogo()">
+                                        <option value="">— Seleccionar —</option>
+                                        <template x-for="cat in catalogo" :key="cat.id">
+                                            <option :value="cat.id" x-text="cat.nombre + ' — ' + cat.descripcion"></option>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Categoría</label>
+                                    <input x-model="nueva.categoria" placeholder="Ej: Iluminación">
+                                </div>
+                                <div>
+                                    <label>UND</label>
+                                    <input x-model="nueva.unidad" placeholder="UND">
+                                </div>
+                                <div>
+                                    <label>Cantidad</label>
+                                    <input type="number" step="0.01" min="0" x-model="nueva.cantidad">
+                                </div>
+                                <div>
+                                    <label>V. Unitario</label>
+                                    <input type="number" step="1" min="0" x-model="nueva.valor_unitario">
+                                </div>
+                                <div>
+                                    <button class="btn-icon" style="background:var(--primary);color:white;border:none;padding:0.55rem 1rem;" @click="agregar()">+ Agregar</button>
+                                </div>
                             </div>
-                            <div>
-                                <label>UND</label>
-                                <input x-model="nueva.unidad" placeholder="UND">
-                            </div>
-                            <div>
-                                <label>Cantidad</label>
-                                <input type="number" step="0.01" min="0" x-model="nueva.cantidad">
-                            </div>
-                            <div>
-                                <label>V. Unitario</label>
-                                <input type="number" step="1" min="0" x-model="nueva.valor_unitario">
-                            </div>
-                            <div>
-                                <button class="btn-icon" style="background:var(--primary);color:white;border:none;padding:0.55rem 1rem;" @click="agregar()" title="Agregar">+ Agregar</button>
+
+                            {{-- Formulario Extraordinaria --}}
+                            <div x-show="modoAgregar==='extraordinaria'" class="add-form" style="border:2px solid var(--accent);">
+                                <div>
+                                    <label>Descripción de la actividad</label>
+                                    <input x-model="nueva.descripcion" placeholder="Ej: Derrumbe de cocina, Tejado, ...">
+                                </div>
+                                <div>
+                                    <label>Categoría</label>
+                                    <input x-model="nueva.categoria" placeholder="Ej: Cocina">
+                                </div>
+                                <div>
+                                    <label>UND</label>
+                                    <input x-model="nueva.unidad" placeholder="UND / m² / ml">
+                                </div>
+                                <div>
+                                    <label>Cantidad</label>
+                                    <input type="number" step="0.01" min="0" x-model="nueva.cantidad">
+                                </div>
+                                <div>
+                                    <label>V. Unitario</label>
+                                    <input type="number" step="1" min="0" x-model="nueva.valor_unitario">
+                                </div>
+                                <div>
+                                    <button class="btn-icon" style="background:var(--accent);color:var(--primary);border:none;padding:0.55rem 1rem;font-weight:700;" @click="agregar()">+ Agregar</button>
+                                </div>
                             </div>
                         </div>
 
@@ -297,6 +343,7 @@
                     cantidad: 1,
                     valor_unitario: 0,
                 },
+                modoAgregar: 'catalogo',
 
                 async cargar(tipo) {
                     this.tipo = tipo;
