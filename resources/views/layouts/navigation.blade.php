@@ -11,7 +11,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-[#d4af37] text-[#d4af37]' : 'border-transparent text-gray-400 hover:text-[#d4af37] hover:border-[#d4af37]' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
                         {{ __('Dashboard') }}
-                    </a>
+                    </a>           
                 </div>
             </div>
 
@@ -59,9 +59,9 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-[#1a1a1a]">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-300 hover:text-[#d4af37]">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-300 hover:text-[#d4af37]">
+                        {{ __('Dashboard') }}
+                    </x-responsive-nav-link>
         </div>
 
         <div class="pt-4 pb-1 border-t border-[#2d2d2d]">
