@@ -121,6 +121,8 @@
         .admin-plan-card .btn-whatsapp:hover { background: #128C7E; }
         .admin-plan-card.experto { border-color: var(--accent); }
         .admin-plan-card.experto h3 { color: var(--accent); }
+        .admin-plan-card.maestro { border-color: #3a7d44; border-style: dashed; }
+        .admin-plan-card.maestro h3 { color: #3a7d44; }
 
         .admin-section-title {
             font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
@@ -469,12 +471,13 @@
                 const taglines = {
                     'elemental': 'Lo esencial, bien hecho',
                     'estandar': 'El equilibrio perfecto',
-                    'experto': 'Acabados de alta gama'
+                    'experto': 'Acabados de alta gama',
+                    'maestro': 'El precio más accesible'
                 };
 
                 propuestas.forEach((plan) => {
                     const card = document.createElement('div');
-                    card.className = `admin-plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
+                    card.className = `admin-plan-card ${plan.tipo === 'experto' ? 'experto' : (plan.tipo === 'maestro' ? 'maestro' : '')}`;
                     card.innerHTML = `
                         <h3>Línea ${plan.tipo}</h3>
                         <p style="font-size:0.82rem;color:#888;">${taglines[plan.tipo] || ''}</p>

@@ -9,9 +9,12 @@ class CotizacionService
 {
     // Constantes de porcentajes AIU
     private const ADMINISTRACION = 0.12;
-    private const IMPREVISTOS    = 0.03;
-    private const UTILIDAD       = 0.04;
-    private const IVA_UTILIDAD   = 0.19; // 19% aplicado SOLO sobre la utilidad
+
+    private const IMPREVISTOS = 0.03;
+
+    private const UTILIDAD = 0.04;
+
+    private const IVA_UTILIDAD = 0.19; // 19% aplicado SOLO sobre la utilidad
 
     // ─── Palabras clave para detección de categoría ────────────────────────────
 
@@ -70,14 +73,14 @@ class CotizacionService
     ];
 
     /**
-     * Calcula las propuestas de cotización (elemental, estándar, experto).
+     * Calcula las propuestas de cotización (maestro, elemental, estándar, experto).
      */
     public function calcularPropuestas(array $datos): array
     {
         $parametros = $this->normalizarParametrosEntrada($datos);
         $resultados = [];
 
-        foreach (['elemental', 'estandar', 'experto'] as $tipo) {
+        foreach (['elemental', 'estandar', 'experto', 'maestro'] as $tipo) {
             $resultados[$tipo] = $this->calcularPropuestaIndividual($tipo, $parametros);
         }
 
@@ -90,11 +93,11 @@ class CotizacionService
     private function normalizarParametrosEntrada(array $datos): array
     {
         return [
-            'area_privada'             => max((float) ($datos['area_privada'] ?? 0), 1.0),
-            'num_banos'                => max((int) ($datos['num_banos'] ?? 1), 1),
-            'num_habitaciones'         => max((int) ($datos['num_habitaciones'] ?? 1), 1),
+            'area_privada' => max((float) ($datos['area_privada'] ?? 0), 1.0),
+            'num_banos' => max((int) ($datos['num_banos'] ?? 1), 1),
+            'num_habitaciones' => max((int) ($datos['num_habitaciones'] ?? 1), 1),
             'tiene_mueble_alto_cocina' => (bool) ($datos['tiene_mueble_alto_cocina'] ?? false),
-            'tiene_barra_auxiliar'     => (bool) ($datos['tiene_barra_auxiliar'] ?? false),
+            'tiene_barra_auxiliar' => (bool) ($datos['tiene_barra_auxiliar'] ?? false),
         ];
     }
 
@@ -103,23 +106,24 @@ class CotizacionService
      */
     private function calcularPropuestaIndividual(string $tipo, array $parametros): array
     {
-        $items   = $this->obtenerItemsPropuesta($tipo);
+        $items = $this->obtenerItemsPropuesta($tipo);
         $detalle = $this->procesarItems($items, $parametros);
         $subtotal = $this->calcularSubtotal($detalle);
-        $totales  = $this->calcularTotalesAIU($subtotal, $parametros['area_privada']);
+        $aplicarAIU = $tipo !== 'maestro';
+        $totales = $this->calcularTotalesAIU($subtotal, $parametros['area_privada'], $aplicarAIU);
 
         return [
-            'tipo'                  => $tipo,
-            'subtotal'              => $totales['subtotal'],
-            'administracion_12pct'  => $totales['administracion'],
-            'imprevistos_3pct'      => $totales['imprevistos'],
-            'utilidad_4pct'         => $totales['utilidad'],
-            'iva_sobre_u_19pct'     => $totales['iva_utilidad'],
-            'vr_total'              => $totales['total'],
-            'precio_oferta_m2'      => $totales['precio_m2'],
-            'vr_total_formateado'   => $totales['total_formateado'],
-            'precio_m2_formateado'  => $totales['precio_m2_formateado'],
-            'detalle'               => $detalle,
+            'tipo' => $tipo,
+            'subtotal' => $totales['subtotal'],
+            'administracion_12pct' => $totales['administracion'],
+            'imprevistos_3pct' => $totales['imprevistos'],
+            'utilidad_4pct' => $totales['utilidad'],
+            'iva_sobre_u_19pct' => $totales['iva_utilidad'],
+            'vr_total' => $totales['total'],
+            'precio_oferta_m2' => $totales['precio_m2'],
+            'vr_total_formateado' => $totales['total_formateado'],
+            'precio_m2_formateado' => $totales['precio_m2_formateado'],
+            'detalle' => $detalle,
         ];
     }
 
@@ -138,7 +142,7 @@ class CotizacionService
      */
     private function procesarItems(Collection $items, array $parametros): array
     {
-        $detalle    = [];
+        $detalle = [];
         $numPuertas = $parametros['num_banos'] + $parametros['num_habitaciones'];
 
         foreach ($items as $item) {
@@ -149,8 +153,8 @@ class CotizacionService
             }
 
             $multiplicador = $this->determinarMultiplicador($actividad, $parametros, $numPuertas);
-            $cantidadBase  = $this->calcularCantidadBase($item, $actividad, $parametros);
-            $cantidad      = $cantidadBase * $multiplicador;
+            $cantidadBase = $this->calcularCantidadBase($item, $actividad, $parametros);
+            $cantidad = $cantidadBase * $multiplicador;
 
             // Items con cantidad 0 se omiten (opcionales que el usuario no eligió)
             if ($cantidad == 0) {
@@ -160,12 +164,12 @@ class CotizacionService
             $vrTotalItem = $cantidad * (float) $actividad->valor_unitario;
 
             $detalle[] = [
-                'categoria'     => $actividad->nombre,
-                'descripcion'   => $actividad->descripcion,
-                'unidad'        => $actividad->unidad,
-                'cantidad'      => round($cantidad, 2),
+                'categoria' => $actividad->nombre,
+                'descripcion' => $actividad->descripcion,
+                'unidad' => $actividad->unidad,
+                'cantidad' => round($cantidad, 2),
                 'valor_unitario' => (int) round((float) $actividad->valor_unitario),
-                'vr_total'      => (int) round($vrTotalItem),
+                'vr_total' => (int) round($vrTotalItem),
             ];
         }
 
@@ -191,7 +195,7 @@ class CotizacionService
             return 1;
         }
 
-        $textoBusqueda = mb_strtolower($actividad->nombre . ' ' . $actividad->descripcion, 'UTF-8');
+        $textoBusqueda = mb_strtolower($actividad->nombre.' '.$actividad->descripcion, 'UTF-8');
 
         // 1. Cocina / Zona de ropas → fijo 1
         foreach (self::KEYWORDS_COCINA as $keyword) {
@@ -242,6 +246,7 @@ class CotizacionService
             if ($item->area_base > 0) {
                 return (float) $item->area_base;
             }
+
             return $parametros['area_privada'];
         }
 
@@ -254,7 +259,7 @@ class CotizacionService
         }
 
         // Items opcionales del usuario
-        $textoBusqueda = mb_strtolower($actividad->nombre . ' ' . $actividad->descripcion, 'UTF-8');
+        $textoBusqueda = mb_strtolower($actividad->nombre.' '.$actividad->descripcion, 'UTF-8');
 
         if (str_contains($textoBusqueda, 'mueble alto') && str_contains($textoBusqueda, 'cocina')) {
             return $parametros['tiene_mueble_alto_cocina'] ? 1 : 0;
@@ -292,27 +297,30 @@ class CotizacionService
      *   IVA sobre U    = utilidad × 19%
      *   Total          = subtotal + admon + imprevistos + utilidad + IVA sobre U
      *   Precio m²      = total / área privada
+     *
+     * Si $aplicarAIU es false (plan maestro), todos los recargos son 0
+     * y el total es igual al subtotal.
      */
-    public function calcularTotalesAIU(float $subtotal, float $areaPrivada): array
+    public function calcularTotalesAIU(float $subtotal, float $areaPrivada, bool $aplicarAIU = true): array
     {
-        $administracion = $subtotal * self::ADMINISTRACION;
-        $imprevistos    = $subtotal * self::IMPREVISTOS;
-        $utilidad       = $subtotal * self::UTILIDAD;
-        $ivaUtilidad    = $utilidad * self::IVA_UTILIDAD;
+        $administracion = $aplicarAIU ? $subtotal * self::ADMINISTRACION : 0;
+        $imprevistos = $aplicarAIU ? $subtotal * self::IMPREVISTOS : 0;
+        $utilidad = $aplicarAIU ? $subtotal * self::UTILIDAD : 0;
+        $ivaUtilidad = $utilidad * self::IVA_UTILIDAD;
 
-        $total    = $subtotal + $administracion + $imprevistos + $utilidad + $ivaUtilidad;
+        $total = $subtotal + $administracion + $imprevistos + $utilidad + $ivaUtilidad;
         $precioM2 = $areaPrivada > 0 ? $total / $areaPrivada : 0;
 
         return [
-            'subtotal'          => (int) round($subtotal),
-            'administracion'    => (int) round($administracion),
-            'imprevistos'       => (int) round($imprevistos),
-            'utilidad'          => (int) round($utilidad),
-            'iva_utilidad'      => (int) round($ivaUtilidad),
-            'total'             => (int) round($total),
-            'precio_m2'         => (int) round($precioM2),
-            'total_formateado'  => '$' . number_format(round($total), 0, ',', '.'),
-            'precio_m2_formateado' => '$' . number_format(round($precioM2), 0, ',', '.') . '/m²',
+            'subtotal' => (int) round($subtotal),
+            'administracion' => (int) round($administracion),
+            'imprevistos' => (int) round($imprevistos),
+            'utilidad' => (int) round($utilidad),
+            'iva_utilidad' => (int) round($ivaUtilidad),
+            'total' => (int) round($total),
+            'precio_m2' => (int) round($precioM2),
+            'total_formateado' => '$'.number_format(round($total), 0, ',', '.'),
+            'precio_m2_formateado' => '$'.number_format(round($precioM2), 0, ',', '.').'/m²',
         ];
     }
 }

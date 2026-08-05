@@ -31,7 +31,7 @@ class AdminCotizacionDetalleController extends Controller
         $base = $cotizador->calcularPropuestas($datos);
 
         $propuestas = [];
-        foreach (['elemental', 'estandar', 'experto'] as $tipo) {
+        foreach (['elemental', 'estandar', 'experto', 'maestro'] as $tipo) {
             $customs = CotizacionActividad::where('cotizacion_id', $cotizacion->id)
                 ->where('tipo_plan', $tipo)
                 ->get();
@@ -47,7 +47,8 @@ class AdminCotizacionDetalleController extends Controller
                 ])->values()->all();
 
                 $subtotal = array_sum(array_column($detalle, 'vr_total'));
-                $totales = $cotizador->calcularTotalesAIU($subtotal, (float) ($cotizacion->area_privada ?: 1));
+                $aplicarAIU = $tipo !== 'maestro';
+                $totales = $cotizador->calcularTotalesAIU($subtotal, (float) ($cotizacion->area_privada ?: 1), $aplicarAIU);
 
                 $propuestas[$tipo] = [
                     'tipo' => $tipo,
@@ -167,6 +168,7 @@ class AdminCotizacionDetalleController extends Controller
 
         $request->validate([
             'actividades' => 'required|array',
+            'tipo' => 'nullable|in:elemental,estandar,experto,maestro',
         ]);
 
         $subtotal = 0;
@@ -187,7 +189,8 @@ class AdminCotizacionDetalleController extends Controller
         }
 
         $cotizador = app(CotizacionService::class);
-        $totales = $cotizador->calcularTotalesAIU($subtotal, (float) ($cotizacion->area_privada ?: 1));
+        $aplicarAIU = $request->input('tipo') !== 'maestro';
+        $totales = $cotizador->calcularTotalesAIU($subtotal, (float) ($cotizacion->area_privada ?: 1), $aplicarAIU);
 
         return response()->json([
             'subtotal' => $totales['subtotal'],

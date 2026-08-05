@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PropuestaActividad;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class PropuestaActividadController extends Controller
 {
@@ -37,9 +37,9 @@ class PropuestaActividadController extends Controller
         $this->authorize('create', PropuestaActividad::class);
 
         $validated = $request->validate([
-            'tipo_propuesta'  => 'required|in:elemental,estandar,experto',
-            'actividad_id'    => 'required|exists:actividades,id',
-            'area_base'       => 'required|numeric|min:0',
+            'tipo_propuesta' => 'required|in:elemental,estandar,experto,maestro',
+            'actividad_id' => 'required|exists:actividades,id',
+            'area_base' => 'required|numeric|min:0',
             'multiplicador_m2' => 'nullable|numeric|min:0',
         ]);
 
@@ -58,7 +58,7 @@ class PropuestaActividadController extends Controller
         $this->authorize('update', $item);
 
         $validated = $request->validate([
-            'area_base'        => 'sometimes|numeric|min:0',
+            'area_base' => 'sometimes|numeric|min:0',
             'multiplicador_m2' => 'nullable|numeric|min:0',
         ]);
 

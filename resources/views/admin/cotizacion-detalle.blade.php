@@ -10,8 +10,15 @@
             'elemental' => 'Lo esencial, bien hecho',
             'estandar'  => 'El equilibrio perfecto',
             'experto'   => 'Acabados de alta gama',
+            'maestro'   => 'El precio más accesible',
         ];
         $features = [
+            'maestro' => [
+                'Pisos, Muros y Techos esenciales',
+                'Sin administración, imprevistos ni utilidad',
+                'Aseo final incluido',
+                'La opción más económica',
+            ],
             'elemental' => [
                 'Diseño y Administración incluidos',
                 'Muros, Pisos y Techos listos',
@@ -122,6 +129,29 @@
             white-space: nowrap;
             z-index: 2;
         }
+        .plan-card.maestro {
+            border: 2px dashed #3a7d44;
+            background: linear-gradient(180deg, white 0%, #f4faf5 100%);
+            box-shadow: var(--shadow-sm);
+        }
+        .plan-card.maestro::before {
+            content: 'El Más Económico';
+            position: absolute;
+            top: -14px; left: 50%;
+            transform: translateX(-50%);
+            background: #3a7d44;
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 7px 18px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            box-shadow: 0 8px 20px rgba(58,125,68,0.35);
+            white-space: nowrap;
+            z-index: 2;
+        }
+        .plan-card.maestro .plan-price { color: #3a7d44; }
         .plan-name { font-size: 1.4rem; margin-bottom: 0.2rem; text-transform: capitalize; display: flex; align-items: center; gap: 0.6rem; }
         .badge-personalizada {
             display: inline-flex; align-items: center; gap: 0.3rem;
@@ -578,7 +608,7 @@
 
             <div class="plans-grid">
                 @foreach ($propuestas as $plan)
-                    <div class="plan-card {{ $plan['tipo'] === 'experto' ? 'experto' : '' }}">
+                    <div class="plan-card {{ $plan['tipo'] === 'experto' ? 'experto' : ($plan['tipo'] === 'maestro' ? 'maestro' : '') }}">
                         <h3 class="plan-name">
                             Línea {{ $plan['tipo'] }}
                             @if ($plan['usando_personalizadas'])
@@ -868,6 +898,8 @@
             badge.innerText = 'Línea ' + plan.tipo;
             if (plan.tipo === 'experto') {
                 badge.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
+            } else if (plan.tipo === 'maestro') {
+                badge.style.background = '#3a7d44';
             } else {
                 badge.style.background = 'var(--primary)';
             }
@@ -1011,7 +1043,7 @@
                                 'Accept': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             },
-                            body: JSON.stringify({ actividades: this.actividades })
+                            body: JSON.stringify({ actividades: this.actividades, tipo: this.tipo })
                         });
                         const json = await res.json();
                         this.resumen = json;

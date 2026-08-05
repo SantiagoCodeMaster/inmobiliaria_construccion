@@ -1041,6 +1041,30 @@
             box-shadow: var(--shadow-gold);
             white-space: nowrap;
         }
+        .plan-card.maestro {
+            border: 2px dashed #3a7d44;
+            background: linear-gradient(180deg, white 0%, #f4faf5 100%);
+            box-shadow: var(--shadow-sm);
+        }
+        .plan-card.maestro::before {
+            content: 'El Más Económico';
+            position: absolute;
+            top: -14px; left: 50%;
+            transform: translateX(-50%);
+            background: #3a7d44;
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 7px 18px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            box-shadow: 0 8px 20px rgba(58,125,68,0.35);
+            white-space: nowrap;
+        }
+        .plan-card.maestro .plan-price { color: #3a7d44; }
+        .plan-card.maestro .btn-select-plan { background: #3a7d44; }
+        .plan-card.maestro .btn-select-plan:hover { background: var(--primary); }
         .plan-name { font-size: 1.4rem; margin-bottom: 0.2rem; text-transform: capitalize; }
         .plan-tagline { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem; }
         .plan-price {
@@ -1946,7 +1970,7 @@
                     <div class="feature-number">02</div>
                     <div class="feature-icon-wrap"><span class="feature-icon">📐</span></div>
                     <h3>Diseño a la Medida</h3>
-                    <p>Tres líneas de acabados diseñadas por arquitectos expertos, desde lo esencial hasta detalles de alta gama en Quarztone y maderas.</p>
+                    <p>Cuatro líneas de acabados diseñadas por arquitectos expertos, desde lo esencial hasta detalles de alta gama en Quarztone y maderas.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-number">03</div>
@@ -1970,7 +1994,7 @@
                 <div class="process-step">
                     <div class="process-number">1</div>
                     <h4>Cotiza Online</h4>
-                    <p>Completa el formulario en 3 pasos y recibe 3 propuestas al instante.</p>
+                    <p>Completa el formulario en 3 pasos y recibe 4 propuestas al instante.</p>
                 </div>
                 <div class="process-step">
                     <div class="process-number">2</div>
@@ -2227,7 +2251,7 @@
         <div class="final-cta-content">
             <span class="section-label" style="color: var(--accent-light);">Listo para empezar</span>
             <h2>Tu nuevo hogar está a <span class="accent-text">3 clics de distancia</span></h2>
-            <p>Obtén 3 propuestas personalizadas gratis. Sin compromisos, sin letras pequeñas.</p>
+            <p>Obtén 4 propuestas personalizadas gratis. Sin compromisos, sin letras pequeñas.</p>
             <a href="#cotizador" class="btn-hero btn-hero-primary" style="background: var(--accent); border-color: var(--accent); color: var(--primary);">
                 Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
             </a>
@@ -2497,6 +2521,8 @@
             badge.innerText = `Línea ${plan.tipo}`;
             if(plan.tipo === 'experto') {
                 badge.style.background = 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
+            } else if(plan.tipo === 'maestro') {
+                badge.style.background = '#3a7d44';
             } else {
                 badge.style.background = 'var(--primary)';
             }
@@ -2740,12 +2766,17 @@
                 const taglines = {
                     'elemental': 'Lo esencial, bien hecho',
                     'estandar': 'El equilibrio perfecto',
-                    'experto': 'Acabados de alta gama'
+                    'experto': 'Acabados de alta gama',
+                    'maestro': 'El precio más accesible'
                 };
 
                 propuestas.forEach((plan) => {
-                    let features = `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
-                    if (plan.tipo === 'elemental') {
+                    let features = plan.tipo === 'maestro'
+                        ? ''
+                        : `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
+                    if (plan.tipo === 'maestro') {
+                        features += `<li><span class="check-icon">✓</span> Pisos, Muros y Techos esenciales</li><li><span class="check-icon">✓</span> Sin administración, imprevistos ni utilidad</li><li><span class="check-icon">✓</span> Aseo final incluido</li><li><span class="check-icon">✓</span> La opción más económica</li>`;
+                    } else if (plan.tipo === 'elemental') {
                         features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
                     } else if (plan.tipo === 'estandar') {
                         features += `<li><span class="check-icon">✓</span> Todo lo de la línea Elemental</li><li><span class="check-icon">✓</span> Carpintería en madera</li><li><span class="check-icon">✓</span> Divisiones en vidrio</li><li><span class="check-icon">✓</span> Mayor variedad en materiales</li>`;
@@ -2754,7 +2785,7 @@
                     }
 
                     const card = document.createElement('div');
-                    card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : ''}`;
+                    card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : (plan.tipo === 'maestro' ? 'maestro' : '')}`;
                     
                     card.innerHTML = `
                         <h3 class="plan-name">Línea ${plan.tipo}</h3>
@@ -2804,9 +2835,9 @@
 
                 setTimeout(() => {
                     btnElement.innerText = originalText;
-                    btnElement.style.background = tipoPropuesta !== 'experto'
-                        ? 'var(--primary)'
-                        : 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)';
+                    btnElement.style.background = tipoPropuesta === 'experto'
+                        ? 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%)'
+                        : (tipoPropuesta === 'maestro' ? '#3a7d44' : 'var(--primary)');
                     btnElement.style.color = '';
                 }, 3000);
             };
