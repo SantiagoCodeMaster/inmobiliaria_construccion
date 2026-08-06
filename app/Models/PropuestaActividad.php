@@ -9,7 +9,7 @@ class PropuestaActividad extends Model
     protected $table = 'propuesta_actividades';
     
     protected $fillable = [
-        'tipo_propuesta', 'actividad_id', 'area_base', 'multiplicador_m2'
+        'tipo_propuesta', 'actividad_id', 'area_base', 'multiplicador_m2', 'valor_unitario_override'
     ];
     
     public function actividad()

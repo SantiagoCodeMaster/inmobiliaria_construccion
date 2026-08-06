@@ -161,14 +161,20 @@ class CotizacionService
                 continue;
             }
 
-            $vrTotalItem = $cantidad * (float) $actividad->valor_unitario;
+            // Si la propuesta define un valor_unitario_override, se usa en lugar del
+            // valor_unitario base de la actividad (ej. Maestro con precios reducidos).
+            $valorUnitario = $item->valor_unitario_override !== null
+                ? (float) $item->valor_unitario_override
+                : (float) $actividad->valor_unitario;
+
+            $vrTotalItem = $cantidad * $valorUnitario;
 
             $detalle[] = [
                 'categoria' => $actividad->nombre,
                 'descripcion' => $actividad->descripcion,
                 'unidad' => $actividad->unidad,
                 'cantidad' => round($cantidad, 2),
-                'valor_unitario' => (int) round((float) $actividad->valor_unitario),
+                'valor_unitario' => (int) round($valorUnitario),
                 'vr_total' => (int) round($vrTotalItem),
             ];
         }

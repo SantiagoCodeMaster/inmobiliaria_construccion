@@ -15,9 +15,9 @@
         $features = [
             'maestro' => [
                 'Pisos, Muros y Techos esenciales',
-                'Sin administración, imprevistos ni utilidad',
                 'Aseo final incluido',
                 'La opción más económica',
+                'Entrega lista para habitar',
             ],
             'elemental' => [
                 'Diseño y Administración incluidos',
@@ -772,10 +772,10 @@
                 {{-- RESUMEN --}}
                 <div class="resumen">
                     <div class="resumen-item"><label>Subtotal</label><div class="val" x-text="'$ ' + formato(resumen.subtotal)"></div></div>
-                    <div class="resumen-item"><label>Admin (12%)</label><div class="val" x-text="'$ ' + formato(resumen.administracion_12pct)"></div></div>
-                    <div class="resumen-item"><label>Imprevistos (3%)</label><div class="val" x-text="'$ ' + formato(resumen.imprevistos_3pct)"></div></div>
-                    <div class="resumen-item"><label>Utilidad (4%)</label><div class="val" x-text="'$ ' + formato(resumen.utilidad_4pct)"></div></div>
-                    <div class="resumen-item"><label>IVA Utilidad (19%)</label><div class="val" x-text="'$ ' + formato(resumen.iva_sobre_u_19pct)"></div></div>
+                    <div class="resumen-item" x-show="tipo !== 'maestro'"><label>Admin (12%)</label><div class="val" x-text="'$ ' + formato(resumen.administracion_12pct)"></div></div>
+                    <div class="resumen-item" x-show="tipo !== 'maestro'"><label>Imprevistos (3%)</label><div class="val" x-text="'$ ' + formato(resumen.imprevistos_3pct)"></div></div>
+                    <div class="resumen-item" x-show="tipo !== 'maestro'"><label>Utilidad (4%)</label><div class="val" x-text="'$ ' + formato(resumen.utilidad_4pct)"></div></div>
+                    <div class="resumen-item" x-show="tipo !== 'maestro'"><label>IVA Utilidad (19%)</label><div class="val" x-text="'$ ' + formato(resumen.iva_sobre_u_19pct)"></div></div>
                     <div class="resumen-item"><label>Precio / m²</label><div class="val" x-text="resumen.precio_m2_formateado"></div></div>
                     <div class="resumen-item"><label>TOTAL</label><div class="val total" x-text="resumen.vr_total_formateado"></div></div>
                 </div>

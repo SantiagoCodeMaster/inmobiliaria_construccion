@@ -2775,7 +2775,7 @@
                         ? ''
                         : `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
                     if (plan.tipo === 'maestro') {
-                        features += `<li><span class="check-icon">✓</span> Pisos, Muros y Techos esenciales</li><li><span class="check-icon">✓</span> Sin administración, imprevistos ni utilidad</li><li><span class="check-icon">✓</span> Aseo final incluido</li><li><span class="check-icon">✓</span> La opción más económica</li>`;
+                        features += `<li><span class="check-icon">✓</span> Pisos, Muros y Techos esenciales</li><li><span class="check-icon">✓</span> Aseo final incluido</li><li><span class="check-icon">✓</span> La opción más económica</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
                     } else if (plan.tipo === 'elemental') {
                         features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
                     } else if (plan.tipo === 'estandar') {

@@ -55,7 +55,7 @@ class ActividadSeeder extends Seeder
                 'nombre' => 'Pisos',
                 'descripcion' => 'Suministro e instalación piso , nivelacion y cargue de pisos en mortero',
                 'unidad' => 'm2',
-                'valor_unitario' => 70000,
+                'valor_unitario' => 50000,
                 'campo_usuario' => null,
                 'link' => null,
             ],
@@ -64,7 +64,7 @@ class ActividadSeeder extends Seeder
                 'nombre' => 'Pisos',
                 'descripcion' => 'Mano de obra instalacion de piso en ceramica y/o piso SPC incluye guarda escobas',
                 'unidad' => 'm2',
-                'valor_unitario' => 50000,
+                'valor_unitario' => 94470,
                 'campo_usuario' => null,
                 'link' => null,
             ],
@@ -73,7 +73,7 @@ class ActividadSeeder extends Seeder
                 'nombre' => 'Muros',
                 'descripcion' => 'Suministro e instalacion de materiales para nivelacion de paredes, estuco y pintura blnaca a 3 manos',
                 'unidad' => 'm2',
-                'valor_unitario' => 80000,
+                'valor_unitario' => 61750,
                 'campo_usuario' => null,
                 'link' => null,
             ],
@@ -82,7 +82,7 @@ class ActividadSeeder extends Seeder
                 'nombre' => 'Muros',
                 'descripcion' => 'Mano de obra instalacion de ceramica salpicadero de cocina, y zona de lavadero, cabina de ducha (si aplica)',
                 'unidad' => 'm2',
-                'valor_unitario' => 30000,
+                'valor_unitario' => 94470,
                 'campo_usuario' => null,
                 'link' => null,
             ],
@@ -420,19 +420,26 @@ class ActividadSeeder extends Seeder
         // area_base para m2 con multiplicador null: metros cuadrados fijos (ej: 15)
         // area_base para UND: 1 (cantidad base; el multiplicador de espacios la escala)
 
+        // Formato de cada pivot:
+        //   [tipo_propuesta, actividad_id, area_base, multiplicador_m2]
+        //   [tipo_propuesta, actividad_id, area_base, multiplicador_m2, valor_unitario_override]
+        // Si se pasa un 5º elemento, ese valor sobrescribe el valor_unitario base de la
+        // actividad SOLO para esta propuesta (usado por Maestro, que trabaja con
+        // precios más bajos en las mismas actividades m² de Elemental/Estándar/Experto).
+
         $pivots = [
             // ═══════════════════════════════════
             // PROPUESTA MAESTRO
-            // Igual que Elemental en actividades (pisos, muros,
-            // techos y aseo) pero SIN administración, imprevistos
-            // ni utilidad: el precio es solo el subtotal.
+            // Solo pisos, muros y techos con precios reducidos.
+            // Sin administración, imprevistos ni utilidad.
+            // Referencia Excel: 217.000/m² → 50m² = $10.850.000
             // ═══════════════════════════════════
-            ['maestro', $id(1),  25, 1.0],   // Pisos suministro     (× area_privada)
-            ['maestro', $id(2),  25, 1.0],   // Pisos mano obra      (× area_privada)
-            ['maestro', $id(3),  75, 3.0],   // Muros estuco         (× area_privada × 3)
-            ['maestro', $id(4),  15, null],  // Muros salpicadero    (15 m² fijo)
-            ['maestro', $id(5),  25, 1.0],   // Techos Drywall       (× area_privada)
-            ['maestro', $id(6),  25, 1.0],   // Aseo                 (× area_privada)
+            ['maestro', $id(1),  25, 1.0,  25000],   // Pisos suministro   (25.000/m²)
+            ['maestro', $id(2),  25, 1.0,  40000],   // Pisos mano obra    (40.000/m²)
+            ['maestro', $id(3),  75, 3.0,  30000],   // Muros estuco       (30.000/m²)
+            ['maestro', $id(4),  15, null, 40000],   // Muros salpicadero  (40.000/m² × 15 m²)
+            ['maestro', $id(5),  25, 1.0,  50000],   // Techos Drywall     (50.000/m²)
+            // NOTA: Maestro NO incluye Aseo (Excel maestro: aseo = 0).
 
             // ═══════════════════════════════════
             // PROPUESTA ELEMENTAL
@@ -524,12 +531,16 @@ class ActividadSeeder extends Seeder
             ['experto', $id(38),  1, null],   // Inst. Riel Spot      (1 fijo)
         ];
 
-        foreach ($pivots as [$tipo, $actividadId, $areaBase, $multiplicador]) {
+        foreach ($pivots as $pivot) {
+            [$tipo, $actividadId, $areaBase, $multiplicador] = $pivot;
+            $override = $pivot[4] ?? null;
+
             PropuestaActividad::create([
                 'tipo_propuesta' => $tipo,
                 'actividad_id' => $actividadId,
                 'area_base' => $areaBase,
                 'multiplicador_m2' => $multiplicador,
+                'valor_unitario_override' => $override,
             ]);
         }
     }
