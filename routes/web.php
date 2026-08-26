@@ -9,6 +9,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/remodelacion-vivienda-usada', [\App\Http\Controllers\RemodelacionViviendaUsadaController::class, 'index'])->name('remodelacion.vivienda.usada');
+
 Route::get('/experiencia', function () {
     return view('prueba');
 })->name('nuestra.experiencia');
