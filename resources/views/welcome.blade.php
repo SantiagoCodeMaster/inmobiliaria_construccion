@@ -1880,7 +1880,7 @@
                         <a href="#cotizador" class="btn-hero btn-hero-primary">
                             Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
                         </a>
-                        <a href="{{ route('remodelacion.vivienda.usada') }}" class="btn-hero btn-hero-secondary">
+                        <a href="https://wa.me/573224307053?text=Hola,%20me%20gustar%C3%ADa%20cotizar%20otro%20tipo%20de%20remodelaci%C3%B3n" target="_blank" class="btn-hero btn-hero-secondary">
                             Otro tipo de remodelación
                         </a>
                     </div>

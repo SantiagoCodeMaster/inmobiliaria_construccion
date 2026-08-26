@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminCotizacionDetalleController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/remodelacion-vivienda-usada', [\App\Http\Controllers\RemodelacionViviendaUsadaController::class, 'index'])->name('remodelacion.vivienda.usada');
+Route::middleware('auth')->group(function () {
+    Route::get('/remodelacion-vivienda-usada', [\App\Http\Controllers\RemodelacionViviendaUsadaController::class, 'index'])->name('remodelacion.vivienda.usada');
+});
 
 Route::get('/experiencia', function () {
     return view('prueba');
@@ -26,6 +27,7 @@ Route::get('/back-up', function () {
 
 Route::get('/dashboard', function () {
     $cotizaciones = \App\Models\Cotizacion::latest()->get();
+
     return view('dashboard', compact('cotizaciones'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -49,6 +51,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/cotizaciones/{cotizacion}/detalle/recalcular', [AdminCotizacionDetalleController::class, 'recalcular']);
     Route::get('/admin/cotizaciones/catalogo', [AdminCotizacionDetalleController::class, 'catalogo']);
 });
-
 
 require __DIR__.'/auth.php';
