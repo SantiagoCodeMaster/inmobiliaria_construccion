@@ -9,7 +9,11 @@ class PropuestaActividad extends Model
     protected $table = 'propuesta_actividades';
     
     protected $fillable = [
-        'tipo_propuesta', 'actividad_id', 'area_base', 'multiplicador_m2', 'valor_unitario_override'
+        'tipo_propuesta', 'actividad_id', 'area_base', 'multiplicador_m2', 'valor_unitario_override', 'es_bonus'
+    ];
+
+    protected $casts = [
+        'es_bonus' => 'boolean',
     ];
     
     public function actividad()

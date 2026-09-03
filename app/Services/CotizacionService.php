@@ -7,74 +7,14 @@ use Illuminate\Support\Collection;
 
 class CotizacionService
 {
-    // Constantes de porcentajes AIU
     private const ADMINISTRACION = 0.12;
 
     private const IMPREVISTOS = 0.03;
 
     private const UTILIDAD = 0.04;
 
-    private const IVA_UTILIDAD = 0.19; // 19% aplicado SOLO sobre la utilidad
+    private const IVA_UTILIDAD = 0.19;
 
-    // ─── Palabras clave para detección de categoría ────────────────────────────
-
-    // Items de COCINA / ZONA DE ROPAS → multiplicador siempre 1
-    // IMPORTANTE: evaluados PRIMERO para evitar falsos positivos
-    private const KEYWORDS_COCINA = [
-        'mueble alto',
-        'mueble bajo',
-        'barra auxiliar',
-        'campana extractora',
-        'estufa',
-        'horno',
-        'punto de gas',
-        'lavaplatos',
-        'meson de cocina',
-        'meson barra',
-        'riel spot',
-        'mueble de ropas',
-        'ropa',
-    ];
-
-    // Items que se multiplican por número de HABITACIONES
-    private const KEYWORDS_HABITACION = [
-        'closet',
-    ];
-
-    // Items que se multiplican por número de BAÑOS
-    private const KEYWORDS_BANO = [
-        'división de baño',
-        'division de baño',
-        'espejo flotado',
-        'herrajes',
-        'mueble flotado',
-        'vidrio templado',
-        'sanitario',
-        'lavamanos',
-        'ducha',
-        'acoflex',
-        'brida',
-        'taza',
-        'combo ecoclean',
-    ];
-
-    // Items que se multiplican por número de PUERTAS (baños + habitaciones)
-    private const KEYWORDS_PUERTA = [
-        'puerta',
-    ];
-
-    // ─── Descripciones que SIEMPRE tienen cantidad fija = 1 ───────────────────
-    // Se usan para evitar que calcularCantidadBase detecte barra auxiliar / mueble alto
-    // en items que el negocio define como fijos (ej: Quarztone barra en Experto).
-    // Se compara contra la descripción exacta (lowercase).
-    private const DESCRIPCIONES_CANTIDAD_FIJA = [
-        'meson barra auxiliar en quarztone (hasta1.2m largo )',
-        'meson barra auxiliar en quarztone (hasta 1.2 m largo)',
-    ];
-
-    /**
-     * Calcula las propuestas de cotización (maestro, elemental, estándar, experto).
-     */
     public function calcularPropuestas(array $datos): array
     {
         $parametros = $this->normalizarParametrosEntrada($datos);
@@ -88,8 +28,35 @@ class CotizacionService
     }
 
     /**
-     * Normaliza y valida los parámetros de entrada.
+     * Descripciones amigables para el cliente en el modal Bonus Track,
+     * indexadas por la descripción real de la actividad (fragmento único).
+     * Cuando un ítem se marca es_bonus, el subtotal sigue sumándolo (matches
+     * Excel) pero se muestra en un modal aparte como regalo de la línea.
      */
+    private const BONUS_LABELS = [
+        'salpicadero de cocina' => [
+            'titulo' => 'Suministro y enchape completo',
+            'items' => [
+                'Suministro enchape (únicas referencias)',
+                'Mano de obra instalación de cerámica salpicadero de cocina',
+                'Zona de lavadero (completo)',
+                'Cabina de ducha (si aplica)',
+            ],
+        ],
+        'Division de Baño en vidrio' => [
+            'titulo' => 'División de baño en vidrio templado',
+            'items' => [
+                'División de baño en vidrio templado con herrajes en acero inoxidable',
+            ],
+        ],
+        'Barra auxiliar de cocina en aglomerado' => [
+            'titulo' => 'Barra auxiliar de cocina en madera',
+            'items' => [
+                'Barra auxiliar de cocina en aglomerado MDP 15mm (hasta 1.2m largo)',
+            ],
+        ],
+    ];
+
     private function normalizarParametrosEntrada(array $datos): array
     {
         return [
@@ -101,14 +68,16 @@ class CotizacionService
         ];
     }
 
-    /**
-     * Calcula una propuesta individual para un tipo específico.
-     */
     private function calcularPropuestaIndividual(string $tipo, array $parametros): array
     {
         $items = $this->obtenerItemsPropuesta($tipo);
-        $detalle = $this->procesarItems($items, $parametros);
-        $subtotal = $this->calcularSubtotal($detalle);
+        $procesado = $this->procesarItems($items, $parametros);
+        $detalle = $procesado['detalle'];
+        $bonusTrack = $procesado['bonus_track'];
+
+        // El subtotal SÍ incluye los ítems bonus (matches Excel): la empresa
+        // los ejecuta pero al cliente se le presentan como regalo de línea.
+        $subtotal = $this->calcularSubtotal($detalle) + $this->calcularSubtotal($bonusTrack);
         $aplicarAIU = $tipo !== 'maestro';
         $totales = $this->calcularTotalesAIU($subtotal, $parametros['area_privada'], $aplicarAIU);
 
@@ -124,12 +93,10 @@ class CotizacionService
             'vr_total_formateado' => $totales['total_formateado'],
             'precio_m2_formateado' => $totales['precio_m2_formateado'],
             'detalle' => $detalle,
+            'bonus_track' => $bonusTrack,
         ];
     }
 
-    /**
-     * Obtiene los items de propuesta desde la base de datos.
-     */
     private function obtenerItemsPropuesta(string $tipo): Collection
     {
         return PropuestaActividad::where('tipo_propuesta', $tipo)
@@ -137,13 +104,10 @@ class CotizacionService
             ->get();
     }
 
-    /**
-     * Procesa cada item de la propuesta y calcula su valor total.
-     */
     private function procesarItems(Collection $items, array $parametros): array
     {
         $detalle = [];
-        $numPuertas = $parametros['num_banos'] + $parametros['num_habitaciones'];
+        $bonus = [];
 
         foreach ($items as $item) {
             $actividad = $item->actividad;
@@ -152,24 +116,19 @@ class CotizacionService
                 continue;
             }
 
-            $multiplicador = $this->determinarMultiplicador($actividad, $parametros, $numPuertas);
-            $cantidadBase = $this->calcularCantidadBase($item, $actividad, $parametros);
-            $cantidad = $cantidadBase * $multiplicador;
+            $cantidad = $this->calcularCantidad($item, $actividad, $parametros);
 
-            // Items con cantidad 0 se omiten (opcionales que el usuario no eligió)
             if ($cantidad == 0) {
                 continue;
             }
 
-            // Si la propuesta define un valor_unitario_override, se usa en lugar del
-            // valor_unitario base de la actividad (ej. Maestro con precios reducidos).
             $valorUnitario = $item->valor_unitario_override !== null
                 ? (float) $item->valor_unitario_override
                 : (float) $actividad->valor_unitario;
 
             $vrTotalItem = $cantidad * $valorUnitario;
 
-            $detalle[] = [
+            $registro = [
                 'categoria' => $actividad->nombre,
                 'descripcion' => $actividad->descripcion,
                 'unidad' => $actividad->unidad,
@@ -177,115 +136,80 @@ class CotizacionService
                 'valor_unitario' => (int) round($valorUnitario),
                 'vr_total' => (int) round($vrTotalItem),
             ];
+
+            if ($item->es_bonus) {
+                $registro['bonus'] = $this->etiquetaBonus($actividad->descripcion);
+                $bonus[] = $registro;
+            } else {
+                $detalle[] = $registro;
+            }
         }
 
-        return $detalle;
+        return ['detalle' => $detalle, 'bonus_track' => $bonus];
     }
 
     /**
-     * Determina el multiplicador de cantidad según la categoría del item.
-     *
-     * Orden de evaluación (importante para evitar falsos positivos):
-     *   1. Unidad m2          → siempre 1
-     *   2. Cocina / Ropas     → siempre 1
-     *   3. Habitaciones       → num_habitaciones
-     *   4. Baños              → num_banos
-     *   5. Puertas            → num_banos + num_habitaciones
-     *   6. Default            → 1
+     * Busca una etiqueta amigable en BONUS_LABELS. Cae al título de la
+     * actividad si no hay match.
      */
-    private function determinarMultiplicador($actividad, array $parametros, int $numPuertas): int
+    private function etiquetaBonus(string $descripcion): array
     {
-        // Unidad m2: el multiplicador de espacios siempre es 1
-        // (el área ya contiene toda la superficie a cotizar)
-        if (mb_strtolower($actividad->unidad, 'UTF-8') === 'm2') {
-            return 1;
-        }
-
-        $textoBusqueda = mb_strtolower($actividad->nombre.' '.$actividad->descripcion, 'UTF-8');
-
-        // 1. Cocina / Zona de ropas → fijo 1
-        foreach (self::KEYWORDS_COCINA as $keyword) {
-            if (str_contains($textoBusqueda, $keyword)) {
-                return 1;
+        foreach (self::BONUS_LABELS as $needle => $label) {
+            if (mb_stripos($descripcion, $needle) !== false) {
+                return $label;
             }
         }
 
-        // 2. Habitaciones
-        foreach (self::KEYWORDS_HABITACION as $keyword) {
-            if (str_contains($textoBusqueda, $keyword)) {
-                return $parametros['num_habitaciones'];
-            }
-        }
-
-        // 3. Baños
-        foreach (self::KEYWORDS_BANO as $keyword) {
-            if (str_contains($textoBusqueda, $keyword)) {
-                return $parametros['num_banos'];
-            }
-        }
-
-        // 4. Puertas (baños + habitaciones)
-        foreach (self::KEYWORDS_PUERTA as $keyword) {
-            if (str_contains($textoBusqueda, $keyword)) {
-                return $numPuertas;
-            }
-        }
-
-        return 1;
+        return ['titulo' => 'Bono de bienvenida', 'items' => [$descripcion]];
     }
 
     /**
-     * Calcula la cantidad base de un item antes de aplicar el multiplicador.
+     * Calcula la cantidad final de un item.
      *
-     * FIX: Los items cuya descripción aparece en DESCRIPCIONES_CANTIDAD_FIJA
-     * siempre retornan 1, independientemente de los flags opcionales del usuario.
-     * Esto soluciona que "Meson Barra auxiliar en Quarztone" (Experto) siempre sea 1
-     * aunque tiene_barra_auxiliar sea false.
+     * Actividad m²:
+     *   - multiplicador_m2 no nulo → area_privada × multiplicador_m2
+     *   - multiplicador_m2 nulo    → area_base (m² fijos, ej. salpicadero 30)
+     *
+     * Actividad UND:
+     *   - cantidad = area_base × factor(campo_usuario)
+     *   - factor depende de campo_usuario:
+     *     * null                        → 1  (cantidad fija: cocina/lavandería)
+     *     * num_banos                   → num_banos
+     *     * num_habitaciones            → num_habitaciones (closets)
+     *     * num_puertas                 → num_habitaciones + num_banos
+     *                                     (única categoría compartida: 1 puerta
+     *                                     por alcoba + 1 por baño)
+     *     * tiene_mueble_alto_cocina    → 1 o 0
+     *     * tiene_barra_auxiliar        → 1 o 0
      */
-    private function calcularCantidadBase($item, $actividad, array $parametros): float|int
+    private function calcularCantidad($item, $actividad, array $parametros): float
     {
-        // Items m2
-        if (mb_strtolower($actividad->unidad, 'UTF-8') === 'm2') {
+        if (mb_strtolower((string) $actividad->unidad, 'UTF-8') === 'm2') {
             if ($item->multiplicador_m2 !== null) {
                 return $parametros['area_privada'] * (float) $item->multiplicador_m2;
             }
-            if ($item->area_base > 0) {
-                return (float) $item->area_base;
-            }
 
-            return $parametros['area_privada'];
+            return (float) ($item->area_base ?? 0);
         }
 
-        // Verificar si la descripción pertenece a la lista de cantidad FIJA = 1
-        $descLower = mb_strtolower((string) $actividad->descripcion, 'UTF-8');
-        foreach (self::DESCRIPCIONES_CANTIDAD_FIJA as $descFija) {
-            if (str_contains($descLower, mb_strtolower($descFija, 'UTF-8'))) {
-                return 1;
-            }
-        }
+        $areaBase = (float) ($item->area_base ?? 1);
+        $factor = $this->factorPorCampoUsuario($actividad->campo_usuario, $parametros);
 
-        // Items opcionales del usuario
-        $textoBusqueda = mb_strtolower($actividad->nombre.' '.$actividad->descripcion, 'UTF-8');
-
-        if (str_contains($textoBusqueda, 'mueble alto') && str_contains($textoBusqueda, 'cocina')) {
-            return $parametros['tiene_mueble_alto_cocina'] ? 1 : 0;
-        }
-
-        if (str_contains($textoBusqueda, 'barra auxiliar')) {
-            return $parametros['tiene_barra_auxiliar'] ? 1 : 0;
-        }
-
-        // Items con área base fija
-        if ($item->area_base > 0) {
-            return (float) $item->area_base;
-        }
-
-        return 1;
+        return $areaBase * $factor;
     }
 
-    /**
-     * Calcula el subtotal sumando los valores de todos los items.
-     */
+    private function factorPorCampoUsuario(?string $campo, array $parametros): int
+    {
+        return match ($campo) {
+            'num_banos' => $parametros['num_banos'],
+            'num_habitaciones' => $parametros['num_habitaciones'],
+            'num_puertas' => $parametros['num_habitaciones'] + $parametros['num_banos'],
+            'tiene_mueble_alto_cocina' => $parametros['tiene_mueble_alto_cocina'] ? 1 : 0,
+            'tiene_barra_auxiliar' => $parametros['tiene_barra_auxiliar'] ? 1 : 0,
+            default => 1,
+        };
+    }
+
     private function calcularSubtotal(array $detalle): float
     {
         return array_reduce($detalle, static function (float $sum, array $item): float {
@@ -294,18 +218,15 @@ class CotizacionService
     }
 
     /**
-     * Calcula todos los totales con AIU y formatea los valores.
-     *
-     * Fórmula:
+     * AIU:
      *   Administración = subtotal × 12%
      *   Imprevistos    = subtotal × 3%
      *   Utilidad       = subtotal × 4%
      *   IVA sobre U    = utilidad × 19%
-     *   Total          = subtotal + admon + imprevistos + utilidad + IVA sobre U
+     *   Total          = subtotal + admón + imprevistos + utilidad + IVA
      *   Precio m²      = total / área privada
      *
-     * Si $aplicarAIU es false (plan maestro), todos los recargos son 0
-     * y el total es igual al subtotal.
+     * Si $aplicarAIU es false (maestro), todos los recargos son 0.
      */
     public function calcularTotalesAIU(float $subtotal, float $areaPrivada, bool $aplicarAIU = true): array
     {

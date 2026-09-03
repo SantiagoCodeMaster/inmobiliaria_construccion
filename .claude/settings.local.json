@@ -11,7 +11,9 @@
       "Bash(php -r 'require '\\\\''vendor/autoload.php'\\\\''; $app = require '\\\\''bootstrap/app.php'\\\\''; echo '\\\\''OK'\\\\'';')",
       "Bash(php *)",
       "Bash(python -c ' *)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(composer test *)",
+      "Bash(./vendor/bin/phpunit --no-configuration -c phpunit.xml)"
     ]
   }
 }

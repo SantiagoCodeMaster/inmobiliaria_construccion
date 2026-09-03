@@ -1137,6 +1137,134 @@
             border-color: var(--accent-light);
         }
 
+        .btn-bonus-track {
+            background: linear-gradient(135deg, #FFB800 0%, #FF8A00 100%);
+            border: none;
+            color: #2a1a00;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            font-family: 'Syne';
+            font-weight: 800;
+            font-size: 0.88rem;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 6px 18px rgba(255, 138, 0, 0.28);
+            letter-spacing: 0.3px;
+        }
+        .btn-bonus-track:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(255, 138, 0, 0.42);
+        }
+        .btn-bonus-track .gift-ico {
+            font-size: 1.15rem;
+            filter: drop-shadow(0 1px 0 rgba(0,0,0,0.15));
+        }
+
+        .bonus-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .bonus-card {
+            background: linear-gradient(135deg, #fff8e6 0%, #ffe9c2 100%);
+            border: 1.5px solid #ffcf74;
+            border-radius: 14px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 0;
+        }
+        .bonus-card::before {
+            content: "🎁";
+            position: absolute;
+            top: -18px;
+            right: -14px;
+            font-size: 5rem;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .bonus-card-img {
+            background: #fff5db;
+            border-right: 1.5px solid #ffcf74;
+            cursor: zoom-in;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+        }
+        .bonus-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+        .bonus-card-img:hover img {
+            transform: scale(1.06);
+        }
+        .bonus-card-body {
+            padding: 1.15rem 1.3rem;
+            position: relative;
+            z-index: 2;
+        }
+        .bonus-card h4 {
+            font-family: 'Syne';
+            font-weight: 800;
+            color: #7a4a00;
+            margin: 0 0 0.5rem;
+            font-size: 1.02rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .bonus-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .bonus-card ul li {
+            padding: 0.3rem 0 0.3rem 1.35rem;
+            position: relative;
+            color: #4a3200;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .bonus-card ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            color: #d97706;
+            font-weight: 800;
+        }
+        @media (max-width: 640px) {
+            .bonus-card {
+                grid-template-columns: 1fr;
+            }
+            .bonus-card-img {
+                min-height: 180px;
+                border-right: none;
+                border-bottom: 1.5px solid #ffcf74;
+            }
+        }
+        .bonus-hero {
+            text-align: center;
+            padding: 0.5rem 0 1rem;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+        }
+        .bonus-hero strong { color: #b45309; }
+
         .btn-select-plan {
             padding: 1.05rem;
             background: var(--primary);
@@ -2335,6 +2463,19 @@
         </div>
     </div>
 
+    <div id="modalBonusTrack" class="modal-overlay" onclick="cerrarBonusTrack()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🎁 Bonus Track <span id="bonusPlanBadge">Línea</span></h3>
+                <button class="modal-close" onclick="cerrarBonusTrack()" title="Cerrar ventana">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="bonus-hero">Estos ítems son un <strong>regalo de bienvenida</strong> por elegir esta línea. Están incluidos sin costo adicional.</p>
+                <div id="bonusGrid" class="bonus-grid"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="modalTerminos" role="dialog" aria-modal="true" aria-labelledby="terminosTitulo">
         <div class="terminos-content" onclick="event.stopPropagation()">
             <div class="terminos-header">
@@ -2560,8 +2701,49 @@
         function cerrarModal() {
             const modal = document.getElementById('modalDesglose');
             modal.classList.remove('active');
-            
+
             // Solo quitar el bloqueo de scroll si la imagen expandida no está abierta
+            if (!document.getElementById('modalImagenOverlay').classList.contains('active')) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function abrirBonusTrack(tipoPlan) {
+            const plan = window.propuestasGlobales[tipoPlan];
+            if (!plan || !plan.bonus_track || plan.bonus_track.length === 0) return;
+
+            const modal = document.getElementById('modalBonusTrack');
+            const grid = document.getElementById('bonusGrid');
+            const badge = document.getElementById('bonusPlanBadge');
+
+            badge.innerText = `Línea ${plan.tipo}`;
+
+            grid.innerHTML = '';
+            plan.bonus_track.forEach(item => {
+                const bonus = item.bonus || { titulo: item.categoria, items: [item.descripcion] };
+                const imgSrc = obtenerImagenCategoria(item.categoria, item.descripcion, plan.tipo);
+                const card = document.createElement('div');
+                card.className = 'bonus-card';
+                const itemsHtml = bonus.items.map(x => `<li>${x}</li>`).join('');
+                card.innerHTML = `
+                    <div class="bonus-card-img" onclick="abrirImagen('${imgSrc}', '${bonus.titulo}')" title="Ver imagen completa">
+                        <img src="${imgSrc}" alt="${bonus.titulo}">
+                    </div>
+                    <div class="bonus-card-body">
+                        <h4>🎁 ${bonus.titulo}</h4>
+                        <ul>${itemsHtml}</ul>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.body.classList.add('modal-open');
+            modal.classList.add('active');
+        }
+
+        function cerrarBonusTrack() {
+            const modal = document.getElementById('modalBonusTrack');
+            modal.classList.remove('active');
             if (!document.getElementById('modalImagenOverlay').classList.contains('active')) {
                 document.body.classList.remove('modal-open');
             }
@@ -2787,16 +2969,24 @@
                     const card = document.createElement('div');
                     card.className = `plan-card ${plan.tipo === 'experto' ? 'experto' : (plan.tipo === 'maestro' ? 'maestro' : '')}`;
                     
+                    const bonusBtnHtml = (plan.bonus_track && plan.bonus_track.length > 0)
+                        ? `<button type="button" class="btn-bonus-track" onclick="abrirBonusTrack('${plan.tipo}')">
+                            <span class="gift-ico">🎁</span> Bonus Track — Regalo de esta línea
+                        </button>`
+                        : '';
+
                     card.innerHTML = `
                         <h3 class="plan-name">Línea ${plan.tipo}</h3>
                         <p class="plan-tagline">${taglines[plan.tipo] || ''}</p>
                         <div class="plan-price">${plan.vr_total_formateado}</div>
                         <div class="plan-price-m2">Descubre tu bono de bienvenida : <strong></strong></div>
                         <ul class="plan-features">${features}</ul>
-                        
+
                         <button type="button" class="btn-ver-desglose" onclick="abrirModal('${plan.tipo}')">
                             🔍 Ver desglose completo de la obra
                         </button>
+
+                        ${bonusBtnHtml}
 
                         <button type="button" class="btn-select-plan"
                             onclick="seleccionarPlan('${plan.tipo}', '${plan.vr_total_formateado}', '${plan.precio_m2_formateado}', this)">
@@ -2864,8 +3054,11 @@
             document.addEventListener('keydown', function(event) {
                 if (event.key === "Escape") {
                     const lightbox = document.getElementById('modalImagenOverlay');
+                    const bonus = document.getElementById('modalBonusTrack');
                     if (lightbox.classList.contains('active')) {
                         cerrarImagen(); // Cierra primero la imagen grande
+                    } else if (bonus.classList.contains('active')) {
+                        cerrarBonusTrack();
                     } else {
                         cerrarModal(); // Si no hay imagen grande, cierra el desglose
                     }
