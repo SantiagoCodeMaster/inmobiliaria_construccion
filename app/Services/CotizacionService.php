@@ -55,6 +55,12 @@ class CotizacionService
                 'Barra auxiliar de cocina en aglomerado MDP 15mm (hasta 1.2m largo)',
             ],
         ],
+        'Campana extractora' => [
+            'titulo' => 'Campana extractora de cocina',
+            'items' => [
+                'Campana extractora 60 cms 3 velocidades 210 M3/H CM60',
+            ],
+        ],
     ];
 
     private function normalizarParametrosEntrada(array $datos): array
