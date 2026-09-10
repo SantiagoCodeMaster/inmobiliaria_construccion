@@ -1265,6 +1265,176 @@
         }
         .bonus-hero strong { color: #b45309; }
 
+        .modal-roulette .modal-body { padding: 1rem 1.5rem 1.5rem; }
+
+        .roulette-container { text-align: center; margin: 1rem 0; }
+        .roulette-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto 1.2rem;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 3px solid #d97706;
+            background: linear-gradient(180deg, #fff8e6 0%, #ffe9c2 100%);
+            box-shadow: 0 8px 30px rgba(217,119,6,0.2);
+        }
+        .roulette-pointer {
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: #d97706;
+            z-index: 10;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+            line-height: 1;
+        }
+        .roulette-track {
+            width: 100%;
+            overflow: hidden;
+            padding: 1.5rem 0;
+        }
+        .roulette-inner {
+            display: flex;
+            transition: transform 0.1s linear;
+            will-change: transform;
+        }
+        .roulette-item {
+            flex: 0 0 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            min-height: 180px;
+        }
+        .roulette-item-img {
+            width: 140px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #ffcf74;
+            margin-bottom: 0.6rem;
+            background: #fff;
+        }
+        .roulette-item-name {
+            font-family: 'Syne';
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #7a4a00;
+            text-align: center;
+            max-width: 200px;
+        }
+        .btn-girar-ruleta {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            border: none;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-family: 'Syne';
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(217,119,6,0.4);
+            letter-spacing: 0.5px;
+        }
+        .btn-girar-ruleta:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 10px 28px rgba(217,119,6,0.55);
+        }
+        .btn-girar-ruleta:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .roulette-result {
+            margin-top: 1rem;
+            animation: resultFadeIn 0.5s ease;
+        }
+        .roulette-result-inner {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: linear-gradient(135deg, #fff8e6 0%, #ffe9c2 100%);
+            border: 2px solid #d97706;
+            border-radius: 16px;
+            padding: 1.2rem;
+            max-width: 460px;
+            margin: 0 auto;
+        }
+        .roulette-result-img {
+            width: 120px;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid #ffcf74;
+        }
+        .roulette-result-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .roulette-result-info h4 {
+            font-family: 'Syne';
+            font-weight: 800;
+            color: #7a4a00;
+            margin: 0 0 0.3rem;
+            font-size: 1.05rem;
+        }
+        .roulette-result-info p {
+            color: #6b4d00;
+            margin: 0 0 0.5rem;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+        .roulette-result-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .btn-girar-nuevamente {
+            display: block;
+            margin: 1rem auto 0;
+            background: transparent;
+            border: 2px solid #d97706;
+            color: #d97706;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-family: 'Syne';
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-girar-nuevamente:hover {
+            background: #d97706;
+            color: #fff;
+        }
+        @keyframes resultFadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spinGlow {
+            0%, 100% { box-shadow: 0 8px 30px rgba(217,119,6,0.2); }
+            50% { box-shadow: 0 8px 40px rgba(217,119,6,0.5); }
+        }
+        .roulette-wrapper.spinning {
+            animation: spinGlow 1s ease infinite;
+        }
+        @media (max-width: 640px) {
+            .roulette-result-inner { flex-direction: column; text-align: center; }
+            .roulette-item-img { width: 120px; height: 95px; }
+            .roulette-result-img { width: 100%; height: 120px; }
+            .btn-girar-ruleta { padding: 0.85rem 2rem; font-size: 0.95rem; }
+        }
+
         .btn-select-plan {
             padding: 1.05rem;
             background: var(--primary);
@@ -2464,14 +2634,37 @@
     </div>
 
     <div id="modalBonusTrack" class="modal-overlay" onclick="cerrarBonusTrack()">
-        <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-content modal-roulette" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <h3>🎁 Bonus Track <span id="bonusPlanBadge">Línea</span></h3>
+                <h3>🎁 Ruleta de Regalos — <span id="bonusPlanBadge">Línea</span></h3>
                 <button class="modal-close" onclick="cerrarBonusTrack()" title="Cerrar ventana">×</button>
             </div>
             <div class="modal-body">
-                <p class="bonus-hero">Estos ítems son un <strong>regalo de bienvenida</strong> por elegir esta línea. Están incluidos sin costo adicional.</p>
-                <div id="bonusGrid" class="bonus-grid"></div>
+                <p class="bonus-hero">Gira la ruleta y descubre tu <strong>regalo de bienvenida</strong>. Solo puedes elegir uno.</p>
+
+                <div id="rouletteContainer" class="roulette-container">
+                    <div class="roulette-wrapper">
+                        <div class="roulette-pointer">▼</div>
+                        <div id="rouletteTrack" class="roulette-track">
+                            <div id="rouletteInner" class="roulette-inner"></div>
+                        </div>
+                    </div>
+                    <button id="btnGirarRuleta" class="btn-girar-ruleta" onclick="girarRuleta()">
+                        🎰 ¡GIRAR RULETA!
+                    </button>
+                </div>
+
+                <div id="rouletteResult" class="roulette-result" style="display:none;">
+                    <div class="roulette-result-inner">
+                        <div class="roulette-result-img" id="resultImg"></div>
+                        <div class="roulette-result-info">
+                            <h4 id="resultTitle"></h4>
+                            <p id="resultDesc"></p>
+                            <span class="roulette-result-badge">🎉 ¡Este es tu regalo!</span>
+                        </div>
+                    </div>
+                    <button class="btn-girar-nuevamente" onclick="reiniciarRuleta()">🔄 Girar de nuevo</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2708,42 +2901,140 @@
             }
         }
 
+        // --- RULETA DE REGALOS ---
+        const premiosPorPlan = {
+            elemental: [
+                { titulo: 'Mueble alto y bajo de cocina', imagen: '{{ asset("mueblealtococinaestandar.png") }}', desc: 'Mueble completo para cocina con acabados de calidad.' },
+                { titulo: 'División de baño', imagen: '{{ asset("divisionvidriobano1.png") }}', desc: 'División en vidrio para tu baño con diseño moderno.' },
+                { titulo: 'Enchape completo zona de lavandería', imagen: '{{ asset("enchapeoriginal.png") }}', desc: 'Enchape completo para la zona de lavandería.' },
+                { titulo: 'Juego de sillas', imagen: '{{ asset("juegosdesilla1.png") }}', desc: 'Juego de 3 sillas para tu comedor.', imagenes: ['{{ asset("juegosdesilla1.png") }}', '{{ asset("juegodesilla2.png") }}', '{{ asset("juegodesilla3.png") }}'] }
+            ],
+            estandar: [
+                { titulo: 'Barra auxiliar de cocina', imagen: '{{ asset("cocina_barra_auxiliar.png") }}', desc: 'Barra auxiliar para tu cocina con acabados premium.' },
+                { titulo: 'Campana extractora de cocina', imagen: '{{ asset("estractoraltococina.png") }}', desc: 'Campana extractora de alta calidad para tu cocina.' },
+                { titulo: 'Juego de sillas', imagen: '{{ asset("juegosdesilla1.png") }}', desc: 'Juego de 3 sillas para tu comedor.', imagenes: ['{{ asset("juegosdesilla1.png") }}', '{{ asset("juegodesilla2.png") }}', '{{ asset("juegodesilla3.png") }}'] }
+            ]
+        };
+
+        let ruletaGirando = false;
+        let ruletaActual = [];
+
         function abrirBonusTrack(tipoPlan) {
-            const plan = window.propuestasGlobales[tipoPlan];
-            if (!plan || !plan.bonus_track || plan.bonus_track.length === 0) return;
+            const premios = premiosPorPlan[tipoPlan];
+            if (!premios || premios.length === 0) return;
 
+            ruletaActual = premios;
             const modal = document.getElementById('modalBonusTrack');
-            const grid = document.getElementById('bonusGrid');
             const badge = document.getElementById('bonusPlanBadge');
+            const track = document.getElementById('rouletteInner');
+            const container = document.getElementById('rouletteContainer');
+            const result = document.getElementById('rouletteResult');
+            const btnGirar = document.getElementById('btnGirarRuleta');
 
-            badge.innerText = `Línea ${plan.tipo}`;
+            badge.innerText = `Línea ${tipoPlan.charAt(0).toUpperCase() + tipoPlan.slice(1)}`;
 
-            grid.innerHTML = '';
-            plan.bonus_track.forEach(item => {
-                const bonus = item.bonus || { titulo: item.categoria, items: [item.descripcion] };
-                const imgSrc = obtenerImagenCategoria(item.categoria, item.descripcion, plan.tipo);
-                const card = document.createElement('div');
-                card.className = 'bonus-card';
-                const itemsHtml = bonus.items.map(x => `<li>${x}</li>`).join('');
-                card.innerHTML = `
-                    <div class="bonus-card-img" onclick="abrirImagen('${imgSrc}', '${bonus.titulo}')" title="Ver imagen completa">
-                        <img src="${imgSrc}" alt="${bonus.titulo}">
-                    </div>
-                    <div class="bonus-card-body">
-                        <h4>🎁 ${bonus.titulo}</h4>
-                        <ul>${itemsHtml}</ul>
-                    </div>
+            track.innerHTML = '';
+            premios.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'roulette-item';
+                item.innerHTML = `
+                    <img class="roulette-item-img" src="${p.imagen}" alt="${p.titulo}">
+                    <span class="roulette-item-name">${p.titulo}</span>
                 `;
-                grid.appendChild(card);
+                track.appendChild(item);
             });
+
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+
+            result.style.display = 'none';
+            container.style.display = 'block';
+            btnGirar.disabled = false;
+            btnGirar.textContent = '🎰 ¡GIRAR RULETA!';
 
             document.body.classList.add('modal-open');
             modal.classList.add('active');
         }
 
+        function girarRuleta() {
+            if (ruletaGirando) return;
+            ruletaGirando = true;
+
+            const btnGirar = document.getElementById('btnGirarRuleta');
+            const track = document.getElementById('rouletteInner');
+            const wrapper = document.querySelector('.roulette-wrapper');
+            const container = document.getElementById('rouletteContainer');
+            const result = document.getElementById('rouletteResult');
+
+            btnGirar.disabled = true;
+            btnGirar.textContent = '⏳ Girando...';
+            wrapper.classList.add('spinning');
+
+            const numPremios = ruletaActual.length;
+            const itemWidth = track.parentElement.offsetWidth;
+            const vueltasCompletas = 3 + Math.floor(Math.random() * 2);
+            const premioIndex = Math.floor(Math.random() * numPremios);
+            const destino = (vueltasCompletas * numPremios + premioIndex) * itemWidth;
+
+            let start = null;
+            const duracion = 7000 + Math.random() * 2000;
+
+            function animar(timestamp) {
+                if (!start) start = timestamp;
+                const elapsed = timestamp - start;
+                const progress = Math.min(elapsed / duracion, 1);
+                const eased = 1 - Math.pow(1 - progress, 4);
+                const pos = eased * destino;
+                track.style.transform = `translateX(-${pos}px)`;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animar);
+                } else {
+                    wrapper.classList.remove('spinning');
+                    ruletaGirando = false;
+                    mostrarResultado(premioIndex);
+                }
+            }
+
+            requestAnimationFrame(animar);
+        }
+
+        function mostrarResultado(index) {
+            const premio = ruletaActual[index];
+            const container = document.getElementById('rouletteContainer');
+            const result = document.getElementById('rouletteResult');
+            const resultImg = document.getElementById('resultImg');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultDesc = document.getElementById('resultDesc');
+
+            resultImg.innerHTML = `<img src="${premio.imagen}" alt="${premio.titulo}">`;
+            resultTitle.textContent = `🎁 ${premio.titulo}`;
+            resultDesc.textContent = premio.desc;
+
+            container.style.display = 'none';
+            result.style.display = 'block';
+        }
+
+        function reiniciarRuleta() {
+            const container = document.getElementById('rouletteContainer');
+            const result = document.getElementById('rouletteResult');
+            const track = document.getElementById('rouletteInner');
+            const btnGirar = document.getElementById('btnGirarRuleta');
+
+            result.style.display = 'none';
+            container.style.display = 'block';
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            btnGirar.disabled = false;
+            btnGirar.textContent = '🎰 ¡GIRAR RULETA!';
+        }
+
         function cerrarBonusTrack() {
             const modal = document.getElementById('modalBonusTrack');
+            const wrapper = document.querySelector('.roulette-wrapper');
             modal.classList.remove('active');
+            if (wrapper) wrapper.classList.remove('spinning');
+            ruletaGirando = false;
             if (!document.getElementById('modalImagenOverlay').classList.contains('active')) {
                 document.body.classList.remove('modal-open');
             }
