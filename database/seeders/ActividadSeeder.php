@@ -463,14 +463,14 @@ class ActividadSeeder extends Seeder
             // Maestro NO incluye aseo.
 
             // ═══════════════════════════════════════════════
-            // ELEMENTAL (base + Salpicadero + División de baño como bonuses).
-            //   Los ítems bonus SÍ suman al subtotal, sólo se presentan al
-            //   cliente en el modal Bonus Track como regalo de la línea.
+            // ELEMENTAL (base + Salpicadero en detalle + División de baño como bonus).
+            //   Salpicadero va en el desglose principal (detalle).
+            //   División de baño se presenta como regalo en el Bonus Track.
             // ═══════════════════════════════════════════════
             ['elemental', $id(1),  1, 1.0],               // Pisos suministro
             ['elemental', $id(2),  1, 1.0],               // Pisos SPC
             ['elemental', $id(3),  1, 3.0],               // Muros estuco
-            ['elemental', $id(4), 30, null, null, true],  // Salpicadero [BONUS] area fija 30
+            ['elemental', $id(4), 30, null],              // Salpicadero area fija 30
             ['elemental', $id(5),  1, 1.0],               // Techos
             ['elemental', $id(6),  1, 1.0],               // Aseo
             ['elemental', $id(16), 1, null, null, true],  // División baño [BONUS]
