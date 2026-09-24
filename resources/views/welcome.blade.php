@@ -2814,6 +2814,7 @@
             if (desc.includes('division de bano')) return "{{ asset('divisionvidriobano1.png') }}";
             if (desc.includes('mueble alto de cocina')) return "{{ asset('mueblealtococinaestandar.png') }}";
             if (desc.includes('espejo flotado')) return "{{ asset('vidrioflotantebañoestandar.png') }}";
+            if (desc.includes('zona de lavanderia')) return "{{ asset('enchapeoriginal.png') }}";
             if (desc.includes('puertas en madera')) return "{{ asset('puertaestandar.png') }}";
             if (desc.includes('barra auxiliar de cocina')) return "{{ asset('cocina_barra_auxiliar.png') }}";
             if (desc.includes('campana extractora')) return "{{ asset('estractoraltococina.png') }}";
