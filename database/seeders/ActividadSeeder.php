@@ -86,7 +86,7 @@ class ActividadSeeder extends Seeder
             // ─── 4. Muros salpicadero (enchape cocina / lavadero / ducha) ─
             [
                 'nombre' => 'Muros',
-                'descripcion' => 'Suministro enchape (unicas referencias) Mano de obra instalacion de ceramica salpicadero de cocina, y zona de lavadero (completo), cabina de ducha (si aplica)',
+                'descripcion' => 'Suministro enchape (unicas referencias) Mano de obra instalacion de ceramica salpicadero de cocina, y zona de lavadero',
                 'unidad' => 'm2',
                 'valor_unitario' => 85023,
                 'campo_usuario' => null,
