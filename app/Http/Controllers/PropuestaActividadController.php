@@ -37,7 +37,7 @@ class PropuestaActividadController extends Controller
         $this->authorize('create', PropuestaActividad::class);
 
         $validated = $request->validate([
-            'tipo_propuesta' => 'required|in:elemental,estandar,experto,maestro',
+            'tipo_propuesta' => 'required|in:light,elemental,estandar,experto,maestro',
             'actividad_id' => 'required|exists:actividades,id',
             'area_base' => 'required|numeric|min:0',
             'multiplicador_m2' => 'nullable|numeric|min:0',

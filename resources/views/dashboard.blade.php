@@ -469,6 +469,7 @@
                 const d = currentAdminData;
 
                 const taglines = {
+                    'light': 'Acabado básico, precio ligero',
                     'elemental': 'Lo esencial, bien hecho',
                     'estandar': 'El equilibrio perfecto',
                     'experto': 'Acabados de alta gama',

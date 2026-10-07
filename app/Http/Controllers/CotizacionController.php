@@ -74,7 +74,7 @@ class CotizacionController extends Controller
      */
     public function descargarPdf(Request $request, $id, $tipo, CotizacionService $cotizador)
     {
-        $tipos = ['elemental', 'estandar', 'experto', 'maestro'];
+        $tipos = ['light', 'elemental', 'estandar', 'experto', 'maestro'];
         if (! in_array($tipo, $tipos)) {
             abort(404, 'Tipo de propuesta inválido.');
         }
@@ -146,7 +146,7 @@ class CotizacionController extends Controller
     public function seleccionarPlan(Request $request, $id)
     {
         $request->validate([
-            'tipo_propuesta' => 'required|in:elemental,estandar,experto,maestro',
+            'tipo_propuesta' => 'required|in:light,elemental,estandar,experto,maestro',
             'vr_total' => 'required|numeric',
             'precio_m2' => 'nullable|numeric',
         ]);

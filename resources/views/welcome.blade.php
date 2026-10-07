@@ -2268,7 +2268,7 @@
                     <div class="feature-number">02</div>
                     <div class="feature-icon-wrap"><span class="feature-icon">📐</span></div>
                     <h3>Diseño a la Medida</h3>
-                    <p>Cuatro líneas de acabados diseñadas por arquitectos expertos, desde lo esencial hasta detalles de alta gama en Quarztone y maderas.</p>
+                    <p>Cinco líneas de acabados diseñadas por arquitectos expertos, desde lo esencial hasta detalles de alta gama en Quarztone y maderas.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-number">03</div>
@@ -2292,7 +2292,7 @@
                 <div class="process-step">
                     <div class="process-number">1</div>
                     <h4>Cotiza Online</h4>
-                    <p>Completa el formulario en 3 pasos y recibe 4 propuestas al instante.</p>
+                    <p>Completa el formulario en 3 pasos y recibe 5 propuestas al instante.</p>
                 </div>
                 <div class="process-step">
                     <div class="process-number">2</div>
@@ -2531,7 +2531,7 @@
                 </details>
                 <details class="faq-item">
                     <summary>¿Puedo personalizar los materiales de la línea que elija?</summary>
-                    <div class="faq-answer">Absolutamente. Las líneas (Elemental, Estándar y Experto) son puntos de partida. Durante la visita técnica afinamos cada detalle contigo: colores, texturas, marcas y cualquier preferencia personal.</div>
+                    <div class="faq-answer">Absolutamente. Las líneas (Light, Elemental, Estándar y Experto) son puntos de partida. Durante la visita técnica afinamos cada detalle contigo: colores, texturas, marcas y cualquier preferencia personal.</div>
                 </details>
                 <details class="faq-item">
                     <summary>¿Trabajan en todo Bogotá y alrededores?</summary>
@@ -2549,7 +2549,7 @@
         <div class="final-cta-content">
             <span class="section-label" style="color: var(--accent-light);">Listo para empezar</span>
             <h2>Tu nuevo hogar está a <span class="accent-text">3 clics de distancia</span></h2>
-            <p>Obtén 4 propuestas personalizadas gratis. Sin compromisos, sin letras pequeñas.</p>
+            <p>Obtén 5 propuestas personalizadas gratis. Sin compromisos, sin letras pequeñas.</p>
             <a href="#cotizador" class="btn-hero btn-hero-primary" style="background: var(--accent); border-color: var(--accent); color: var(--primary);">
                 Acabados para tu apto nuevo en obra gris <span class="arrow">→</span>
             </a>
@@ -2581,6 +2581,7 @@
             <div class="footer-col">
                 <h4>Servicios</h4>
                 <ul>
+                    <li><a href="#cotizador">Línea Light</a></li>
                     <li><a href="#cotizador">Línea Elemental</a></li>
                     <li><a href="#cotizador">Línea Estándar</a></li>
                     <li><a href="#cotizador">Línea Experto</a></li>
@@ -3238,6 +3239,7 @@
                 const propuestas = Object.values(propuestasObj);
 
                 const taglines = {
+                    'light': 'Acabado básico, precio ligero',
                     'elemental': 'Lo esencial, bien hecho',
                     'estandar': 'El equilibrio perfecto',
                     'experto': 'Acabados de alta gama',
@@ -3250,6 +3252,8 @@
                         : `<li><span class="check-icon">✓</span> Diseño y Administración incluidos</li>`;
                     if (plan.tipo === 'maestro') {
                         features += `<li><span class="check-icon">✓</span> Pisos, Muros y Techos esenciales</li><li><span class="check-icon">✓</span> Aseo final incluido</li><li><span class="check-icon">✓</span> La opción más económica</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
+                    } else if (plan.tipo === 'light') {
+                        features += `<li><span class="check-icon">✓</span> Pisos, muros y aseo incluidos</li><li><span class="check-icon">✓</span> Techos alisados y pintados</li><li><span class="check-icon">✓</span> Enchapes de cocina, lavadero y ducha</li><li><span class="check-icon">✓</span> Combo sanitario incluido</li>`;
                     } else if (plan.tipo === 'elemental') {
                         features += `<li><span class="check-icon">✓</span> Muros, Pisos y Techos listos</li><li><span class="check-icon">✓</span> Aseo final especializado</li><li><span class="check-icon">✓</span> Entrega lista para habitar</li>`;
                     } else if (plan.tipo === 'estandar') {

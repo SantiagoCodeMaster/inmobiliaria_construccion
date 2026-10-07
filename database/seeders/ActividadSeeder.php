@@ -421,6 +421,33 @@ class ActividadSeeder extends Seeder
                 'campo_usuario' => null,
                 'link' => null,
             ],
+            // ─── 41. Enchape línea básica (Línea Light) ──────────────────
+            [
+                'nombre' => 'PISOS APTO (linea economica)',
+                'descripcion' => 'Suministro enchape (únicas referencias- línea básica ) e instalación de enchape para salpicadero de cocina- cabina de ducha - y una tableta alrededor de lavadero.',
+                'unidad' => 'm2',
+                'valor_unitario' => 100000,
+                'campo_usuario' => null,
+                'link' => null,
+            ],
+            // ─── 42. Techos alisada y pintura (Línea Light) ──────────────
+            [
+                'nombre' => 'TECHOS',
+                'descripcion' => 'ALISDA Y PINTURA DE TECHOS',
+                'unidad' => 'm2',
+                'valor_unitario' => 70000,
+                'campo_usuario' => null,
+                'link' => null,
+            ],
+            // ─── 43. Combo sanitario nova (Línea Light, × num_banos) ─────
+            [
+                'nombre' => 'baño',
+                'descripcion' => 'El combo sanitario nova (lavamano- sanitario basico) y accesorios',
+                'unidad' => 'UND',
+                'valor_unitario' => 600000,
+                'campo_usuario' => 'num_banos',
+                'link' => null,
+            ],
         ];
 
         $ids = [];
@@ -542,6 +569,22 @@ class ActividadSeeder extends Seeder
             ['experto', $id(37), 1, null],  // Lavamanos Quarztone (× baños)
             ['experto', $id(38), 1, null],  // Riel Spot (fija=1)
             ['experto', $id(39), 1, null],  // Inst. Riel Spot (fija=1)
+
+            // ═══════════════════════════════════════════════
+            // LIGHT (la más económica con AIU).
+            //   Es Elemental SIN el piso SPC y SIN bonos, con:
+            //     - Techos  alisada y pintura (70.000/m²) en vez de Drywall
+            //     - Enchape línea básica (100.000/m² × área)
+            //     - Combo sanitario nova (600.000 × num_banos)
+            //   Ref 63 m² · 1 baño → subtotal $24.769.140
+            // ═══════════════════════════════════════════════
+            ['light', $id(1),  1, 1.0],  // Pisos suministro
+            ['light', $id(3),  1, 3.0],  // Muros estuco
+            ['light', $id(4), 30, null], // Salpicadero area fija 30
+            ['light', $id(6),  1, 1.0],  // Aseo
+            ['light', $id(41), 1, 1.0],  // Enchape línea básica (× área)
+            ['light', $id(42), 1, 1.0],  // Techos alisada y pintura (× área)
+            ['light', $id(43), 1, null], // Combo sanitario nova (× num_banos)
         ];
 
         foreach ($pivots as $pivot) {

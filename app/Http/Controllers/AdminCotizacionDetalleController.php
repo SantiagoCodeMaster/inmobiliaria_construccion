@@ -31,7 +31,7 @@ class AdminCotizacionDetalleController extends Controller
         $base = $cotizador->calcularPropuestas($datos);
 
         $propuestas = [];
-        foreach (['elemental', 'estandar', 'experto', 'maestro'] as $tipo) {
+        foreach (['light', 'elemental', 'estandar', 'experto', 'maestro'] as $tipo) {
             $customs = CotizacionActividad::where('cotizacion_id', $cotizacion->id)
                 ->where('tipo_plan', $tipo)
                 ->get();
@@ -168,7 +168,7 @@ class AdminCotizacionDetalleController extends Controller
 
         $request->validate([
             'actividades' => 'required|array',
-            'tipo' => 'nullable|in:elemental,estandar,experto,maestro',
+            'tipo' => 'nullable|in:light,elemental,estandar,experto,maestro',
         ]);
 
         $subtotal = 0;

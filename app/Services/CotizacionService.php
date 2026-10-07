@@ -20,7 +20,7 @@ class CotizacionService
         $parametros = $this->normalizarParametrosEntrada($datos);
         $resultados = [];
 
-        foreach (['elemental', 'estandar', 'experto', 'maestro'] as $tipo) {
+        foreach (['light', 'elemental', 'estandar', 'experto', 'maestro'] as $tipo) {
             $resultados[$tipo] = $this->calcularPropuestaIndividual($tipo, $parametros);
         }
 

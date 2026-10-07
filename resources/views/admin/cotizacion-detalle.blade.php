@@ -7,12 +7,20 @@
 
     @php
         $taglines = [
+            'light'     => 'Acabado básico, precio ligero',
             'elemental' => 'Lo esencial, bien hecho',
             'estandar'  => 'El equilibrio perfecto',
             'experto'   => 'Acabados de alta gama',
             'maestro'   => 'El precio más accesible',
         ];
         $features = [
+            'light' => [
+                'Diseño y Administración incluidos',
+                'Pisos, muros y aseo incluidos',
+                'Techos alisados y pintados',
+                'Enchapes de cocina, lavadero y ducha',
+                'Combo sanitario incluido',
+            ],
             'maestro' => [
                 'Pisos, Muros y Techos esenciales',
                 'Aseo final incluido',
